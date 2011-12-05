@@ -11,8 +11,14 @@ I wanted a tool with minimal requirements (C/C++ compiler and Perl),
 to build and install software on super computers and clusters that 
 often do not have Ruby or Python.
 
+The initial code for cookup was based on the install-deps.pl script from the
+http://github.com/coolfluid/coolfluid3 project. This code was improved with
+object oriented perl features.
+
+In cookup each package is installed following a recipe (homebrew brews formulas),
+which is a simple Perl class.
+
 REQUIEREMENTS
 
 * C/C++ compiler
 * Perl 5
-
