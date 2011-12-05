@@ -6,7 +6,8 @@ Easy build from source and install tool for UNIX platforms (using perl)
 
 RATIONALE
 
-Cookup was inspired in homebrew for MacOSX, although does not aim to be as complete.
+Cookup was inspired on homebrew (https://github.com/mxcl/homebrew) for MacOSX, 
+although does not aim to be as complete.
 I wanted a tool with minimal requirements (C/C++ compiler and Perl),
 to build and install software on super computers and clusters that 
 often do not have Ruby or Python.
