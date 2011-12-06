@@ -1,4 +1,4 @@
-package flex;
+package bison;
 
 use strict;
 use warnings;
@@ -6,10 +6,10 @@ use warnings;
 use Recipe;
 
 my %fields = (
-    name     => "flex",
-    version  => "2.5.35",
-		url      => "http://coolfluidsrv.vki.ac.be/webfiles/coolfluid/packages/flex-2.5.35.tar.gz",
-		md5      => "201d3f38758d95436cbc64903386de0b",
+    name     => "bison",
+    version  => "2.5",
+		url      => "http://ftp.gnu.org/gnu/bison/bison-2.5.tar.gz",
+		md5      => "687e1dcd29452789d34eaeea4c25abe4",
 );
 
 our @ISA = ("Recipe");

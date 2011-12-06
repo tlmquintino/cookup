@@ -8,6 +8,7 @@ use Cwd;
 use LWP::Simple; 
 use File::Basename; 
 use Archive::Extract;
+use Digest::MD5;
 
 our $AUTOLOAD;
 
@@ -27,6 +28,7 @@ our $AUTOLOAD;
         package_name => undef,
         build_dir    => undef,
         install_dir  => undef,
+				verbose      => 0,
 				debug_       => 0,
     );
 
@@ -88,7 +90,7 @@ our $AUTOLOAD;
 			my $self = shift;
 			my $command = shift;
 			my $dir = cwd();
-			print "> executing [$command] in [$dir]\n";
+			if($self->debug) { print "> executing [$command] in [$dir]\n" };
 			my $result = `$command 2>&1`;
 			if( $? == -1 ) { die "command [$command] failed: $!\n"; }
 			return $result;
@@ -102,7 +104,7 @@ our $AUTOLOAD;
 					if($self->{package_name})
 					{ return $self->{package_name}; }
 					else 
-					{ return sprintf "%s-%s", $self->name(), $self->version(); }
+					{ return sprintf "%s-%s", $self->name, $self->version; }
 				}
     }
 
@@ -127,20 +129,41 @@ our $AUTOLOAD;
 		# downloads the source package
     sub download_src {
         my $self = shift;
+				if($self->verbose) { print "> downloading source for " . $self->name ."\n" };
         my $url = $self->url;
         my $file = $self->src_file;
 				if( -e $file ) {
-					if($self->debug) { print "$file exists, not downloading\n" };
+					if($self->debug) { print "> $file exists, not downloading\n" };
 				}
 				else {
-					if($self->debug) { print "downloading $url into $file\n" };
+					if($self->debug) { print "> downloading $url into $file\n" };
 					getstore( $url, $file ) or die "cannot download to $file ($!)";
 				}	
     }
 
+		# check md5sum on the package file
+		sub check_md5 {
+			my $self = shift;
+			if($self->verbose) { print "> md5 check for " . $self->name ."\n" };
+			if($self->md5)
+			{
+       	my $file = $self->src_file;
+				my $md5 = $self->md5;
+				open(FILE, $file) or die "Can't open '$file': $!";
+   			binmode(FILE);
+   			my $computed_md5 = Digest::MD5->new->addfile(*FILE)->hexdigest;
+				if ( $md5 eq $computed_md5 )
+				{
+				  if($self->debug) { print "> $file has correct md5 sum check [$md5]\n" };
+				}
+				else { die "file '$file' has md5sum unexpected md5 sum check [$computed_md5]"}
+			}
+		}
+
 		# uncompresses the source
 		sub uncompress_src {
         my $self = shift;
+				if($self->verbose) { print "> uncompressing source for " . $self->name ."\n" };
     		my $archive = Archive::Extract->new( archive => $self->src_file );
     		return 
 					$archive->extract( to => cwd() ) or die $archive->error;
@@ -149,6 +172,7 @@ our $AUTOLOAD;
 		# cd into the build directory
 		sub cd_to_src {
 			my $self = shift;
+			if($self->verbose) { print "> cd into build tree of " . $self->name ."\n" };
 			my $dir = $self->build_dir;
 			chdir($dir) or die "cannot chdir to $dir ($!)";
 		}
@@ -156,6 +180,7 @@ our $AUTOLOAD;
 		# configure the package for building
 		sub configure {
 			my $self = shift;
+			if($self->verbose) { print "> configure build of " . $self->name ."\n" };
 			my $prefix = $self->install_dir();
 			my $output = $self->execute_command( "./configure --prefix=$prefix" );
 			if($self->debug) { print "$output\n" };
@@ -164,6 +189,7 @@ our $AUTOLOAD;
 		# builds the package
 		sub build {
 			my $self = shift;
+			if($self->verbose) { print "> building " . $self->name ."\n" };
 			my $output = $self->execute_command( "make" );
 			if($self->debug) { print "$output\n" };
 		}
@@ -171,6 +197,7 @@ our $AUTOLOAD;
 		# installs the package in the install_dir
 		sub install {
 			my $self = shift;
+			if($self->verbose) { print "> installing " . $self->name ."\n" };
 			my $output = $self->execute_command( "make install" );
 			if($self->debug) { print "$output\n" };
 		}
@@ -178,6 +205,7 @@ our $AUTOLOAD;
 		# cleans up the build directory
 		sub cleanup {		
 			my $self = shift;
+			if($self->verbose) { print "> cleaning up build of " . $self->name ."\n" };
 			# do nothing by default
 		}
 
@@ -187,6 +215,8 @@ our $AUTOLOAD;
         my $self = shift;
 			
 				$self->download_src();
+				
+				$self->check_md5();
 				
 				$self->uncompress_src();
 

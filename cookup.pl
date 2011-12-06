@@ -26,6 +26,10 @@ use Recipe;
 my %options = ();
 my %recipes = ();
 
+my $cookbook_dir = cwd() . "/" . "cookbook";
+
+push @INC, $cookbook_dir;
+
 #==========================================================================
 # main functions
 #==========================================================================
@@ -35,7 +39,8 @@ sub parse_commandline() # Parse command line
     GetOptions ( \%options,
 			'help', 
 			'verbose', 
-			'debug',
+			'debug=i',
+			'list',
 			'install=s@',
 		); 
 
@@ -65,7 +70,7 @@ ZZZ
 		
 }
 
-sub list_recipes 
+sub found_recipe 
 {		
 		my ($name,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
 		#	print "path [$path] name [$name] suffix [$suffix]\n";
@@ -79,41 +84,69 @@ sub list_recipes
 		}
 }
 
+sub find_recipes
+{
+	my @cookbook = qw( cookbook );
+	find( \&found_recipe, @cookbook );	
+}
+
+sub list_available_recipes
+{
+	foreach my $package ( keys %recipes ) 
+	{
+			my $recipe = $recipes{$package};
+			my $package_name = $recipe->package_name;
+			print "$package_name ";	
+			if( exists $options{verbose} ) { print $recipe->url; }
+			print "\n";	
+	} 
+}	
+
+sub install_packages
+{
+	foreach my $package ( @{$options{install}} ) 
+	{
+		# check that recipe is in recipes list
+		if( exists($recipes{$package}) )
+		{
+			my $recipe = $recipes{$package};
+			my $package_name = $recipe->package_name;
+
+			print "installing package [$package_name]\n";	
+
+			  if( exists $options{verbose} ) { 
+					$recipe->verbose( $options{verbose} ); 
+				}
+
+			  if( exists $options{debug} ) { 
+					$recipe->debug( $options{debug} ); 
+				}
+
+			  $recipe->install_dir( cwd() );
+
+		  	$recipe->cook();
+		} 
+		else 
+		{ 
+			die "no recipe for '$package' in our cookbook [$cookbook_dir]" ;
+		}		
+	}
+}	
+
 #==========================================================================
 # Main execution
 #==========================================================================
 
-my $cookbook_dir = cwd() . "/" . "cookbook";
-
-push @INC, $cookbook_dir;
-
 parse_commandline();
 
-my @cookbook = qw( cookbook );
+find_recipes();
 
-find( \&list_recipes, @cookbook);
+if( exists $options{list} )
+{
+	list_available_recipes();
+}
 
-# print "@recipes\n";
-
-		if( exists $options{install} )
-		{
-			foreach my $package ( @{$options{install}} ) 
-			{
-												
-				# check that recipe is in recipes list
-				if( exists($recipes{$package}) )
-				{
-					my $recipe = $recipes{$package};
-					my $package_name = $recipe->package_name;
-					print "installing package [$package_name]\n";	
-	 			  $recipe->debug(1);
-	 			  $recipe->install_dir( cwd() );
-				  $recipe->cook();
-				} 
-				else 
-				{ 
-					die "no recipe for '$package' in our cookbook [$cookbook_dir]" ;
-				}		
-			}
-		}
-
+if( exists $options{install} )
+{
+	install_packages();
+}
