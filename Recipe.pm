@@ -168,8 +168,8 @@ our $AUTOLOAD;
 			if($self->debug) { print $output . '\n' };
 		}
 
-		# deploys the package in the install_dir
-		sub deploy {
+		# installs the package in the install_dir
+		sub install {
 			my $self = shift;
 			my $output = $self->execute_command( "make install" );
 			if($self->debug) { print $output . '\n' };
@@ -178,10 +178,11 @@ our $AUTOLOAD;
 		# cleans up the build directory
 		sub cleanup {		
 			my $self = shift;
+			# do nothing by default
 		}
 
 		# installs the package
-		sub install
+		sub cook
 		{
         my $self = shift;
 			 	printf "installing %s\n", $self->package_name();
@@ -196,7 +197,7 @@ our $AUTOLOAD;
 				
 				$self->build();
 			
-				$self->deploy();			
+				$self->install();			
 
 				$self->cleanup();
 		}

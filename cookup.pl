@@ -3,12 +3,16 @@
 use warnings;
 use strict;
 
+use lib 'cookbook';
+
 #==========================================================================
 # Modules
 #==========================================================================
 use Cwd;
 use Getopt::Long;
 use File::Find;
+use File::Basename;
+use Module::Load;
 
 no warnings 'File::Find';
 
@@ -18,6 +22,8 @@ no warnings 'File::Find';
 
 my $opt_help          = 0;
 my $opt_verbose       = 0;
+
+my @recipes;
 
 #==========================================================================
 # Command Line
@@ -46,16 +52,34 @@ ZZZ
     }
 }
 
+
+sub list_recipes 
+{		
+		my ($name,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
+		#	print "path [$path] name [$name] suffix [$suffix]\n";
+		if( $suffix eq ".pm") {	push(@recipes, $name); }
+}
+
 #==========================================================================
 # Main execution
 #==========================================================================
 
 parse_commandline();
 
+my @cookbook = qw( cookbook );
 
-use fl
+find( \&list_recipes, @cookbook);
 
-# my $recipe = flex->new();
-# $recipe->debug(1);
-# $recipe->install_dir( cwd() );
-# $recipe->install();
+print "@recipes\n";
+
+foreach my $recipe ( @recipes ) {
+	
+	load $recipe;
+	
+	my $food = $recipe->new();
+	$food->debug(1);
+	$food->install_dir( cwd() );
+	$food->cook();
+
+}
+
