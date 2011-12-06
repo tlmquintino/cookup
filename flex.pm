@@ -2,6 +2,7 @@ package flex;
 
 use strict;
 use warnings;
+
 use Recipe;
 
 my %fields = (
@@ -23,13 +24,5 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
-
-		sub install
-		{
-        my $self = shift;
-			 	printf "installing %s\n", $self->package();
-			
-				$self->download_src();
-		}
 
 1; 

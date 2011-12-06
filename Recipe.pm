@@ -4,8 +4,11 @@ use strict;
 use warnings;
 
 use Carp;
+use Cwd;
 use LWP::Simple; 
 use File::Basename; 
+use Archive::Extract;
+
 our $AUTOLOAD;
 
 ###############################################################################
@@ -22,6 +25,9 @@ our $AUTOLOAD;
         url          => undef,
         version      => undef,
         package_name => undef,
+        build_dir    => undef,
+        install_dir  => undef,
+				debug_       => 0,
     );
 
 ###############################################################################
@@ -63,49 +69,136 @@ our $AUTOLOAD;
 		# debugging support
     sub debug {
         my $self = shift;
-        confess "usage: thing->debug(level)" unless @_ == 1;
-        my $level = shift;
-        if (ref($self))  {
-            $self->{"debug_"} = $level;
-        } else {
+        if (@_) {
+        	my $level = shift;
+        	if (ref($self))  {
+            $self->{debug_} = $level;
+        	} else {
             $debugging_ = $level;            # whole class
-        }
-        $self->SUPER::debug($level);
+        	}
+				}
+				else { return ( $self->{debug_} || $debugging_ ) };
     }
 
 ###############################################################################
 ## public methods
 
-    sub package {
+		# executes the command or dies trying
+		sub execute_command {
+			my $self = shift;
+			my $command = shift;
+			my $dir = cwd();
+			print ">>> executing [$command] in [$dir]\n <<<";
+			my $result = `$command 2>&1`;
+			if( $? == -1 ) { die "command [$command] failed: $!\n"; }
+			return $result;
+		}
+
+		# returns the package name or $name-$version is undef
+    sub package_name {
         my $self = shift;
-				my $pname = $self->package_name;
-				if($pname) { return $pname; }
-        return sprintf "%s-%s", $self->name(), $self->version();
+        if (@_) { return $self->{package_name} = shift }
+				else {
+					if($self->{package_name})
+					{ return $self->{package_name}; }
+					else 
+					{ return sprintf "%s-%s", $self->name(), $self->version(); }
+				}
     }
 
-    sub install {
+		# returns the build_dir or $package_name is undef
+    sub build_dir {
         my $self = shift;
-        my $type = ref($self);
-        my $package = $self->package();
-        croak "Recipe '$type' for package '$package' does not have an install method defined";
+        if (@_) { return $self->{build_dir} = shift }
+				else {
+					if($self->{build_dir}) 
+					{ return $self->{build_dir}; }
+					else
+					{ return $self->package_name; }
+				}
     }
 
-		sub src_file { # get the source file name from the url
+		# get the source file name from the url
+		sub src_file { 
         my $self = shift;
 				return basename($self->url);
 		}
 
-    sub download_file {
-        my $self = shift;
-        my $url = shift;
-        my $file = $self->src_file;
-				if($debugging_) { print "downloading $url into $file\n" };
-				getstore( $url, $file );	
-    }
-
+		# downloads the source package
     sub download_src {
         my $self = shift;
-				$self->download_file( $self->url, $self->src_file() );	
+        my $url = $self->url;
+        my $file = $self->src_file;
+				if( -e $file ) {
+					if($self->debug) { print "$file exists, not downloading\n" };
+				}
+				else {
+					if($self->debug) { print "downloading $url into $file\n" };
+					getstore( $url, $file ) or die "cannot download to $file ($!)";
+				}	
     }
+
+		# uncompresses the source
+		sub uncompress_src {
+        my $self = shift;
+    		my $archive = Archive::Extract->new( archive => $self->src_file );
+    		return 
+					$archive->extract( to => cwd() ) or die $archive->error;
+		}
+
+		# cd into the build directory
+		sub cd_to_src {
+			my $self = shift;
+			my $dir = $self->build_dir;
+			chdir($dir) or die "cannot chdir to $dir ($!)";
+		}
+
+		# configure the package for building
+		sub configure {
+			my $self = shift;
+			my $prefix = $self->install_dir();
+			my $output = $self->execute_command( "./configure --prefix=$prefix" );
+			if($self->debug) { print $output . '\n' };
+		}
+
+		# builds the package
+		sub build {
+			my $self = shift;
+			my $output = $self->execute_command( "make" );
+			if($self->debug) { print $output . '\n' };
+		}
+
+		# deploys the package in the install_dir
+		sub deploy {
+			my $self = shift;
+			my $output = $self->execute_command( "make install" );
+			if($self->debug) { print $output . '\n' };
+		}
+
+		# cleans up the build directory
+		sub cleanup {		
+			my $self = shift;
+		}
+
+		# installs the package
+		sub install
+		{
+        my $self = shift;
+			 	printf "installing %s\n", $self->package_name();
+			
+				$self->download_src();
+				
+				$self->uncompress_src();
+
+				$self->cd_to_src();
+				
+				$self->configure();				
+				
+				$self->build();
+			
+				$self->deploy();			
+
+				$self->cleanup();
+		}
 
 1;  # close package Recipe

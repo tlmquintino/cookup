@@ -6,8 +6,11 @@ use strict;
 #==========================================================================
 # Modules
 #==========================================================================
+use Cwd;
 use Getopt::Long;
-use flex;
+use File::Find;
+
+no warnings 'File::Find';
 
 #==========================================================================
 # Global Variables
@@ -49,6 +52,10 @@ ZZZ
 
 parse_commandline();
 
-my $recipe = flex->new();
 
-$recipe->install();
+use fl
+
+# my $recipe = flex->new();
+# $recipe->debug(1);
+# $recipe->install_dir( cwd() );
+# $recipe->install();
