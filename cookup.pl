@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use lib 'cookbook';
+# use lib 'cookbook';
 
 #==========================================================================
 # Modules
@@ -13,56 +13,79 @@ use Getopt::Long;
 use File::Find;
 use File::Basename;
 use Module::Load;
+use Data::Dumper;
 
-no warnings 'File::Find';
+no warnings 'File::Find'; # dont issue warnings for 'weird' files
 
-#==========================================================================
-# Global Variables
-#==========================================================================
-
-my $opt_help          = 0;
-my $opt_verbose       = 0;
-
-my @recipes;
+use Recipe;
 
 #==========================================================================
-# Command Line
+# main variables
+#==========================================================================
+
+my %options = ();
+my %recipes = ();
+
+#==========================================================================
+# main functions
 #==========================================================================
 
 sub parse_commandline() # Parse command line
 {
-    $opt_help=1 unless GetOptions (
-        'help'                  => \$opt_help,
-        'verbose'               => \$opt_verbose,
-    );
+    GetOptions ( \%options,
+			'help', 
+			'verbose', 
+			'debug',
+			'install=s@',
+		); 
 
     # show help if required
-    if ($opt_help != 0)
+    if( exists $options{help} )
     {
       print <<ZZZ;
 cookup.pl : easy build and install for UNIX platforms
 
-usage: cookup.pl [options]
+usage: cookup.pl <action> [options]
 
-options:
-        --help             Show this help.
-        --verbose          Print every comand before executing.
+actions:
+        --help             shows this help
+        --verbose          print every comand before executing
+        --debug level      sets the debug level
+				--install=list     comma separated list of recipes to cook
 ZZZ
     exit(0);
     }
-}
 
+		if( exists $options{install} )
+		{			
+			my @install = split(',',join(",",@{$options{install}}));
+			# print "@install\n";
+			$options{install} = \@install;
+		}
+		
+}
 
 sub list_recipes 
 {		
 		my ($name,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
 		#	print "path [$path] name [$name] suffix [$suffix]\n";
-		if( $suffix eq ".pm") {	push(@recipes, $name); }
+		if( $suffix eq ".pm") 
+		{
+	  		load $name;
+				my $recipe  = $name->new();
+				my $version = $recipe->version();
+				$recipes{$name} = $recipe;
+#				print "$name $version\n";
+		}
 }
 
 #==========================================================================
 # Main execution
 #==========================================================================
+
+my $cookbook_dir = cwd() . "/" . "cookbook";
+
+push @INC, $cookbook_dir;
 
 parse_commandline();
 
@@ -70,16 +93,27 @@ my @cookbook = qw( cookbook );
 
 find( \&list_recipes, @cookbook);
 
-print "@recipes\n";
+# print "@recipes\n";
 
-foreach my $recipe ( @recipes ) {
-	
-	load $recipe;
-	
-	my $food = $recipe->new();
-	$food->debug(1);
-	$food->install_dir( cwd() );
-	$food->cook();
-
-}
+		if( exists $options{install} )
+		{
+			foreach my $package ( @{$options{install}} ) 
+			{
+												
+				# check that recipe is in recipes list
+				if( exists($recipes{$package}) )
+				{
+					my $recipe = $recipes{$package};
+					my $package_name = $recipe->package_name;
+					print "installing package [$package_name]\n";	
+	 			  $recipe->debug(1);
+	 			  $recipe->install_dir( cwd() );
+				  $recipe->cook();
+				} 
+				else 
+				{ 
+					die "no recipe for '$package' in our cookbook [$cookbook_dir]" ;
+				}		
+			}
+		}
 

@@ -88,7 +88,7 @@ our $AUTOLOAD;
 			my $self = shift;
 			my $command = shift;
 			my $dir = cwd();
-			print ">>> executing [$command] in [$dir]\n <<<";
+			print "> executing [$command] in [$dir]\n";
 			my $result = `$command 2>&1`;
 			if( $? == -1 ) { die "command [$command] failed: $!\n"; }
 			return $result;
@@ -158,21 +158,21 @@ our $AUTOLOAD;
 			my $self = shift;
 			my $prefix = $self->install_dir();
 			my $output = $self->execute_command( "./configure --prefix=$prefix" );
-			if($self->debug) { print $output . '\n' };
+			if($self->debug) { print "$output\n" };
 		}
 
 		# builds the package
 		sub build {
 			my $self = shift;
 			my $output = $self->execute_command( "make" );
-			if($self->debug) { print $output . '\n' };
+			if($self->debug) { print "$output\n" };
 		}
 
 		# installs the package in the install_dir
 		sub install {
 			my $self = shift;
 			my $output = $self->execute_command( "make install" );
-			if($self->debug) { print $output . '\n' };
+			if($self->debug) { print "$output\n" };
 		}
 
 		# cleans up the build directory
@@ -185,7 +185,6 @@ our $AUTOLOAD;
 		sub cook
 		{
         my $self = shift;
-			 	printf "installing %s\n", $self->package_name();
 			
 				$self->download_src();
 				
