@@ -7,6 +7,7 @@ use Carp;
 use Cwd;
 use LWP::Simple; 
 use File::Basename; 
+use File::Path; 
 use Archive::Extract;
 use Digest::MD5;
 
@@ -26,10 +27,11 @@ our $AUTOLOAD;
         url          => undef,
         version      => undef,
         package_name => undef,
-        build_dir    => undef,
-        install_dir  => undef,
+        package_dir  => undef,
+        sandbox      => undef,
+        prefix       => undef,
 				verbose      => 0,
-				debug_       => 0,
+				debug       => 0,
     );
 
 ###############################################################################
@@ -74,12 +76,12 @@ our $AUTOLOAD;
         if (@_) {
         	my $level = shift;
         	if (ref($self))  {
-            $self->{debug_} = $level;
+            $self->{debug} = $level;
         	} else {
             $debugging_ = $level;            # whole class
         	}
 				}
-				else { return ( $self->{debug_} || $debugging_ ) };
+				else { return ( $self->{debug} || $debugging_ ) };
     }
 
 ###############################################################################
@@ -108,13 +110,13 @@ our $AUTOLOAD;
 				}
     }
 
-		# returns the build_dir or $package_name is undef
-    sub build_dir {
+		# returns the package_dir or $package_name is undef
+    sub package_dir {
         my $self = shift;
-        if (@_) { return $self->{build_dir} = shift }
+        if (@_) { return $self->{package_dir} = shift }
 				else {
-					if($self->{build_dir}) 
-					{ return $self->{build_dir}; }
+					if($self->{package_dir}) 
+					{ return $self->{package_dir}; }
 					else
 					{ return $self->package_name; }
 				}
@@ -163,43 +165,72 @@ our $AUTOLOAD;
 		# uncompresses the source
 		sub uncompress_src {
         my $self = shift;
-				if($self->verbose) { print "> uncompressing source for " . $self->name ."\n" };
+				my $pname = $self->package_name;
+				my $sandbox = $self->sandbox;
+				if($sandbox) { 
+					mkpath $sandbox unless( -e $sandbox );
+				} else { die "no sandbox defined for $pname"; }
+				if($self->verbose) { print "> uncompressing source for " . $self->name ." to $sandbox\n" };
     		my $archive = Archive::Extract->new( archive => $self->src_file );
     		return 
-					$archive->extract( to => cwd() ) or die $archive->error;
+					$archive->extract( to => $sandbox ) or die $archive->error;
 		}
 
 		# cd into the build directory
 		sub cd_to_src {
 			my $self = shift;
 			if($self->verbose) { print "> cd into build tree of " . $self->name ."\n" };
-			my $dir = $self->build_dir;
+			my $dir;
+			if($self->sandbox) { 
+				$dir = $self->sandbox . "/"; 
+				mkpath $self->sandbox unless( -e $self->sandbox );
+			}
+			$dir = $dir . $self->package_dir;
 			chdir($dir) or die "cannot chdir to $dir ($!)";
 		}
 
 		# configure the package for building
 		sub configure {
 			my $self = shift;
+			my $pname = $self->package_name;
 			if($self->verbose) { print "> configure build of " . $self->name ."\n" };
-			my $prefix = $self->install_dir();
-			my $output = $self->execute_command( "./configure --prefix=$prefix" );
+			die "no install dir prefix defined for $pname" unless($self->prefix);
+			my $output = $self->execute_command( $self->configure_command() );
 			if($self->debug) { print "$output\n" };
+		}
+		
+		# string for the configure command
+		sub configure_command {
+			my $self = shift;
+			return "./configure --prefix=" . $self->prefix;
 		}
 
 		# builds the package
 		sub build {
 			my $self = shift;
 			if($self->verbose) { print "> building " . $self->name ."\n" };
-			my $output = $self->execute_command( "make" );
+			my $output = $self->execute_command( $self->build_command() );
 			if($self->debug) { print "$output\n" };
 		}
 
-		# installs the package in the install_dir
+		# string for the build command
+		sub build_command {
+			my $self = shift;
+			return "make";
+		}
+
+		# installs the package
 		sub install {
 			my $self = shift;
 			if($self->verbose) { print "> installing " . $self->name ."\n" };
-			my $output = $self->execute_command( "make install" );
+			my $output = $self->execute_command(  $self->install_command() );
 			if($self->debug) { print "$output\n" };
+		}
+
+		# string for the build command
+		sub install_command {
+			my $self = shift;
+			return "make install";
 		}
 
 		# cleans up the build directory

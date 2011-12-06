@@ -23,12 +23,14 @@ use Recipe;
 # main variables
 #==========================================================================
 
-my %options = ();
+my $default_cookbook = Cwd::abs_path(dirname(__FILE__) . "/" . "cookbook") ;
+my $default_sandbox  = $ENV{HOME}."/"."tmp";
+my $default_prefix   = "/usr/local";
+
+my %options = ( prefix   => $default_prefix, 
+								sandbox  => $default_sandbox, 
+								cookbook => $default_cookbook, );
 my %recipes = ();
-
-my $cookbook_dir = cwd() . "/" . "cookbook";
-
-push @INC, $cookbook_dir;
 
 #==========================================================================
 # main functions
@@ -37,13 +39,19 @@ push @INC, $cookbook_dir;
 sub parse_commandline() # Parse command line
 {
     GetOptions ( \%options,
+			'prefix=s',
+			'sandbox=s',
+			'cookbook=s',
+			'prefix=s',
 			'help', 
 			'verbose', 
-			'debug=i',
+			'debug',
 			'list',
-			'install=s@',
+			'download',
+			'cook',
+			'packages=s@',
 		); 
-
+				
     # show help if required
     if( exists $options{help} )
     {
@@ -53,21 +61,34 @@ cookup.pl : easy build and install for UNIX platforms
 usage: cookup.pl <action> [options]
 
 actions:
-        --help             shows this help
-        --verbose          print every comand before executing
-        --debug level      sets the debug level
-				--install=list     comma separated list of recipes to cook
+				--download          download the package sources
+				--cook              cookup the packages following the recipe
+
+options:
+        --help              shows this help
+        --verbose           print every comand before executing
+        --debug level       sets the debug level
+        --list              list all the recipes in the cookbook
+        --prefix            install dir prefix (same as --install-dir) [$default_prefix]
+        --cookbook          use directory as cookbook [$default_cookbook]
+        --sandbox           use directory as sandbox for building [$default_sandbox]
+        --packages=list     comma separated list of packages to apply actions on
+
 ZZZ
     exit(0);
     }
 
-		if( exists $options{install} )
+		if( exists $options{packages} ) # process comma separated list
 		{			
-			my @install = split(',',join(",",@{$options{install}}));
-			# print "@install\n";
-			$options{install} = \@install;
+			my @packages = split(',',join(",",@{$options{packages}}));
+			# print "@packages\n";
+			$options{packages} = \@packages;
 		}
 		
+		# resolve relative paths to absolute paths
+		$options{prefix}   = Cwd::abs_path( $options{prefix}  );
+		$options{sandbox}  = Cwd::abs_path( $options{sandbox} );
+		$options{cookbook} = Cwd::abs_path( $options{cookbook});
 }
 
 sub found_recipe 
@@ -80,13 +101,16 @@ sub found_recipe
 				my $recipe  = $name->new();
 				my $version = $recipe->version();
 				$recipes{$name} = $recipe;
-#				print "$name $version\n";
+				if( $options{debug} ) { print "> found recipe for " . $recipe->name . "-" . $version . "\n" }
 		}
 }
 
 sub find_recipes
 {
-	my @cookbook = qw( cookbook );
+	my @cookbook;
+	my $cookbook_path = Cwd::abs_path($options{cookbook});
+	push (@cookbook, $cookbook_path);
+	if( $options{verbose} ) { print "searching for recipes in $cookbook_path\n" }
 	find( \&found_recipe, @cookbook );	
 }
 
@@ -102,9 +126,9 @@ sub list_available_recipes
 	} 
 }	
 
-sub install_packages
+sub process_packages
 {
-	foreach my $package ( @{$options{install}} ) 
+	foreach my $package ( @{$options{packages}} ) 
 	{
 		# check that recipe is in recipes list
 		if( exists($recipes{$package}) )
@@ -112,7 +136,7 @@ sub install_packages
 			my $recipe = $recipes{$package};
 			my $package_name = $recipe->package_name;
 
-			print "installing package [$package_name]\n";	
+			print "package [$package_name]\n";	
 
 			  if( exists $options{verbose} ) { 
 					$recipe->verbose( $options{verbose} ); 
@@ -122,13 +146,21 @@ sub install_packages
 					$recipe->debug( $options{debug} ); 
 				}
 
-			  $recipe->install_dir( cwd() );
+			  $recipe->prefix ( $options{prefix } );
+			  $recipe->sandbox( $options{sandbox} );
 
-		  	$recipe->cook();
+				if( exists $options{download} ) { 
+		  		$recipe->download_src();
+				}
+
+				if( exists $options{cook} ) { 
+		  		$recipe->cook();
+				}
 		} 
 		else 
 		{ 
-			die "no recipe for '$package' in our cookbook [$cookbook_dir]" ;
+			my $cookbook = $options{cookbook};
+			die "no recipe for '$package' in our cookbook [$cookbook]" ;
 		}		
 	}
 }	
@@ -139,6 +171,8 @@ sub install_packages
 
 parse_commandline();
 
+push @INC, $options{cookbook};
+
 find_recipes();
 
 if( exists $options{list} )
@@ -146,7 +180,7 @@ if( exists $options{list} )
 	list_available_recipes();
 }
 
-if( exists $options{install} )
+if( exists $options{packages} )
 {
-	install_packages();
+	process_packages();
 }
