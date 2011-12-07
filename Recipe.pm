@@ -115,7 +115,7 @@ our $AUTOLOAD;
 				return $self->package_name;
     }
 
-		# by default package_dir is same as $package_name
+		# returns sandbox dir and ensures it exists
     sub sandbox_dir {
         my $self = shift;
 				my $pname = $self->package_name;
@@ -124,6 +124,13 @@ our $AUTOLOAD;
 					mkpath $sandbox unless( -e $sandbox );
 				} else { die "no sandbox defined for $pname"; }
 				return $sandbox;
+    }
+
+		# gets the path to the build dir
+    sub build_dir {
+        my $self = shift;
+				my $pname = $self->package_name;
+				return sprintf return sprintf "%s/%s", $self->sandbox_dir, $self->package_dir;
     }
 
 		# get the source file name from the url
@@ -167,12 +174,15 @@ our $AUTOLOAD;
 			}
 		}
 
-		# uncompresses the source
-		sub uncompress_src {
+		# unpack the source
+		sub unpack_src {
         my $self = shift;
+				
+				$self->cleanup(); # ensure nothing is on the way
+				
 				my $pname = $self->package_name;
 				my $sandbox = $self->sandbox_dir();
-				if($self->verbose) { print "> uncompressing source for " . $self->name ." to $sandbox\n" };
+				if($self->verbose) { print "> unpacking source for " . $self->name ." to $sandbox\n" };
     		my $archive = Archive::Extract->new( archive => $self->src_file );
     		return
 					$archive->extract( to => $sandbox ) or die $archive->error;
@@ -182,12 +192,7 @@ our $AUTOLOAD;
 		sub cd_to_src {
 			my $self = shift;
 			if($self->verbose) { print "> cd into build tree of " . $self->name ."\n" };
-			my $dir;
-			if($self->sandbox) {
-				$dir = $self->sandbox . "/";
-				mkpath $self->sandbox unless( -e $self->sandbox );
-			}
-			$dir = $dir . $self->package_dir();
+			my $dir = $self->build_dir;
 			chdir($dir) or die "cannot chdir to $dir ($!)";
 		}
 
@@ -238,8 +243,8 @@ our $AUTOLOAD;
 		# cleans up the build directory
 		sub cleanup {
 			my $self = shift;
-			if($self->verbose) { print "> cleaning up build of " . $self->name ."\n" };
-			# do nothing by default
+			if($self->verbose) { print "> cleaning up sanbox " . $self->build_dir ."\n" };
+			rmtree( $self->build_dir );
 		}
 
 		# installs the package
@@ -251,7 +256,7 @@ our $AUTOLOAD;
 
 				$self->check_md5();
 
-				$self->uncompress_src();
+				$self->unpack_src();
 
 				$self->cd_to_src();
 

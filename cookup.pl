@@ -64,6 +64,7 @@ sub parse_commandline() # Parse command line
 			'debug',
 			'list',
 			'download',
+			'unpack',
 			'cook',
 			'packages=s@',
 		); 
@@ -78,6 +79,7 @@ usage: cookup.pl <action> [options]
 
 actions:
 				--download          download the package sources
+				--unpack            downloads and unpacks the package sources
 				--cook              cookup the packages following the recipe
 
 options:
@@ -165,24 +167,18 @@ sub process_packages
 
 			print "package [$package_name]\n";	
 
-			  if( exists $options{verbose} ) { 
-					$recipe->verbose( $options{verbose} ); 
-				}
-
-			  if( exists $options{debug} ) { 
-					$recipe->debug( $options{debug} ); 
-				}
+				$recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
+				$recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
 
 			  $recipe->prefix ( $options{prefix } );
 			  $recipe->sandbox( $options{sandbox} );
 
-				if( exists $options{download} ) { 
-		  		$recipe->download_src();
-				}
+				$recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
+				
+				$recipe->unpack_src()   unless ( !exists $options{unpack} );
+				
+				$recipe->cook() unless ( !exists $options{cook} );
 
-				if( exists $options{cook} ) { 
-		  		$recipe->cook();
-				}
 		} 
 		else 
 		{ 
@@ -203,12 +199,6 @@ push @INC, $options{cookbook};
 
 find_recipes();
 
-if( exists $options{list} )
-{
-	list_available_recipes();
-}
+list_available_recipes() unless (!exists $options{list});
 
-if( exists $options{packages} )
-{
-	process_packages();
-}
+process_packages() unless (!exists $options{packages});

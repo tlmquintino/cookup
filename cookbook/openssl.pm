@@ -26,4 +26,9 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+		sub configure_command {
+			my $self = shift;
+			return "./config --prefix=" . $self->prefix;
+		}
+
 1; 
