@@ -7,9 +7,9 @@ use strict;
 #  * add install dir prefix to the PATH and LD_LIBRARY_PATH
 #  * add support for dependencies checking - require another package 
 #  * add manifests?
+#  * add variants
 #
 # MISSING RECIPES:
-#  * libjpeg
 #  * ccache
 #  * openmpi
 #  * parmetis

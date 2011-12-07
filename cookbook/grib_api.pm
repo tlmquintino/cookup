@@ -29,6 +29,7 @@ our @ISA = ("Recipe");
 
 		sub configure_command {
 			my $self = shift;
+			# TODO: should check here for variants of the build
 			return "./configure --prefix=" . $self->prefix;
 		}
 
