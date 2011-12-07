@@ -115,10 +115,21 @@ our $AUTOLOAD;
 				return $self->package_name;
     }
 
+		# by default package_dir is same as $package_name
+    sub sandbox_dir {
+        my $self = shift;
+				my $pname = $self->package_name;
+				my $sandbox = $self->sandbox;
+				if($sandbox) { 
+					mkpath $sandbox unless( -e $sandbox );
+				} else { die "no sandbox defined for $pname"; }
+				return $sandbox;
+    }
+
 		# get the source file name from the url
 		sub src_file { 
         my $self = shift;
-				return basename($self->url);
+				return  sprintf "%s/%s", $self->sandbox_dir, basename($self->url);
 		}
 
 		# downloads the source package
@@ -159,10 +170,7 @@ our $AUTOLOAD;
 		sub uncompress_src {
         my $self = shift;
 				my $pname = $self->package_name;
-				my $sandbox = $self->sandbox;
-				if($sandbox) { 
-					mkpath $sandbox unless( -e $sandbox );
-				} else { die "no sandbox defined for $pname"; }
+				my $sandbox = $self->sandbox_dir();
 				if($self->verbose) { print "> uncompressing source for " . $self->name ." to $sandbox\n" };
     		my $archive = Archive::Extract->new( archive => $self->src_file );
     		return 
