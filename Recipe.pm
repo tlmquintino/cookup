@@ -27,11 +27,10 @@ our $AUTOLOAD;
         url          => undef,
         version      => undef,
         package_name => undef,
-        package_dir  => undef,
         sandbox      => undef,
         prefix       => undef,
 				verbose      => 0,
-				debug       => 0,
+				debug        => 0,
     );
 
 ###############################################################################
@@ -110,16 +109,10 @@ our $AUTOLOAD;
 				}
     }
 
-		# returns the package_dir or $package_name is undef
+		# by default package_dir is same as $package_name
     sub package_dir {
         my $self = shift;
-        if (@_) { return $self->{package_dir} = shift }
-				else {
-					if($self->{package_dir}) 
-					{ return $self->{package_dir}; }
-					else
-					{ return $self->package_name; }
-				}
+				return $self->package_name;
     }
 
 		# get the source file name from the url
@@ -185,7 +178,7 @@ our $AUTOLOAD;
 				$dir = $self->sandbox . "/"; 
 				mkpath $self->sandbox unless( -e $self->sandbox );
 			}
-			$dir = $dir . $self->package_dir;
+			$dir = $dir . $self->package_dir();
 			chdir($dir) or die "cannot chdir to $dir ($!)";
 		}
 

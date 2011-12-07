@@ -10,7 +10,6 @@ my %fields = (
     version  => "1.48.0",
 		url      => "http://download.sourceforge.net/boost/boost_1_48_0.tar.gz",
 		md5      => "313a11e97eb56eb7efd18325354631be",
-		package_dir => "boost_1_48_0",
 );
 
 our @ISA = ("Recipe");
@@ -26,7 +25,9 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
-
+    
+		sub package_dir { return "boost_1_48_0"; }
+		
 		# string for the configure command
 		sub configure_command {
 			my $self = shift;
