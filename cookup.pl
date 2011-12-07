@@ -3,7 +3,25 @@
 use warnings;
 use strict;
 
-# use lib 'cookbook';
+# TODO:
+#  * add install dir prefix to the PATH and LD_LIBRARY_PATH
+#  * add support for dependencies checking - require another package 
+#  * add manifests?
+#
+# MISSING RECIPES:
+#  * libpng
+#  * libjpeg
+#  * ccache
+#  * boost
+#  * openmpi
+#  * parmetis
+#  * hdf5 
+#  * trilinos
+#  * cgns
+#  * cgal
+#  * superlu
+#  * google-perftools	
+
 
 #==========================================================================
 # Modules
