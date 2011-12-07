@@ -1,4 +1,4 @@
-package bison;
+package jasper;
 
 use strict;
 use warnings;
@@ -6,11 +6,10 @@ use warnings;
 use Recipe;
 
 my %fields = (
-    name     => "bison",
-    version  => "2.5",
-		url      => "http://ftp.gnu.org/gnu/bison/bison-2.5.tar.gz",
-		md5      => "687e1dcd29452789d34eaeea4c25abe4",
-		# requires => "m4",
+    name     => "jasper",
+    version  => "1.900.1",
+		url      => "http://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip",
+		md5      => "a342b2b4495b3e1394e161eb5d85d754",
 );
 
 our @ISA = ("Recipe");

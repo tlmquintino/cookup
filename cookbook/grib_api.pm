@@ -10,6 +10,7 @@ my %fields = (
     version  => "1.9.9",
 		url      => "http://www.ecmwf.int/products/data/software/download/software_files/grib_api-1.9.9.tar.gz",
 		md5      => "fe6c684e4a41477f3a6e97ab8892f35d",
+#   requires => "jasper,libpng"
 );
 
 our @ISA = ("Recipe");
@@ -28,7 +29,7 @@ our @ISA = ("Recipe");
 
 		sub configure_command {
 			my $self = shift;
-			return "./configure --disable-jpeg --prefix=" . $self->prefix;
+			return "./configure --prefix=" . $self->prefix;
 		}
 
 1; 
