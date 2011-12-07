@@ -9,10 +9,8 @@ use strict;
 #  * add manifests?
 #
 # MISSING RECIPES:
-#  * libpng
 #  * libjpeg
 #  * ccache
-#  * boost
 #  * openmpi
 #  * parmetis
 #  * hdf5 
