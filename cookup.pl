@@ -109,6 +109,17 @@ ZZZ
 		$options{cookbook} = Cwd::abs_path( $options{cookbook});
 }
 
+sub prepare()
+{
+		# prepend paths with installation prefix
+	
+	  $ENV{PATH} = $options{prefix}."/bin:".$ENV{PATH};
+	  $ENV{LD_LIBRARY_PATH} = $options{prefix}."/lib:".$ENV{LD_LIBRARY_PATH};
+		if( exists $ENV{DYLD_LIBRARY_PATH} ) {
+	  	$ENV{DYLD_LIBRARY_PATH} = $options{prefix}."/lib:".$ENV{DYLD_LIBRARY_PATH};
+		}
+}
+
 sub found_recipe 
 {		
 		my ($name,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
@@ -188,6 +199,7 @@ sub process_packages
 #==========================================================================
 
 parse_commandline();
+prepare();
 
 push @INC, $options{cookbook};
 
