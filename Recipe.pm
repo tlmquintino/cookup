@@ -5,9 +5,9 @@ use warnings;
 
 use Carp;
 use Cwd;
-use LWP::Simple; 
-use File::Basename; 
-use File::Path; 
+use LWP::Simple;
+use File::Basename;
+use File::Path;
 use Archive::Extract;
 use Digest::MD5;
 
@@ -21,7 +21,7 @@ our $AUTOLOAD;
 ###############################################################################
 ## member fields
 
-    my %fields = 
+    my %fields =
 		(
         name         => undef,
         url          => undef,
@@ -104,7 +104,7 @@ our $AUTOLOAD;
 				else {
 					if($self->{package_name})
 					{ return $self->{package_name}; }
-					else 
+					else
 					{ return sprintf "%s-%s", $self->name, $self->version; }
 				}
     }
@@ -120,14 +120,14 @@ our $AUTOLOAD;
         my $self = shift;
 				my $pname = $self->package_name;
 				my $sandbox = $self->sandbox;
-				if($sandbox) { 
+				if($sandbox) {
 					mkpath $sandbox unless( -e $sandbox );
 				} else { die "no sandbox defined for $pname"; }
 				return $sandbox;
     }
 
 		# get the source file name from the url
-		sub src_file { 
+		sub src_file {
         my $self = shift;
 				return  sprintf "%s/%s", $self->sandbox_dir, basename($self->url);
 		}
@@ -143,8 +143,9 @@ our $AUTOLOAD;
 				}
 				else {
 					if($self->debug) { print "> downloading $url into $file\n" };
-					getstore( $url, $file ) or die "cannot download to $file ($!)";
-				}	
+					my $rs = getstore( $url, $file ) or die "cannot download to $file ($!)";
+                    if(!is_success($rs)) { die "unsuccessful download of $url ($!)"; }
+				}
     }
 
 		# check md5sum on the package file
@@ -173,7 +174,7 @@ our $AUTOLOAD;
 				my $sandbox = $self->sandbox_dir();
 				if($self->verbose) { print "> uncompressing source for " . $self->name ." to $sandbox\n" };
     		my $archive = Archive::Extract->new( archive => $self->src_file );
-    		return 
+    		return
 					$archive->extract( to => $sandbox ) or die $archive->error;
 		}
 
@@ -182,8 +183,8 @@ our $AUTOLOAD;
 			my $self = shift;
 			if($self->verbose) { print "> cd into build tree of " . $self->name ."\n" };
 			my $dir;
-			if($self->sandbox) { 
-				$dir = $self->sandbox . "/"; 
+			if($self->sandbox) {
+				$dir = $self->sandbox . "/";
 				mkpath $self->sandbox unless( -e $self->sandbox );
 			}
 			$dir = $dir . $self->package_dir();
@@ -199,7 +200,7 @@ our $AUTOLOAD;
 			my $output = $self->execute_command( $self->configure_command() );
 			if($self->debug) { print "$output\n" };
 		}
-		
+
 		# string for the configure command
 		sub configure_command {
 			my $self = shift;
@@ -235,7 +236,7 @@ our $AUTOLOAD;
 		}
 
 		# cleans up the build directory
-		sub cleanup {		
+		sub cleanup {
 			my $self = shift;
 			if($self->verbose) { print "> cleaning up build of " . $self->name ."\n" };
 			# do nothing by default
@@ -245,20 +246,20 @@ our $AUTOLOAD;
 		sub cook
 		{
         my $self = shift;
-			
+
 				$self->download_src();
-				
+
 				$self->check_md5();
-				
+
 				$self->uncompress_src();
 
 				$self->cd_to_src();
-				
-				$self->configure();				
-				
+
+				$self->configure();
+
 				$self->build();
-			
-				$self->install();			
+
+				$self->install();
 
 				$self->cleanup();
 		}
