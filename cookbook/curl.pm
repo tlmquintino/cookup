@@ -7,9 +7,9 @@ use Recipe;
 
 my %fields = (
     name     => "curl",
-    version  => "7.21.4",
-		url      => "http://ftp.gnu.org/gnu/curl/curl-7.21.4.tar.gz",
-#		md5      => "1df489976a118b9cbe1b03502adbfc27",
+    version  => "7.23.1",
+		url      => "http://curl.haxx.se/download/curl-7.23.1.tar.gz",
+		md5      => "8e23151f569fb54afef093ac0695077d",
 );
 
 our @ISA = ("Recipe");
