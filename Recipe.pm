@@ -86,6 +86,12 @@ our $AUTOLOAD;
 ###############################################################################
 ## public methods
 
+		sub chdir_to {
+			my $self = shift;
+			my $dir  = shift;
+			chdir($dir) or die "cannot chdir to '$dir' ($!)";
+		}
+
 		# executes the command or dies trying
 		sub execute_command {
 			my $self = shift;
@@ -118,11 +124,10 @@ our $AUTOLOAD;
 		# returns sandbox dir and ensures it exists
     sub sandbox_dir {
         my $self = shift;
-				my $pname = $self->package_name;
 				my $sandbox = $self->sandbox;
 				if($sandbox) {
 					mkpath $sandbox unless( -e $sandbox );
-				} else { die "no sandbox defined for $pname"; }
+				} else { die "no sandbox defined for " . $self->package_name; }
 				return $sandbox;
     }
 
@@ -177,31 +182,22 @@ our $AUTOLOAD;
 		# unpack the source
 		sub unpack_src {
         my $self = shift;
-				
+				my $sandbox = $self->sandbox_dir;
+				print "> unpacking source for " . $self->name ." to $sandbox\n" unless (!$self->verbose);
+				$self->chdir_to($sandbox);
 				$self->cleanup(); # ensure nothing is on the way
-				
 				my $pname = $self->package_name;
-				my $sandbox = $self->sandbox_dir();
-				if($self->verbose) { print "> unpacking source for " . $self->name ." to $sandbox\n" };
     		my $archive = Archive::Extract->new( archive => $self->src_file );
     		return
 					$archive->extract( to => $sandbox ) or die $archive->error;
 		}
 
-		# cd into the build directory
-		sub cd_to_src {
-			my $self = shift;
-			if($self->verbose) { print "> cd into build tree of " . $self->name ."\n" };
-			my $dir = $self->build_dir;
-			chdir($dir) or die "cannot chdir to $dir ($!)";
-		}
-
 		# configure the package for building
 		sub configure {
 			my $self = shift;
-			my $pname = $self->package_name;
-			if($self->verbose) { print "> configure build of " . $self->name ."\n" };
-			die "no install dir prefix defined for $pname" unless($self->prefix);
+			$self->chdir_to($self->build_dir);
+			print "> configure build of " . $self->name ."\n" unless(!$self->verbose);
+			die "no install dir prefix defined for ". $self->package_name unless($self->prefix);
 			my $output = $self->execute_command( $self->configure_command() );
 			if($self->debug) { print "$output\n" };
 		}
@@ -216,6 +212,7 @@ our $AUTOLOAD;
 		sub build {
 			my $self = shift;
 			if($self->verbose) { print "> building " . $self->name ."\n" };
+			$self->chdir_to($self->build_dir);
 			my $output = $self->execute_command( $self->build_command() );
 			if($self->debug) { print "$output\n" };
 		}
@@ -230,6 +227,7 @@ our $AUTOLOAD;
 		sub install {
 			my $self = shift;
 			if($self->verbose) { print "> installing " . $self->name ."\n" };
+			$self->chdir_to($self->build_dir);
 			my $output = $self->execute_command(  $self->install_command() );
 			if($self->debug) { print "$output\n" };
 		}
@@ -243,6 +241,7 @@ our $AUTOLOAD;
 		# cleans up the build directory
 		sub cleanup {
 			my $self = shift;
+			$self->chdir_to($self->sandbox_dir);
 			if($self->verbose) { print "> cleaning up sanbox " . $self->build_dir ."\n" };
 			rmtree( $self->build_dir );
 		}
@@ -257,8 +256,6 @@ our $AUTOLOAD;
 				$self->check_md5();
 
 				$self->unpack_src();
-
-				$self->cd_to_src();
 
 				$self->configure();
 
