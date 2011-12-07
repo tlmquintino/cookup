@@ -182,10 +182,10 @@ our $AUTOLOAD;
 		# unpack the source
 		sub unpack_src {
         my $self = shift;
+				$self->cleanup(); # ensure nothing is on the way
 				my $sandbox = $self->sandbox_dir;
 				print "> unpacking source for " . $self->name ." to $sandbox\n" unless (!$self->verbose);
 				$self->chdir_to($sandbox);
-				$self->cleanup(); # ensure nothing is on the way
 				my $pname = $self->package_name;
     		my $archive = Archive::Extract->new( archive => $self->src_file );
     		return

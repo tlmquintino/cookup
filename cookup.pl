@@ -112,12 +112,14 @@ ZZZ
 sub prepare()
 {
 		# prepend paths with installation prefix
+		# but avoid warnings of uninitialized variables
+		my $path = $ENV{PATH}; $path = "" unless ($path);
+		my $ldpath = $ENV{LD_LIBRARY_PATH}; $ldpath = "" unless ($ldpath);
+		my $dypath = $ENV{DYLD_LIBRARY_PATH}; $dypath = "" unless ($dypath);
 	
-	  $ENV{PATH} = $options{prefix}."/bin:".$ENV{PATH};
-	  $ENV{LD_LIBRARY_PATH} = $options{prefix}."/lib:".$ENV{LD_LIBRARY_PATH};
-		if( exists $ENV{DYLD_LIBRARY_PATH} ) {
-	  	$ENV{DYLD_LIBRARY_PATH} = $options{prefix}."/lib:".$ENV{DYLD_LIBRARY_PATH};
-		}
+	  $ENV{PATH} = $options{prefix}."/bin:".$path;
+	  $ENV{LD_LIBRARY_PATH}   = $options{prefix}."/lib:".$ldpath;
+	  $ENV{DYLD_LIBRARY_PATH} = $options{prefix}."/lib:".$dypath;
 }
 
 sub found_recipe 
