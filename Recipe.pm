@@ -118,7 +118,13 @@ our $AUTOLOAD;
 		# by default package_dir is same as $package_name
     sub package_dir {
         my $self = shift;
-				return $self->package_name;
+        if (@_) { return $self->{package_dir} = shift }
+				else {
+					if($self->{package_dir})
+					{ return $self->{package_dir}; }
+					else
+					{ return $self->package_name; }
+				}
     }
 
 		# returns sandbox dir and ensures it exists
@@ -195,8 +201,8 @@ our $AUTOLOAD;
 		# configure the package for building
 		sub configure {
 			my $self = shift;
+			print "> configure build of " . $self->name ."\n" if ($self->verbose);
 			$self->chdir_to($self->build_dir);
-			print "> configure build of " . $self->name ."\n" unless(!$self->verbose);
 			die "no install dir prefix defined for ". $self->package_name unless($self->prefix);
 			my $output = $self->execute_command( $self->configure_command() );
 			if($self->debug) { print "$output\n" };
@@ -211,7 +217,7 @@ our $AUTOLOAD;
 		# builds the package
 		sub build {
 			my $self = shift;
-			if($self->verbose) { print "> building " . $self->name ."\n" };
+			print "> building " . $self->name ."\n" if($self->verbose);
 			$self->chdir_to($self->build_dir);
 			my $output = $self->execute_command( $self->build_command() );
 			if($self->debug) { print "$output\n" };
@@ -226,7 +232,7 @@ our $AUTOLOAD;
 		# installs the package
 		sub install {
 			my $self = shift;
-			if($self->verbose) { print "> installing " . $self->name ."\n" };
+			print "> installing " . $self->name ."\n" if($self->verbose);
 			$self->chdir_to($self->build_dir);
 			my $output = $self->execute_command(  $self->install_command() );
 			if($self->debug) { print "$output\n" };
@@ -241,8 +247,8 @@ our $AUTOLOAD;
 		# cleans up the build directory
 		sub cleanup {
 			my $self = shift;
+			print "> cleaning up sanbox " . $self->build_dir ."\n" if($self->verbose);
 			$self->chdir_to($self->sandbox_dir);
-			if($self->verbose) { print "> cleaning up sanbox " . $self->build_dir ."\n" };
 			rmtree( $self->build_dir );
 		}
 
