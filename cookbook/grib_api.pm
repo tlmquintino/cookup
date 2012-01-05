@@ -15,7 +15,7 @@ my %fields = (
 
 our @ISA = ("Recipe");
 
-    sub new 
+    sub new
 		{
         my $class = shift;
         my $self  = $class->SUPER::new();
@@ -30,7 +30,7 @@ our @ISA = ("Recipe");
 		sub configure_command {
 			my $self = shift;
 			# TODO: should check here for variants of the build
-			return "./configure --disable-jpeg --prefix=" . $self->prefix;
+			return "./configure --disable-jpeg --disable-fortran CFLAGS='-m64 -fPIC -O3' --prefix=" . $self->prefix;
 		}
 
-1; 
+1;
