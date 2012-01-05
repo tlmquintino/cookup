@@ -7,14 +7,14 @@ use Recipe;
 
 my %fields = (
     name     => "cmake",
-    version  => "2.8.6",
-		url      => "http://www.cmake.org/files/v2.8/cmake-2.8.6.tar.gz",
-		md5      => "2147da452fd9212bb9b4542a9eee9d5b",
+    version  => "2.8.7",
+		url      => "http://www.cmake.org/files/v2.8/cmake-2.8.7.tar.gz",
+		md5      => "e1b237aeaed880f65dec9c20602452f6",
 );
 
 our @ISA = ("Recipe");
 
-    sub new 
+    sub new
 		{
         my $class = shift;
         my $self  = $class->SUPER::new();
@@ -32,4 +32,4 @@ our @ISA = ("Recipe");
 			return "./bootstrap --prefix=" . $self->prefix;
 		}
 
-1; 
+1;
