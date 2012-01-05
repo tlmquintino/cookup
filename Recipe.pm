@@ -29,8 +29,8 @@ our $AUTOLOAD;
         package_name => undef,
         sandbox      => undef,
         prefix       => undef,
-				verbose      => 0,
-				debug        => 0,
+		verbose      => 0,
+		debug        => 0,
     );
 
 ###############################################################################
@@ -115,16 +115,10 @@ our $AUTOLOAD;
 				}
     }
 
-		# by default package_dir is same as $package_name
+    # by default package_dir is same as $package_name
     sub package_dir {
         my $self = shift;
-        if (@_) { return $self->{package_dir} = shift }
-				else {
-					if($self->{package_dir})
-					{ return $self->{package_dir}; }
-					else
-					{ return $self->package_name; }
-				}
+        return $self->package_name;
     }
 
 		# returns sandbox dir and ensures it exists
