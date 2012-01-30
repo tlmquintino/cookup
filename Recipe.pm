@@ -181,13 +181,33 @@ our $AUTOLOAD;
 
 		# unpack the source
 		sub unpack_src {
-        my $self = shift;
-				$self->cleanup(); # ensure nothing is on the way
-				my $sandbox = $self->sandbox_dir;
-				print "> unpacking source for " . $self->name ." to $sandbox\n" unless (!$self->verbose);
-				$self->chdir_to($sandbox);
-				my $pname = $self->package_name;
-    		my $archive = Archive::Extract->new( archive => $self->src_file );
+            my $self = shift;
+			$self->cleanup(); # ensure nothing is on the way
+			my $sandbox = $self->sandbox_dir;
+			print "> unpacking source for " . $self->name ." to $sandbox\n" unless (!$self->verbose);
+			$self->chdir_to($sandbox);
+			my $pname = $self->package_name;
+
+            my $srcfile = $self->src_file;
+            my($fname, $dirs, $ext) = fileparse( $srcfile, qr/\.[^.]*/ );
+
+
+            if( -e '/bin/tar' and -e '/usr/bin/gzip' and ($ext eq '.gz' or '.tgz' ) )
+            {
+              my $output = $self->execute_command( "/bin/tar -zxf $srcfile -C $sandbox" );
+              if($self->debug) { print "$output\n" };
+              return;
+            }
+
+            if( -e '/bin/tar' and -e '/usr/bin/bunzip2' and ($ext eq '.bz2' ) )
+            {
+              my $output = $self->execute_command( "/bin/tar -jxf $srcfile -C $sandbox" );
+              if($self->debug) { print "$output\n" };
+              return;
+            }
+
+            # last chance
+            my $archive = Archive::Extract->new( archive => $self->src_file );
     		return
 					$archive->extract( to => $sandbox ) or die $archive->error;
 		}
