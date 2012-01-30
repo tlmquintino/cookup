@@ -28,7 +28,11 @@ our @ISA = ("Recipe");
 
 		sub configure_command {
 			my $self = shift;
-			return "./configure --enable-languages=c,c++,fortran --prefix=" . $self->prefix;
+			return "./configure --enable-languages=c,c++,fortran".
+                   " --with-gmp=".$self->prefix.
+                   " --with-mpfr=".$self->prefix.
+                   " --with-mpc=".$self->prefix.
+                   " --prefix=" . $self->prefix;
 		}
 
 1;
