@@ -241,7 +241,7 @@ our $AUTOLOAD;
 		# cleans up the build directory
 		sub cleanup {
 			my $self = shift;
-			print "> cleaning up sanbox " . $self->build_dir ."\n" if($self->verbose);
+			print "> cleaning up sandbox " . $self->build_dir ."\n" if($self->verbose);
 			$self->chdir_to($self->sandbox_dir);
 			rmtree( $self->build_dir );
 		}
