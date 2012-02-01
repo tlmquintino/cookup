@@ -8,7 +8,6 @@ use Cwd;
 use LWP::Simple;
 use File::Basename;
 use File::Path;
-use Archive::Extract;
 use Digest::MD5;
 
 our $AUTOLOAD;
@@ -84,7 +83,21 @@ our $AUTOLOAD;
     }
 
 ###############################################################################
-## public methods
+## helper methods - maybe should be mode to a helper module
+
+      sub which {
+            my $self = shift;
+            my $program = shift;
+            return if (not defined($program)); # return if nothing is provided
+            my $path = $ENV{PATH}; # get the PATH
+            $path =~ s/\/:/:/g; # substitute all /: by :
+            my @path = split(/:/,$path); # make an array
+
+            foreach (@path) { # find if the file is in one of the paths
+              my $file = $_ . '/' . $program; # concatenate the file
+              return $file if ((-e $file) && (-f $file)); # return if found
+            }
+        }
 
 		sub chdir_to {
 			my $self = shift;
@@ -103,7 +116,11 @@ our $AUTOLOAD;
 			return $result;
 		}
 
-		# returns the package name or $name-$version is undef
+###############################################################################
+## public methods
+
+
+	# returns the package name or $name-$version is undef
     sub package_name {
         my $self = shift;
         if (@_) { return $self->{package_name} = shift }
@@ -187,29 +204,25 @@ our $AUTOLOAD;
 			print "> unpacking source for " . $self->name ." to $sandbox\n" unless (!$self->verbose);
 			$self->chdir_to($sandbox);
 			my $pname = $self->package_name;
-
             my $srcfile = $self->src_file;
-            my($fname, $dirs, $ext) = fileparse( $srcfile, qr/\.[^.]*/ );
 
+            my $tar     = $self->which('tar');
+            my $gunzip  = $self->which('gunzip');
+            my $bunzip2 = $self->which('bunzip2');
 
-            if( -e '/bin/tar' and -e '/usr/bin/gzip' and ($ext eq '.gz' or '.tgz' ) )
+            my $output;
+            if( defined $tar and defined $gunzip and ( $srcfile =~ /\.tar\.gz$/ or $srcfile =~ /\.tgz$/  ) )
             {
-              my $output = $self->execute_command( "/bin/tar -zxf $srcfile -C $sandbox" );
-              if($self->debug) { print "$output\n" };
-              return;
+              $output = $self->execute_command( "$tar -zxf $srcfile -C $sandbox" );
             }
 
-            if( -e '/bin/tar' and -e '/usr/bin/bunzip2' and ($ext eq '.bz2' ) )
+            if( defined $tar and defined $bunzip2 and ( $srcfile =~ /\.tar\.bz2$/ ) )
             {
-              my $output = $self->execute_command( "/bin/tar -jxf $srcfile -C $sandbox" );
-              if($self->debug) { print "$output\n" };
-              return;
+              $output = $self->execute_command( "$tar -jxf $srcfile -C $sandbox" );
             }
 
-            # last chance
-            my $archive = Archive::Extract->new( archive => $self->src_file );
-    		return
-					$archive->extract( to => $sandbox ) or die $archive->error;
+            print "$output\n" if($self->debug);
+            return;
 		}
 
 		# configure the package for building

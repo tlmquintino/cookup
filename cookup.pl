@@ -28,7 +28,6 @@ use Cwd;
 use Getopt::Long;
 use File::Find;
 use File::Basename;
-use Module::Load;
 use Data::Dumper;
 
 no warnings 'File::Find'; # dont issue warnings for 'weird' files
@@ -102,8 +101,11 @@ ZZZ
 		}
 
 		# resolve relative paths to absolute paths
+       die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{prefix} ) ) );
 		$options{prefix}   = Cwd::abs_path( $options{prefix}  );
+       die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{sandbox} ) ) );
 		$options{sandbox}  = Cwd::abs_path( $options{sandbox} );
+       die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{cookbook} ) ) );
 		$options{cookbook} = Cwd::abs_path( $options{cookbook});
 }
 
@@ -126,7 +128,7 @@ sub found_recipe
 		#	print "path [$path] name [$name] suffix [$suffix]\n";
 		if( $suffix eq ".pm")
 		{
-	  		load $name;
+                require "$name$suffix";
 				my $recipe  = $name->new();
 				my $version = $recipe->version();
 				$recipes{$name} = $recipe;
