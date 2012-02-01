@@ -5,7 +5,7 @@ use strict;
 
 # TODO:
 #  * add install dir prefix to the PATH and LD_LIBRARY_PATH
-#  * add support for dependencies checking - require another package 
+#  * add support for dependencies checking - require another package
 #  * add manifests?
 #  * add variants
 #
@@ -13,12 +13,12 @@ use strict;
 #  * ccache
 #  * openmpi
 #  * parmetis
-#  * hdf5 
+#  * hdf5
 #  * trilinos
 #  * cgns
 #  * cgal
 #  * superlu
-#  * google-perftools	
+#  * google-perftools
 
 
 #==========================================================================
@@ -33,8 +33,6 @@ use Data::Dumper;
 
 no warnings 'File::Find'; # dont issue warnings for 'weird' files
 
-use Recipe;
-
 #==========================================================================
 # main variables
 #==========================================================================
@@ -43,8 +41,8 @@ my $default_cookbook = Cwd::abs_path(dirname(__FILE__) . "/" . "cookbook") ;
 my $default_sandbox  = $ENV{HOME}."/"."tmp";
 my $default_prefix   = "/usr/local";
 
-my %options = ( prefix   => $default_prefix, 
-								sandbox  => $default_sandbox, 
+my %options = ( prefix   => $default_prefix,
+								sandbox  => $default_sandbox,
 								cookbook => $default_cookbook, );
 my %recipes = ();
 
@@ -59,16 +57,16 @@ sub parse_commandline() # Parse command line
 			'sandbox=s',
 			'cookbook=s',
 			'prefix=s',
-			'help', 
-			'verbose', 
+			'help',
+			'verbose',
 			'debug',
 			'list',
 			'download',
 			'unpack',
 			'cook',
 			'packages=s@',
-		); 
-				
+		);
+
     # show help if required
     if( exists $options{help} )
     {
@@ -97,12 +95,12 @@ ZZZ
     }
 
 		if( exists $options{packages} ) # process comma separated list
-		{			
+		{
 			my @packages = split(',',join(",",@{$options{packages}}));
 			# print "@packages\n";
 			$options{packages} = \@packages;
 		}
-		
+
 		# resolve relative paths to absolute paths
 		$options{prefix}   = Cwd::abs_path( $options{prefix}  );
 		$options{sandbox}  = Cwd::abs_path( $options{sandbox} );
@@ -116,17 +114,17 @@ sub prepare()
 		my $path = $ENV{PATH}; $path = "" unless ($path);
 		my $ldpath = $ENV{LD_LIBRARY_PATH}; $ldpath = "" unless ($ldpath);
 		my $dypath = $ENV{DYLD_LIBRARY_PATH}; $dypath = "" unless ($dypath);
-	
+
 	  $ENV{PATH} = $options{prefix}."/bin:".$path;
 	  $ENV{LD_LIBRARY_PATH}   = $options{prefix}."/lib:".$ldpath;
 	  $ENV{DYLD_LIBRARY_PATH} = $options{prefix}."/lib:".$dypath;
 }
 
-sub found_recipe 
-{		
+sub found_recipe
+{
 		my ($name,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
 		#	print "path [$path] name [$name] suffix [$suffix]\n";
-		if( $suffix eq ".pm") 
+		if( $suffix eq ".pm")
 		{
 	  		load $name;
 				my $recipe  = $name->new();
@@ -142,24 +140,24 @@ sub find_recipes
 	my $cookbook_path = Cwd::abs_path($options{cookbook});
 	push (@cookbook, $cookbook_path);
 	if( $options{verbose} ) { print "searching for recipes in $cookbook_path\n" }
-	find( \&found_recipe, @cookbook );	
+	find( \&found_recipe, @cookbook );
 }
 
 sub list_available_recipes
 {
-	foreach my $package ( keys %recipes ) 
+	foreach my $package ( keys %recipes )
 	{
 			my $recipe = $recipes{$package};
 			my $package_name = $recipe->package_name;
-			print "$package_name ";	
+			print "$package_name ";
 			if( exists $options{verbose} ) { print $recipe->url; }
-			print "\n";	
-	} 
-}	
+			print "\n";
+	}
+}
 
 sub process_packages
 {
-	foreach my $package ( @{$options{packages}} ) 
+	foreach my $package ( @{$options{packages}} )
 	{
 		# check that recipe is in recipes list
 		if( exists($recipes{$package}) )
@@ -167,7 +165,7 @@ sub process_packages
 			my $recipe = $recipes{$package};
 			my $package_name = $recipe->package_name;
 
-			print "package [$package_name]\n";	
+			print "package [$package_name]\n";
 
 				$recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
 				$recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
@@ -176,19 +174,19 @@ sub process_packages
 			  $recipe->sandbox( $options{sandbox} );
 
 				$recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
-				
+
 				$recipe->unpack_src()   unless ( !exists $options{unpack} );
-				
+
 				$recipe->cook() unless ( !exists $options{cook} );
 
-		} 
-		else 
-		{ 
+		}
+		else
+		{
 			my $cookbook = $options{cookbook};
 			die "no recipe for '$package' in our cookbook [$cookbook]" ;
-		}		
+		}
 	}
-}	
+}
 
 #==========================================================================
 # Main execution
@@ -197,6 +195,7 @@ sub process_packages
 parse_commandline();
 prepare();
 
+push @INC, Cwd::abs_path(dirname(__FILE__)); # Recipe class is in same dir as the script
 push @INC, $options{cookbook};
 
 find_recipes();
