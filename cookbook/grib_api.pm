@@ -30,7 +30,7 @@ our @ISA = ("Recipe");
 		sub configure_command {
 			my $self = shift;
 			# TODO: should check here for variants of the build
-			return "./configure --disable-jpeg --disable-fortran CFLAGS='-m64 -fPIC -O3' --prefix=" . $self->prefix;
+			return "./configure --disable-jpeg --disable-fortran CFLAGS='-fPIC' --prefix=" . $self->prefix;
 		}
 
 1;

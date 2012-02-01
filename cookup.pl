@@ -195,6 +195,7 @@ sub process_packages
 #==========================================================================
 
 parse_commandline();
+
 prepare();
 
 push @INC, Cwd::abs_path(dirname(__FILE__)); # Recipe class is in same dir as the script
