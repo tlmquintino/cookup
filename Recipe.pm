@@ -28,8 +28,8 @@ our $AUTOLOAD;
         package_name => undef,
         sandbox      => undef,
         prefix       => undef,
-		verbose      => 0,
-		debug        => 0,
+				verbose      => 0,
+				debug        => 0,
     );
 
 ###############################################################################
@@ -106,6 +106,7 @@ our $AUTOLOAD;
 		}
 
 		# executes the command or dies trying
+		# TODO: change this to return the value form the command and put the output on a variable
 		sub execute_command {
 			my $self = shift;
 			my $command = shift;
@@ -120,7 +121,7 @@ our $AUTOLOAD;
 ## public methods
 
 
-	# returns the package name or $name-$version is undef
+		# returns the package name or $name-$version is undef
     sub package_name {
         my $self = shift;
         if (@_) { return $self->{package_name} = shift }
@@ -132,10 +133,10 @@ our $AUTOLOAD;
 				}
     }
 
-    # by default package_dir is same as $package_name
+		# by default package_dir is same as $package_name
     sub package_dir {
         my $self = shift;
-        return $self->package_name;
+				return $self->package_name;
     }
 
 		# returns sandbox dir and ensures it exists
@@ -199,12 +200,14 @@ our $AUTOLOAD;
 		# unpack the source
 		sub unpack_src {
             my $self = shift;
-			$self->cleanup(); # ensure nothing is on the way
-			my $sandbox = $self->sandbox_dir;
-			print "> unpacking source for " . $self->name ." to $sandbox\n" unless (!$self->verbose);
-			$self->chdir_to($sandbox);
+            $self->cleanup(); # ensure nothing is on the way
+            my $sandbox = $self->sandbox_dir;
+            print "> unpacking source for " . $self->name ." to $sandbox\n" unless (!$self->verbose);
+            $self->chdir_to($sandbox);
 			my $pname = $self->package_name;
             my $srcfile = $self->src_file;
+
+            $self->execute_command( "cp $srcfile $srcfile.bak" );  # backup
 
             my $tar     = $self->which('tar');
             my $gunzip  = $self->which('gunzip');
@@ -213,17 +216,29 @@ our $AUTOLOAD;
             my $output;
             if( defined $tar and defined $gunzip and ( $srcfile =~ /\.tar\.gz$/ or $srcfile =~ /\.tgz$/  ) )
             {
-              $output = $self->execute_command( "$tar -zxf $srcfile -C $sandbox" );
+                my $tarfile = $srcfile;
+                $tarfile =~ s/\.tar\.gz$/\.tar/;
+                unlink( $tarfile ); # remove tar files from previous attempts
+                $output = $self->execute_command( "$gunzip  $srcfile" );  print "$output\n" if($self->debug);
+                $output = $self->execute_command( "$tar -xf $tarfile" ); print "$output\n" if($self->debug);
+                unlink( $tarfile ); # cleanup uncompressed tar file
             }
 
             if( defined $tar and defined $bunzip2 and ( $srcfile =~ /\.tar\.bz2$/ ) )
             {
-              $output = $self->execute_command( "$tar -jxf $srcfile -C $sandbox" );
+                my $tarfile = $srcfile;
+                $tarfile =~ s/\.tar\.bz2$/\.tar/;
+                unlink( $tarfile ); # remove tar files from previous attempts
+                $output = $self->execute_command( "$bunzip2 $srcfile" );  print "$output\n" if($self->debug);
+                $output = $self->execute_command( "$tar -xf $tarfile" );  print "$output\n" if($self->debug);
+                unlink( $tarfile ); # remove tar files from previous attempts
             }
+
+            $self->execute_command( "mv $srcfile.bak $srcfile" );  # restore the backup
 
             print "$output\n" if($self->debug);
             return;
-		}
+        }
 
 		# configure the package for building
 		sub configure {

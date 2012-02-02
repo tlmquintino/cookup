@@ -41,8 +41,8 @@ my $default_sandbox  = $ENV{HOME}."/"."tmp";
 my $default_prefix   = "/usr/local";
 
 my %options = ( prefix   => $default_prefix,
-								sandbox  => $default_sandbox,
-								cookbook => $default_cookbook, );
+				sandbox  => $default_sandbox,
+				cookbook => $default_cookbook, );
 my %recipes = ();
 
 #==========================================================================
@@ -93,29 +93,29 @@ ZZZ
     exit(0);
     }
 
-		if( exists $options{packages} ) # process comma separated list
-		{
-			my @packages = split(',',join(",",@{$options{packages}}));
-			# print "@packages\n";
-			$options{packages} = \@packages;
-		}
+      if( exists $options{packages} ) # process comma separated list
+      {
+          my @packages = split(',',join(",",@{$options{packages}}));
+          # print "@packages\n";
+          $options{packages} = \@packages;
+      }
 
-		# resolve relative paths to absolute paths
+	# resolve relative paths to absolute paths
        die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{prefix} ) ) );
-		$options{prefix}   = Cwd::abs_path( $options{prefix}  );
+       $options{prefix}   = Cwd::abs_path( $options{prefix}  );
        die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{sandbox} ) ) );
-		$options{sandbox}  = Cwd::abs_path( $options{sandbox} );
+       $options{sandbox}  = Cwd::abs_path( $options{sandbox} );
        die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{cookbook} ) ) );
-		$options{cookbook} = Cwd::abs_path( $options{cookbook});
+       $options{cookbook} = Cwd::abs_path( $options{cookbook});
 }
 
 sub prepare()
 {
-		# prepend paths with installation prefix
-		# but avoid warnings of uninitialized variables
-		my $path = $ENV{PATH}; $path = "" unless ($path);
-		my $ldpath = $ENV{LD_LIBRARY_PATH}; $ldpath = "" unless ($ldpath);
-		my $dypath = $ENV{DYLD_LIBRARY_PATH}; $dypath = "" unless ($dypath);
+        # prepend paths with installation prefix
+        # but avoid warnings of uninitialized variables
+        my $path = $ENV{PATH}; $path = "" unless ($path);
+        my $ldpath = $ENV{LD_LIBRARY_PATH}; $ldpath = "" unless ($ldpath);
+        my $dypath = $ENV{DYLD_LIBRARY_PATH}; $dypath = "" unless ($dypath);
 
 	  $ENV{PATH} = $options{prefix}."/bin:".$path;
 	  $ENV{LD_LIBRARY_PATH}   = $options{prefix}."/lib:".$ldpath;
