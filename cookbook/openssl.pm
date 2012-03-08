@@ -1,3 +1,11 @@
+# © Copyright 2011-2012 Tiago Quintino
+#
+# This software is licensed under the terms of the Apache Licence Version 2.0
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
+# granted to it by virtue of its status as an intergovernmental organisation nor
+# does it submit to any jurisdiction.
+
 package openssl;
 
 use strict;
@@ -14,7 +22,7 @@ my %fields = (
 
 our @ISA = ("Recipe");
 
-    sub new 
+    sub new
 		{
         my $class = shift;
         my $self  = $class->SUPER::new();
@@ -31,4 +39,4 @@ our @ISA = ("Recipe");
 			return "./config --prefix=" . $self->prefix;
 		}
 
-1; 
+1;
