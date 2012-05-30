@@ -268,7 +268,7 @@ our $AUTOLOAD;
 		# string for the build command
 		sub build_command {
 			my $self = shift;
-			return "make";
+			return "make -j3";
 		}
 
 		# installs the package
