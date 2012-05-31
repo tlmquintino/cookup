@@ -5,7 +5,7 @@ use warnings;
 
 use Carp;
 use Cwd;
-use LWP::Simple;
+use LWP;
 use File::Basename;
 use File::Path;
 use Digest::MD5;
@@ -173,8 +173,17 @@ our $AUTOLOAD;
 				}
 				else {
 					if($self->debug) { print "> downloading $url into $file\n" };
-					my $rs = getstore( $url, $file ) or die "cannot download to $file ($!)";
-                    if(!is_success($rs)) { die "unsuccessful download of $url ($!)"; }
+					my $browser = LWP::UserAgent->new;
+					$browser->env_proxy;
+					my $response = $browser->get( $url );
+					die "unsuccessful download of $url -- ", $response->status_line unless $response->is_success;
+					open(FH, ">$file");
+					binmode(FH);
+					print FH $response->content;
+					close (FH);
+# used with LWP::Simple
+#					my $rs = getstore( $url, $file ) or die "cannot download to $file ($!)";
+#                   if(!is_success($rs)) { die "unsuccessful download of $url ($!)"; }
 				}
     }
 
