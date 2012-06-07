@@ -5,7 +5,6 @@ use warnings;
 
 use Carp;
 use Cwd;
-use LWP;
 use File::Basename;
 use File::Path;
 use Digest::MD5;
@@ -106,7 +105,7 @@ our $AUTOLOAD;
 		}
 
 		# executes the command or dies trying
-		# TODO: change this to return the value form the command and put the output on a variable
+		# TODO: change this to return the value from the command and put the output on a variable
 		sub execute_command {
 			my $self = shift;
 			my $command = shift;
@@ -116,6 +115,14 @@ our $AUTOLOAD;
 			if( $? == -1 ) { die "command [$command] failed: $!\n"; }
 			return $result;
 		}
+
+    sub check_command() {
+      my $self = shift;
+      my $comm = shift;
+      my $status = $self->execute_command("which $comm");
+      return 0 if ($status eq "");
+      return 1;
+    }
 
 ###############################################################################
 ## public methods
@@ -162,6 +169,37 @@ our $AUTOLOAD;
 				return  sprintf "%s/%s", $self->sandbox_dir, basename($self->url);
 		}
 
+    sub download_with_lwp() {
+      my $self = shift;
+      my $url = shift;
+      my $file = shift;
+      my $browser = LWP::UserAgent->new;
+      $browser->env_proxy;
+      my $response = $browser->get( $url );
+      die "unsuccessful download of $url -- ", $response->status_line unless $response->is_success;
+      open(FH, ">$file");
+      binmode(FH);
+      print FH $response->content;
+      close (FH);
+      # used with LWP::Simple
+      #					my $rs = getstore( $url, $file ) or die "cannot download to $file ($!)";
+      #                   if(!is_success($rs)) { die "unsuccessful download of $url ($!)"; }
+    }
+
+    sub download_with_curl() {
+      my $self = shift;
+      my $url = shift;
+      my $file = shift;
+      $self->execute_command("curl $url");
+    }
+
+    sub download_with_wget() {
+      my $self = shift;
+      my $url = shift;
+      my $file = shift;
+      $self->execute_command("wget $url");
+    }
+
 		# downloads the source package
     sub download_src {
         my $self = shift;
@@ -171,20 +209,22 @@ our $AUTOLOAD;
 				if( -e $file ) {
 					if($self->debug) { print "> $file exists, not downloading\n" };
 				}
-				else {
+				else { # lets download
+
 					if($self->debug) { print "> downloading $url into $file\n" };
-					my $browser = LWP::UserAgent->new;
-					$browser->env_proxy;
-					my $response = $browser->get( $url );
-					die "unsuccessful download of $url -- ", $response->status_line unless $response->is_success;
-					open(FH, ">$file");
-					binmode(FH);
-					print FH $response->content;
-					close (FH);
-# used with LWP::Simple
-#					my $rs = getstore( $url, $file ) or die "cannot download to $file ($!)";
-#                   if(!is_success($rs)) { die "unsuccessful download of $url ($!)"; }
-				}
+
+          # check we can use LWP
+          eval { require LWP; LWP->import(); };
+          unless($@) {
+            $self->download_with_lwp( $url, $file );
+          }
+
+          $self->download_with_curl( $url, $file ) if( $self->check_command("curl") );
+          $self->download_with_wget( $url, $file ) if( $self->check_command("wget") );
+
+  				die "could not download file - $file" if( ! -e $file );
+
+			 }
     }
 
 		# check md5sum on the package file
