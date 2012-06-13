@@ -12,9 +12,9 @@ use Recipe;
 
 my %fields = (
     name     => "cmake",
-    version  => "2.8.7",
-		url      => "http://www.cmake.org/files/v2.8/cmake-2.8.7.tar.gz",
-		md5      => "e1b237aeaed880f65dec9c20602452f6",
+    version  => "2.8.8",
+		url      => "http://www.cmake.org/files/v2.8/cmake-2.8.8.tar.gz",
+		md5      => "ba74b22c788a0c8547976b880cd02b17",
 );
 
 our @ISA = ("Recipe");
