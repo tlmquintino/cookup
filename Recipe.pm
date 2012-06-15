@@ -110,7 +110,7 @@ our $AUTOLOAD;
 			my $self = shift;
 			my $command = shift;
 			my $dir = cwd();
-			if($self->debug) { print "> executing [$command] in [$dir]\n" };
+			print "> executing [$command] in [$dir]\n" if($self->debug);
 			my $result = `$command 2>&1`;
 			if( $? == -1 ) { die "command [$command] failed: $!\n"; }
 			return $result;
@@ -173,6 +173,7 @@ our $AUTOLOAD;
       my $self = shift;
       my $url = shift;
       my $file = shift;
+      print "> downloang $url with perl::LWP\n" if($self->verbose);
       my $browser = LWP::UserAgent->new;
       $browser->env_proxy;
       my $response = $browser->get( $url );
@@ -190,37 +191,51 @@ our $AUTOLOAD;
       my $self = shift;
       my $url = shift;
       my $file = shift;
-      $self->execute_command("curl $url");
+      print "> downloang $url with curl\n" if($self->verbose);
+      $self->execute_command("curl $url -o $file");
     }
 
     sub download_with_wget() {
       my $self = shift;
       my $url = shift;
       my $file = shift;
+      print "> downloang $url with wget\n" if($self->verbose);
       $self->execute_command("wget $url");
     }
 
 		# downloads the source package
     sub download_src {
         my $self = shift;
-				if($self->verbose) { print "> downloading source for " . $self->name ."\n" };
+			  print "> downloading source for " . $self->name ."\n" if($self->verbose);
         my $url = $self->url;
         my $file = $self->src_file;
+
+  			$self->chdir_to($self->sandbox_dir);
+
 				if( -e $file ) {
-					if($self->debug) { print "> $file exists, not downloading\n" };
+					 print "> $file exists, not downloading\n" if($self->verbose);
 				}
 				else { # lets download
 
-					if($self->debug) { print "> downloading $url into $file\n" };
+					print "> downloading $url into $file\n" if($self->verbose);
 
           # check we can use LWP
           eval { require LWP; LWP->import(); };
           unless($@) {
             $self->download_with_lwp( $url, $file );
+            return;
           }
 
-          $self->download_with_curl( $url, $file ) if( $self->check_command("curl") );
-          $self->download_with_wget( $url, $file ) if( $self->check_command("wget") );
+          if( $self->check_command("wget") )
+          {
+            $self->download_with_wget( $url, $file );
+            return;
+          }
+          if( $self->check_command("curl") )
+          {
+            $self->download_with_curl( $url, $file );
+            return;
+          }
 
   				die "could not download file - $file" if( ! -e $file );
 
