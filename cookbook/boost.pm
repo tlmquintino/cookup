@@ -12,9 +12,9 @@ use Recipe;
 
 my %fields = (
     name     => "boost",
-    version  => "1.48.0",
-		url      => "http://download.sourceforge.net/boost/boost_1_48_0.tar.gz",
-		md5      => "313a11e97eb56eb7efd18325354631be",
+    version  => "1.49.0",
+		url      => "http://download.sourceforge.net/boost/boost_1_49_0.tar.gz",
+		md5      => "e0defc8c818e4f1c5bbb29d0292b76ca",
 );
 
 our @ISA = ("Recipe");
@@ -31,7 +31,7 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-		sub package_dir { return "boost_1_48_0"; }
+		sub package_dir { return "boost_1_49_0"; }
 
 		# string for the configure command
 		sub configure_command {
