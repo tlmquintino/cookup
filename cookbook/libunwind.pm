@@ -3,7 +3,7 @@
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 
-package libxml2;
+package libunwind;
 
 use strict;
 use warnings;
@@ -11,10 +11,10 @@ use warnings;
 use Recipe;
 
 my %fields = (
-    name     => "libxml2",
-    version  => "2.8.0",
-		url      => "http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz",
-		md5      => "c62106f02ee00b6437f0fb9d370c1093",
+    name     => "libunwind",
+    version  => "1.0.1",
+		url      => "http://download.savannah.gnu.org/releases/libunwind/libunwind-1.0.1.tar.gz",
+		md5      => "993e47cca7315e22239c3e0d987e94e0",
 );
 
 our @ISA = ("Recipe");

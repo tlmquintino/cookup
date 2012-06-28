@@ -3,7 +3,7 @@
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 
-package libxml2;
+package gperftools;
 
 use strict;
 use warnings;
@@ -11,10 +11,10 @@ use warnings;
 use Recipe;
 
 my %fields = (
-    name     => "libxml2",
-    version  => "2.8.0",
-		url      => "http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz",
-		md5      => "c62106f02ee00b6437f0fb9d370c1093",
+    name     => "gperftools",
+    version  => "2.0",
+		url      => "http://gperftools.googlecode.com/files/gperftools-2.0.tar.gz",
+		md5      => "13f6e8961bc6a26749783137995786b6",
 );
 
 our @ISA = ("Recipe");

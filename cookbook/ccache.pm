@@ -3,7 +3,7 @@
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 
-package libxml2;
+package ccache;
 
 use strict;
 use warnings;
@@ -11,10 +11,10 @@ use warnings;
 use Recipe;
 
 my %fields = (
-    name     => "libxml2",
-    version  => "2.8.0",
-		url      => "http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz",
-		md5      => "c62106f02ee00b6437f0fb9d370c1093",
+    name     => "ccache",
+    version  => "3.1.7",
+		url      => "http://samba.org/ftp/ccache/ccache-3.1.7.tar.gz",
+		md5      => "bf49574730fabd666fc7ec3f8b203f41",
 );
 
 our @ISA = ("Recipe");

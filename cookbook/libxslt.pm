@@ -13,7 +13,7 @@ use Recipe;
 my %fields = (
     name     => "libxslt",
     version  => "1.1.26",
-		url      => "ftp://xmlsoft.org/libxslt/libxslt-1.1.26.tar.gz",
+		url      => "http://xmlsoft.org/sources/libxslt-1.1.26.tar.gz",
 		md5      => "e61d0364a30146aaa3001296f853b2b9",
 );
 

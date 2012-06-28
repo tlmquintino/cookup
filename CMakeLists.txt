@@ -6,26 +6,30 @@ add_custom_target( scripts ALL
   SOURCES
       cookbook/bison.pm
       cookbook/boost.pm
+      cookbook/ccache.pm
       cookbook/cmake.pm
       cookbook/curl.pm
+      cookbook/distcc.pm
       cookbook/flex.pm
       cookbook/gcc.pm
       cookbook/git.pm
       cookbook/gmp.pm
-      cookbook/grib_api.pm
+      cookbook/gperftools.pm
       cookbook/jasper.pm
       cookbook/libpng.pm
       cookbook/libtool.pm
+      cookbook/libunwind.pm
+      cookbook/libxml2.pm
+      cookbook/libxslt.pm
       cookbook/m4.pm
       cookbook/mpc.pm
       cookbook/mpfr.pm
       cookbook/openjpeg.pm
       cookbook/openssl.pm
+      cookbook/protobuf.pm
       cookbook/readline.pm
       cookbook/rsync.pm
       cookbook/wget.pm
-      cookbook/libxslt.pm
-      cookbook/libxml2.pm
       cookbook/zlib.pm
       cookup.pl
       Recipe.pm
@@ -33,7 +37,7 @@ add_custom_target( scripts ALL
       LICENSE
 )
 
-set(CPACK_PACKAGE_VERSION   "0.1.6")
+set(CPACK_PACKAGE_VERSION   "0.1.11")
 set(CPACK_SOURCE_IGNORE_FILES 
         /build/
         /\\\\.git/
