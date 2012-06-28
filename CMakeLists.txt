@@ -11,6 +11,7 @@ add_custom_target( scripts ALL
       cookbook/curl.pm
       cookbook/distcc.pm
       cookbook/flex.pm
+      cookbook/jemalloc.pm
       cookbook/gcc.pm
       cookbook/git.pm
       cookbook/gmp.pm
@@ -38,7 +39,7 @@ add_custom_target( scripts ALL
       LICENSE
 )
 
-set(CPACK_PACKAGE_VERSION   "0.1.12")
+set(CPACK_PACKAGE_VERSION   "0.1.13")
 set(CPACK_SOURCE_IGNORE_FILES 
         /build/
         /\\\\.git/
