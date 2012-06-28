@@ -274,7 +274,7 @@ our $AUTOLOAD;
             my $sandbox = $self->sandbox_dir;
             print "> unpacking source for " . $self->name ." to $sandbox\n" unless (!$self->verbose);
             $self->chdir_to($sandbox);
-			my $pname = $self->package_name;
+            my $pname = $self->package_name;
             my $srcfile = $self->src_file;
 
             $self->execute_command( "cp $srcfile $srcfile.bak" );  # backup
@@ -282,7 +282,9 @@ our $AUTOLOAD;
             my $tar     = $self->which('tar');
             my $gunzip  = $self->which('gunzip');
             my $bunzip2 = $self->which('bunzip2');
+            my $unzip   = $self->which('unzip');
 
+            my $success = 0;
             my $output;
             if( defined $tar and defined $gunzip and ( $srcfile =~ /\.tar\.gz$/ or $srcfile =~ /\.tgz$/  ) )
             {
@@ -292,6 +294,7 @@ our $AUTOLOAD;
                 $output = $self->execute_command( "$gunzip  $srcfile" );  print "$output\n" if($self->debug);
                 $output = $self->execute_command( "$tar -xf $tarfile" ); print "$output\n" if($self->debug);
                 unlink( $tarfile ); # cleanup uncompressed tar file
+                $success = 1;
             }
 
             if( defined $tar and defined $bunzip2 and ( $srcfile =~ /\.tar\.bz2$/ ) )
@@ -301,8 +304,17 @@ our $AUTOLOAD;
                 unlink( $tarfile ); # remove tar files from previous attempts
                 $output = $self->execute_command( "$bunzip2 $srcfile" );  print "$output\n" if($self->debug);
                 $output = $self->execute_command( "$tar -xf $tarfile" );  print "$output\n" if($self->debug);
-                unlink( $tarfile ); # remove tar files from previous attempts
+                unlink( $tarfile ); # cleanup uncompressed tar file
+                $success = 1;
             }
+
+            if( defined $unzip and ( $srcfile =~ /\.zip$/ ) )
+            {
+                $output = $self->execute_command( "$unzip $srcfile" ); print "$output\n" if($self->debug);
+                $success = 1;
+            }
+
+            die "could not uncompress file: $srcfile" if( $success eq 0 );
 
             $self->execute_command( "mv $srcfile.bak $srcfile" );  # restore the backup
 

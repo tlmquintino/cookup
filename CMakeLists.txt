@@ -15,6 +15,7 @@ add_custom_target( scripts ALL
       cookbook/git.pm
       cookbook/gmp.pm
       cookbook/gperftools.pm
+      cookbook/gtest.pm
       cookbook/jasper.pm
       cookbook/libpng.pm
       cookbook/libtool.pm
@@ -37,7 +38,7 @@ add_custom_target( scripts ALL
       LICENSE
 )
 
-set(CPACK_PACKAGE_VERSION   "0.1.11")
+set(CPACK_PACKAGE_VERSION   "0.1.12")
 set(CPACK_SOURCE_IGNORE_FILES 
         /build/
         /\\\\.git/
