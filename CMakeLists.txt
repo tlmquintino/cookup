@@ -33,6 +33,7 @@ add_custom_target( scripts ALL
       cookbook/protobuf.pm
       cookbook/readline.pm
       cookbook/rsync.pm
+      cookbook/trilinos.pm
       cookbook/wget.pm
       cookbook/zlib.pm
       cookup.pl
@@ -41,7 +42,7 @@ add_custom_target( scripts ALL
       LICENSE
 )
 
-set(CPACK_PACKAGE_VERSION   "0.1.16")
+set(CPACK_PACKAGE_VERSION   "0.1.17")
 set(CPACK_SOURCE_IGNORE_FILES 
         /build/
         /\\\\.git/

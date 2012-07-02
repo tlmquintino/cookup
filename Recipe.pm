@@ -156,11 +156,17 @@ our $AUTOLOAD;
 				return $sandbox;
     }
 
-		# gets the path to the build dir
+		# gets the path to the build dir - usually the same as source dir
     sub build_dir {
         my $self = shift;
+        return $self->source_dir;
+    }
+    
+		# gets the path to the source dir
+    sub source_dir {
+        my $self = shift;
 				my $pname = $self->package_name;
-				return sprintf return sprintf "%s/%s", $self->sandbox_dir, $self->package_dir;
+				return sprintf "%s/%s", $self->sandbox_dir, $self->package_dir;
     }
 
 		# get the source file name from the url
@@ -326,7 +332,9 @@ our $AUTOLOAD;
 		sub configure {
 			my $self = shift;
 			print "> configure build of " . $self->name ."\n" if ($self->verbose);
-			$self->chdir_to($self->build_dir);
+            my $bdir = $self->build_dir;
+            mkpath $bdir unless( -e $bdir );            
+			$self->chdir_to($bdir);
 			die "no install dir prefix defined for ". $self->package_name unless($self->prefix);
 			my $output = $self->execute_command( $self->configure_command() );
 			if($self->debug) { print "$output\n" };
@@ -374,6 +382,10 @@ our $AUTOLOAD;
 			print "> cleaning up sandbox " . $self->build_dir ."\n" if($self->verbose);
 			$self->chdir_to($self->sandbox_dir);
 			rmtree( $self->build_dir );
+            if( $self->source_dir ne $self->build_dir )
+            {
+               rmtree( $self->source_dir );
+            }
 		}
 
 		# installs the package

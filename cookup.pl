@@ -105,9 +105,9 @@ ZZZ
 	# resolve relative paths to absolute paths
        die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{prefix} ) ) );
        $options{prefix}   = Cwd::abs_path( $options{prefix}  );
-       die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{sandbox} ) ) );
+       die "bad path '".$options{sandbox}."'\n" unless ( defined (Cwd::abs_path( $options{sandbox} ) ) );
        $options{sandbox}  = Cwd::abs_path( $options{sandbox} );
-       die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{cookbook} ) ) );
+       die "bad path '".$options{cookbook}."'\n" unless ( defined (Cwd::abs_path( $options{cookbook} ) ) );
        $options{cookbook} = Cwd::abs_path( $options{cookbook});
 }
 
