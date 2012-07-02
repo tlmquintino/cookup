@@ -15,8 +15,6 @@ use strict;
 #  * add variants
 #
 # MISSING RECIPES:
-#  * ccache
-#  * openmpi
 #  * parmetis
 #  * hdf5
 #  * trilinos

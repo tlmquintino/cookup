@@ -28,6 +28,7 @@ add_custom_target( scripts ALL
       cookbook/mpc.pm
       cookbook/mpfr.pm
       cookbook/openjpeg.pm
+      cookbook/openmpi.pm
       cookbook/openssl.pm
       cookbook/protobuf.pm
       cookbook/readline.pm
