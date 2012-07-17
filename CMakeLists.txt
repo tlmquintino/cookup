@@ -32,6 +32,7 @@ add_custom_target( scripts ALL
       cookbook/openssl.pm
       cookbook/protobuf.pm
       cookbook/readline.pm
+      cookbook/rapidjson.pm
       cookbook/rsync.pm
 #      cookbook/trilinos.pm
       cookbook/wget.pm
