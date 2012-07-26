@@ -61,7 +61,8 @@ sub parse_commandline() # Parse command line
 			'cookbook=s',
 			'prefix=s',
 			'help',
-			'verbose',
+            'dry-run',
+            'verbose',
 			'debug',
             'nodeps',
             'list',
@@ -90,6 +91,7 @@ options:
         --debug level       sets the debug level
         --nodeps            don't check dependencies
         --list              list all the recipes in the cookbook
+        --dry-run           don't actually do it, just list the packages that would be cooked
         --prefix            install dir prefix (same as --install-dir) [$default_prefix]
         --cookbook          use directory as cookbook [$default_cookbook]
         --sandbox           use directory as sandbox for building [$default_sandbox]
@@ -182,16 +184,19 @@ sub process_one_package
 
     print "package [$package_name]\n";
 
-#    $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
-#    $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
-
-#    $recipe->prefix ( $options{prefix } );
-#    $recipe->sandbox( $options{sandbox} );
-
-#    $recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
-#    $recipe->unpack_src()   unless ( !exists $options{unpack} );
-
-#    $recipe->cook() unless ( !exists $options{cook} );
+    if( !exists $options{'dry-run'} ) 
+    {
+        $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
+        $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
+    
+        $recipe->prefix ( $options{prefix } );
+        $recipe->sandbox( $options{sandbox} );
+    
+        $recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
+        $recipe->unpack_src()   unless ( !exists $options{unpack} );
+    
+        $recipe->cook() unless ( !exists $options{cook} );
+    }
 }
 
 #==============================================================================
