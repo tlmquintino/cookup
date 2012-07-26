@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "libxslt",
     version  => "1.1.26",
-		url      => "http://xmlsoft.org/sources/libxslt-1.1.26.tar.gz",
-		md5      => "e61d0364a30146aaa3001296f853b2b9",
+	url      => "http://xmlsoft.org/sources/libxslt-1.1.26.tar.gz",
+	md5      => "e61d0364a30146aaa3001296f853b2b9",
 );
 
 our @ISA = ("Recipe");
@@ -29,6 +29,11 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+    
+    sub configure_command {
+        my $self = shift;
+		return "./configure --with-libxml-prefix=" . $self->prefix . " --prefix=" . $self->prefix;
+	}
     
 	sub depends { return qw( libxml2 ); }
 
