@@ -399,6 +399,9 @@ our $AUTOLOAD;
             }
         }
 
+		# list of packages of which it depends
+		sub depends { return (); }
+
 		# hook for prebuild
 		sub pre_build {}
 

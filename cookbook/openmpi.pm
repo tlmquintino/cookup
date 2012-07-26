@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "openmpi",
     version  => "1.6",
-		url      => "http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.tar.gz",
-		md5      => "3ed0c892a0c921270cb9c7af2fdfd2d2",
+	url      => "http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.tar.gz",
+	md5      => "3ed0c892a0c921270cb9c7af2fdfd2d2",
 );
 
 our @ISA = ("Recipe");

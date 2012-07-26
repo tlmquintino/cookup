@@ -13,9 +13,8 @@ use Recipe;
 my %fields = (
     name     => "bison",
     version  => "2.5",
-		url      => "http://ftp.gnu.org/gnu/bison/bison-2.5.tar.gz",
-		md5      => "687e1dcd29452789d34eaeea4c25abe4",
-		# requires => "m4",
+    url      => "http://ftp.gnu.org/gnu/bison/bison-2.5.tar.gz",
+	md5      => "687e1dcd29452789d34eaeea4c25abe4",
 );
 
 our @ISA = ("Recipe");
@@ -31,5 +30,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+	sub depends { return qw( m4 ); }
 
 1;

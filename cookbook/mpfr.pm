@@ -30,5 +30,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+    
+	sub depends { return qw( gmp ); }
 
 1;

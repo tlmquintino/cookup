@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "zlib",
     version  => "1.2.5",
-		url      => "http://zlib.net/zlib-1.2.5.tar.gz",
-		md5      => "c735eab2d659a96e5a594c9e8541ad63",
+	url      => "http://zlib.net/zlib-1.2.5.tar.gz",
+	md5      => "c735eab2d659a96e5a594c9e8541ad63",
 );
 
 our @ISA = ("Recipe");

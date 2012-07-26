@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "git",
     version  => "1.7.8.2",
-		url      => "http://git-core.googlecode.com/files/git-1.7.8.2.tar.gz",
-		md5      => "f9def92c4afb708f69006da841502b80",
+	url      => "http://git-core.googlecode.com/files/git-1.7.8.2.tar.gz",
+	md5      => "f9def92c4afb708f69006da841502b80",
 );
 
 our @ISA = ("Recipe");

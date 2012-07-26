@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "protobuf",
     version  => "2.4.1",
-		url      => "http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz",
-		md5      => "dc84e9912ea768baa1976cb7bbcea7b5",
+	url      => "http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz",
+	md5      => "dc84e9912ea768baa1976cb7bbcea7b5",
 );
 
 our @ISA = ("Recipe");

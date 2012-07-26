@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "libunwind",
     version  => "1.0.1",
-		url      => "http://download.savannah.gnu.org/releases/libunwind/libunwind-1.0.1.tar.gz",
-		md5      => "993e47cca7315e22239c3e0d987e94e0",
+	url      => "http://download.savannah.gnu.org/releases/libunwind/libunwind-1.0.1.tar.gz",
+	md5      => "993e47cca7315e22239c3e0d987e94e0",
 );
 
 our @ISA = ("Recipe");

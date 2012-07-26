@@ -20,7 +20,7 @@ my %fields = (
 our @ISA = ("Recipe");
 
     sub new
-		{
+	{
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -30,5 +30,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+	sub depends { return qw( mpfr ); }
 
 1;

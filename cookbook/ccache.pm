@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "ccache",
     version  => "3.1.7",
-		url      => "http://samba.org/ftp/ccache/ccache-3.1.7.tar.gz",
-		md5      => "bf49574730fabd666fc7ec3f8b203f41",
+	url      => "http://samba.org/ftp/ccache/ccache-3.1.7.tar.gz",
+	md5      => "bf49574730fabd666fc7ec3f8b203f41",
 );
 
 our @ISA = ("Recipe");

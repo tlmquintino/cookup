@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "boost",
     version  => "1.49.0",
-		url      => "http://download.sourceforge.net/boost/boost_1_49_0.tar.gz",
-		md5      => "e0defc8c818e4f1c5bbb29d0292b76ca",
+	url      => "http://download.sourceforge.net/boost/boost_1_49_0.tar.gz",
+	md5      => "e0defc8c818e4f1c5bbb29d0292b76ca",
 );
 
 our @ISA = ("Recipe");

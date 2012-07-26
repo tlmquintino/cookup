@@ -39,5 +39,7 @@ our @ISA = ("Recipe");
                    " --with-mpc=".$self->prefix.
                    " --prefix=" . $self->prefix;
 		}
+        
+	sub depends { return qw( mpc ); }
 
 1;

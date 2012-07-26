@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "wget",
     version  => "1.13.4",
-		url      => "http://ftp.gnu.org/gnu/wget/wget-1.13.4.tar.gz",
-		md5      => "1df489976a118b9cbe1b03502adbfc27",
+	url      => "http://ftp.gnu.org/gnu/wget/wget-1.13.4.tar.gz",
+	md5      => "1df489976a118b9cbe1b03502adbfc27",
 );
 
 our @ISA = ("Recipe");

@@ -15,7 +15,6 @@ my %fields = (
     version  => "1.4.0",
 	url      => "http://openjpeg.googlecode.com/files/openjpeg_v1_4_sources_r697.tgz",
 	md5      => "7870bb84e810dec63fcf3b712ebb93db",
-# require => qw( cmake ),
 );
 
 our @ISA = ("Recipe");
@@ -38,5 +37,7 @@ our @ISA = ("Recipe");
     }
 
     sub package_dir { return "openjpeg_v1_4_sources_r697"; }
+
+	sub depends { return qw( cmake ); }
 
 1;

@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "distcc",
     version  => "3.1",
-		url      => "http://distcc.googlecode.com/files/distcc-3.1.tar.gz",
-		md5      => "2f6be779869648f2d211ebf09f694715",
+	url      => "http://distcc.googlecode.com/files/distcc-3.1.tar.gz",
+	md5      => "2f6be779869648f2d211ebf09f694715",
 );
 
 our @ISA = ("Recipe");

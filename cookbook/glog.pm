@@ -13,8 +13,8 @@ use Recipe;
 my %fields = (
     name     => "glog",
     version  => "0.3.2",
-		url      => "http://google-glog.googlecode.com/files/glog-0.3.2.tar.gz",
-		md5      => "897fbff90d91ea2b6d6e78c8cea641cc",
+	url      => "http://google-glog.googlecode.com/files/glog-0.3.2.tar.gz",
+	md5      => "897fbff90d91ea2b6d6e78c8cea641cc",
 );
 
 our @ISA = ("Recipe");
