@@ -388,24 +388,46 @@ our $AUTOLOAD;
             }
 		}
 
+		# hook for prebuild
+		sub setup_variables {
+            my $self = shift;
+            if ( exists $ENV{CC} ) {
+                print ">>> detected environment variable for C compiler -- CC = '".$ENV{CC}."'\n" if($self->verbose);
+            }
+			if ( exists $ENV{CXX} )	{
+                print ">>> detected environment variable for C++ compiler -- CXX = '".$ENV{CXX}."'\n" if($self->verbose);
+            }
+        }
+
+		# hook for prebuild
+		sub pre_build {}
+
+		# hook for postbuild
+		sub post_build {}
+
 		# installs the package
-		sub cook
-		{
-        my $self = shift;
+		sub cook {
+			my $self = shift;
 
-				$self->download_src();
+			$self->pre_build();
 
-				$self->check_md5();
+			$self->setup_variables();
 
-				$self->unpack_src();
+			$self->download_src();
 
-				$self->configure();
+			$self->check_md5();
 
-				$self->build();
+			$self->unpack_src();
 
-				$self->install();
+			$self->configure();
 
-				$self->cleanup();
+			$self->build();
+
+			$self->install();
+
+			$self->cleanup();
+
+			$self->post_build();
 		}
 
 1;  # close package Recipe
