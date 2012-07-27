@@ -8,6 +8,7 @@ use Cwd;
 use File::Basename;
 use File::Path;
 use Digest::MD5;
+use Digest::SHA1  qw(sha1);
 
 our $AUTOLOAD;
 
@@ -254,22 +255,41 @@ our $AUTOLOAD;
 			 }
     }
 
-		# check md5sum on the package file
+		# check md5 on the package file
 		sub check_md5 {
 			my $self = shift;
-			if($self->verbose) { print "> md5 check for " . $self->name ."\n" };
+            print "> md5 check for " . $self->name ."\n" if($self->verbose);
 			if($self->md5)
 			{
-       	my $file = $self->src_file;
+                my $file = $self->src_file;
 				my $md5 = $self->md5;
 				open(FILE, $file) or die "Can't open '$file': $!";
-   			binmode(FILE);
-   			my $computed_md5 = Digest::MD5->new->addfile(*FILE)->hexdigest;
+                binmode(FILE);
+                my $computed_md5 = Digest::MD5->new->addfile(*FILE)->hexdigest;
 				if ( $md5 eq $computed_md5 )
 				{
 				  if($self->debug) { print "> $file has correct md5 sum check [$md5]\n" };
 				}
-				else { die "file '$file' has md5sum unexpected md5 sum check [$computed_md5]"}
+				else { die "file '$file' has unexpected md5 sum check [$computed_md5]"}
+			}
+		}
+
+		# check sha1 on the package file
+		sub check_sha1 {
+			my $self = shift;
+			print "> sha1 check for " . $self->name ."\n" if($self->verbose);
+			if($self->sha1)
+			{
+                my $file = $self->src_file;
+				my $sha1 = $self->sha1;
+				open(FILE, $file) or die "Can't open '$file': $!";
+                binmode(FILE);
+                my $computed_sha1 = Digest::SHA1->new->addfile(*FILE)->hexdigest;
+				if ( $sha1 eq $computed_sha1 )
+				{
+				  if($self->debug) { print "> $file has correct sha1 sum check [$sha1]\n" };
+				}
+				else { die "file '$file' has unexpected sha1 sum check [$computed_sha1]"}
 			}
 		}
 
