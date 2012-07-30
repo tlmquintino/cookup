@@ -68,18 +68,20 @@ our $AUTOLOAD;
         if ($debugging_) { carp "destroying $self " . $self->name }
     }
 
-		# debugging support
+	# debugging support
     sub debug {
         my $self = shift;
         if (@_) {
         	my $level = shift;
         	if (ref($self))  {
-            $self->{debug} = $level;
+                $self->{debug} = $level;
         	} else {
-            $debugging_ = $level;            # whole class
+                $debugging_ = $level;            # whole class
         	}
-				}
-				else { return ( $self->{debug} || $debugging_ ) };
+        }
+		else { 
+            return ( $self->{debug} || $debugging_ ) 
+        };
     }
 
 ###############################################################################
