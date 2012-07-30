@@ -15,7 +15,8 @@ use strict;
 #  * add variants
 #
 # MISSING RECIPES:
-#  * hdf5
+#  * blas / lapack 
+#  * atlas
 #  * netcdf - http://www.unidata.ucar.edu/software/netcdf
 #  * trilinos - http://trilinos.sandia.gov
 #  * cgns - http://cgns.sourceforge.net
@@ -29,6 +30,10 @@ use strict;
 #  * clang+llvm - http://clang.llvm.org
 #  * MMG3D - http://www.math.u-bordeaux1.fr/~cdobrzyn/logiciels/mmg3d.php
 #  * Exodus II - http://sourceforge.net/projects/exodusii
+#  * mpich2 - http://www.mcs.anl.gov/research/projects/mpich2
+#  * qt
+#  * paraview
+#  * petsc
 
 #==============================================================================
 # Modules
