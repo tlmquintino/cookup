@@ -14,7 +14,6 @@ my %fields = (
     name     => "zoltan",
     version  => "3.6",
     url      => "http://trilinos.sandia.gov/download/files/trilinos-10.12.1-Source.tar.gz",
-    md5      => "9bacdb888efc21986344b3f61ac845a8",
 );
 
 our @ISA = ("Recipe");
@@ -30,6 +29,8 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub md5  { return "9bacdb888efc21986344b3f61ac845a8"; }
 
     sub source_dir {
         my $self = shift;
