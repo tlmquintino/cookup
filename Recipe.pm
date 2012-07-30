@@ -27,8 +27,8 @@ our $AUTOLOAD;
         package_name => undef,
         sandbox      => undef,
         prefix       => undef,
-				verbose      => 0,
-				debug        => 0,
+        verbose      => 0,
+        debug        => 0,
     );
 
 ###############################################################################
@@ -101,6 +101,7 @@ our $AUTOLOAD;
 		sub chdir_to {
 			my $self = shift;
 			my $dir  = shift;
+			if($self->debug) { print "[change dir] $dir\n" };
 			chdir($dir) or die "cannot chdir to '$dir' ($!)";
 		}
 
