@@ -3,7 +3,7 @@
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 
-package curl;
+package make;
 
 use strict;
 use warnings;
@@ -11,9 +11,9 @@ use warnings;
 use Recipe;
 
 my %fields = (
-    name     => "curl",
-    version  => "7.27.0",
-	url      => "http://curl.haxx.se/download/curl-7.27.0.tar.gz",
+    name     => "make",
+    version  => "3.82",
+	url      => "http://ftp.gnu.org/gnu/make/make-3.82.tar.gz",
 );
 
 our @ISA = ("Recipe");
@@ -30,14 +30,7 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-		# string for the configure command
-		sub configure_command {
-			my $self = shift;
-			return "./configure --without-ssl --without-libidn --without-gnutls --disable-ipv6 --prefix=" . $self->prefix;
-		}
-
-        sub md5   { return "f0e48fdb635b5939e02a9291b89e5336"; }    
-        sub sha1  { return "93ec1e206350632f550cc2ba3327e2a588bf0617"; }    
-
+    sub md5   { return "7f7c000e3b30c6840f2e9cf86b254fac"; }    
+    sub sha1  { return "92d1b87a30d1c9482e52fb4a68e8a355e7946331"; }    
 
 1;

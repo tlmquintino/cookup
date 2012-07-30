@@ -25,6 +25,7 @@ add_custom_target( scripts ALL
       cookbook/libxml2.pm
       cookbook/libxslt.pm
       cookbook/m4.pm
+      cookbook/make.pm
       cookbook/mpc.pm
       cookbook/mpfr.pm
       cookbook/openjpeg.pm
