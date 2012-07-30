@@ -51,8 +51,8 @@ my $default_sandbox  = $ENV{HOME}."/"."tmp";
 my $default_prefix   = "/usr/local";
 
 my %options = ( prefix   => $default_prefix,
-				sandbox  => $default_sandbox,
-				cookbook => $default_cookbook, );
+                sandbox  => $default_sandbox,
+                cookbook => $default_cookbook, );
 my %recipes = ();
 
 my @package_list = ();
@@ -64,21 +64,21 @@ my @package_list = ();
 sub parse_commandline() # Parse command line
 {
     GetOptions ( \%options,
-			'prefix=s',
-			'sandbox=s',
-			'cookbook=s',
-			'prefix=s',
-			'help',
-            'dry-run',
-            'verbose',
-			'debug',
-            'nodeps',
-            'list',
-			'download',
-			'unpack',
-			'cook',
-			'packages=s@',
-		);
+      'prefix=s',
+      'sandbox=s',
+      'cookbook=s',
+      'prefix=s',
+      'help',
+      'dry-run',
+      'verbose',
+      'debug',
+      'nodeps',
+      'list',
+      'download',
+      'unpack',
+      'cook',
+      'packages=s@',
+    );
 
     # show help if required
     if( exists $options{help} )
@@ -89,9 +89,9 @@ cookup.pl : easy build and install for UNIX platforms
 usage: cookup.pl <action> [options]
 
 actions:
-				--download          download the package sources
-				--unpack            downloads and unpacks the package sources
-				--cook              cookup the packages following the recipe
+        --download          download the package sources
+        --unpack            downloads and unpacks the package sources
+        --cook              cookup the packages following the recipe
 
 options:
         --help              shows this help
@@ -105,6 +105,8 @@ options:
         --sandbox           use directory as sandbox for building [$default_sandbox]
         --packages=list     comma separated list of packages to apply actions on
 
+EXAMPLE:
+  cookup.pl --cook --packages=wget
 ZZZ
     exit(0);
     }
@@ -116,7 +118,7 @@ ZZZ
           $options{packages} = \@packages;
       }
 
-	# resolve relative paths to absolute paths
+  # resolve relative paths to absolute paths
        die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{prefix} ) ) );
        $options{prefix}   = Cwd::abs_path( $options{prefix}  );
        die "bad path '".$options{sandbox}."'\n" unless ( defined (Cwd::abs_path( $options{sandbox} ) ) );
@@ -131,6 +133,7 @@ sub prepare()
 {
     # prepend paths with installation prefix
     # but avoid warnings of uninitialized variables
+
     my $path    = $ENV{PATH}; $path = "" unless ($path);
     my $libpath = $ENV{LIBPATH}; $libpath = "" unless ($libpath);
     my $ldpath  = $ENV{LD_LIBRARY_PATH}; $ldpath = "" unless ($ldpath);
@@ -146,41 +149,41 @@ sub prepare()
 
 sub found_recipe
 {
-		my ($name,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
-		#	print "path [$path] name [$name] suffix [$suffix]\n";
-		if( $suffix eq ".pm")
-		{
-                require "$name$suffix";
-				my $recipe  = $name->new();
-				my $version = $recipe->version();
-				$recipes{$name} = $recipe;
-				if( $options{debug} ) { print "> found recipe for " . $recipe->name . "-" . $version . "\n" }
-		}
+    my ($name,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
+    #print "path [$path] name [$name] suffix [$suffix]\n";
+    if( $suffix eq ".pm")
+    {
+        require "$name$suffix";
+        my $recipe  = $name->new();
+        my $version = $recipe->version();
+        $recipes{$name} = $recipe;
+        if( $options{debug} ) { print "> found recipe for " . $recipe->name . "-" . $version . "\n" }
+    }
 }
 
 #==============================================================================
 
 sub find_recipes
 {
-	my @cookbook;
-	my $cookbook_path = Cwd::abs_path($options{cookbook});
-	push (@cookbook, $cookbook_path);
-	if( $options{verbose} ) { print "searching for recipes in $cookbook_path\n" }
-	find( \&found_recipe, @cookbook );
+  my @cookbook;
+  my $cookbook_path = Cwd::abs_path($options{cookbook});
+  push (@cookbook, $cookbook_path);
+  if( $options{verbose} ) { print "searching for recipes in $cookbook_path\n" }
+  find( \&found_recipe, @cookbook );
 }
 
 #==============================================================================
 
 sub list_available_recipes
 {
-	foreach my $package ( keys %recipes )
-	{
-			my $recipe = $recipes{$package};
-			my $package_name = $recipe->package_name;
-			print "$package_name";
-			print " ( $recipe->url )" if( exists $options{verbose} );
-			print "\n";
-	}
+  foreach my $package ( keys %recipes )
+  {
+      my $recipe = $recipes{$package};
+      my $package_name = $recipe->package_name;
+      print "$package_name";
+      print " ( $recipe->url )" if( exists $options{verbose} );
+      print "\n";
+  }
 }
 
 #==============================================================================
@@ -220,7 +223,7 @@ sub transverse_dependency_tree
     my $cookbook = $options{cookbook};
 
     foreach my $package ( @list )
-	{
+  {
         if( exists( $recipes{$package} ) )
         {
             my $recipe = $recipes{$package};
@@ -248,29 +251,28 @@ sub process_packages_list
     my $cookbook = $options{cookbook};
     
     # verify all packages exist
-	foreach my $package ( @{$options{packages}} )
-	{
-        if( ! exists($recipes{$package}) )
-		{
-			die "no recipe for '$package' in our cookbook [$cookbook]" ;
-		}
-    }    
+  foreach my $package ( @{$options{packages}} )
+  {
+    if( ! exists($recipes{$package}) )
+    {
+      die "no recipe for '$package' in our cookbook [$cookbook]" ;
+    }
+  }    
 
-    if( ! exists($options{nodeps}) )
-    {
-        transverse_dependency_tree( @{$options{packages}} );
-    }
-    else # just copy whatever was passed to the package_list
-    {
-        @package_list = @{$options{packages}};
-    }
-        
-    
-    # verify all packages exist
-	foreach my $package ( @package_list )
-	{
-        process_one_package( $package );
-    }   
+  if( ! exists($options{nodeps}) )
+  {
+    transverse_dependency_tree( @{$options{packages}} );
+  }
+  else # just copy whatever was passed to the package_list
+  {
+    @package_list = @{$options{packages}};
+  }
+
+  # verify all packages exist
+  foreach my $package ( @package_list )
+  {
+    process_one_package( $package );
+  }
 }
 
 #==============================================================================
