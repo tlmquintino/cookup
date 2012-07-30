@@ -14,7 +14,6 @@ my %fields = (
     name     => "mpfr",
     version  => "3.1.0",
     url      => "http://www.mpfr.org/mpfr-current/mpfr-3.1.0.tar.gz",
-	md5      => "10968131acc26d79311ac4f8982ff078",
 );
 
 our @ISA = ("Recipe");
@@ -32,5 +31,7 @@ our @ISA = ("Recipe");
     }
     
 	sub depends { return qw( gmp ); }
+
+    sub md5  { return "10968131acc26d79311ac4f8982ff078"; }    
 
 1;

@@ -14,7 +14,6 @@ my %fields = (
     name     => "readline",
     version  => "6.2",
 	url      => "http://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz",
-	md5      => "67948acb2ca081f23359d0256e9a271c",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub md5  { return "67948acb2ca081f23359d0256e9a271c"; }    
 
 1;

@@ -14,7 +14,6 @@ my %fields = (
     name     => "libtool",
     version  => "2.4.2",
 	url      => "http://ftpmirror.gnu.org/libtool/libtool-2.4.2.tar.gz",
-	md5      => "d2f3b7d4627e69e13514a40e72a24d50",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub md5  { return "d2f3b7d4627e69e13514a40e72a24d50"; }    
 
 1;

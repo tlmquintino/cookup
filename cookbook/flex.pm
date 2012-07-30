@@ -14,7 +14,6 @@ my %fields = (
     name     => "flex",
     version  => "2.5.35",
 	url      => "http://download.sourceforge.net/flex/flex-2.5.35.tar.gz",
-	md5      => "201d3f38758d95436cbc64903386de0b",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+        sub md5  { return "201d3f38758d95436cbc64903386de0b"; }    
 
 1;

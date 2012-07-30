@@ -14,7 +14,6 @@ my %fields = (
     name     => "gcc",
     version  => "4.6.2",
     url      => "http://ftp.gnu.org/gnu/gcc/gcc-4.6.2/gcc-4.6.2.tar.gz",
-	md5      => "56c5b2a0ca0d4f27a827548ce5cf4203",
 );
 
 our @ISA = ("Recipe");
@@ -41,5 +40,7 @@ our @ISA = ("Recipe");
 		}
         
 	sub depends { return qw( mpc ); }
+
+    sub md5  { return "56c5b2a0ca0d4f27a827548ce5cf4203"; }    
 
 1;

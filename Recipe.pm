@@ -22,14 +22,14 @@ our $AUTOLOAD;
 
     my %fields =
 		(
-        name         => undef,
-        url          => undef,
-        version      => undef,
-        package_name => undef,
-        sandbox      => undef,
-        prefix       => undef,
-				verbose      => 0,
-				debug        => 0,
+            name         => undef,
+            url          => undef,
+            version      => undef,
+            package_name => undef,
+            sandbox      => undef,
+            prefix       => undef,
+            verbose      => 0,
+            debug        => 0,
     );
 
 ###############################################################################
@@ -254,43 +254,67 @@ our $AUTOLOAD;
   				die "could not download file - $file" if( ! -e $file );
 			 }
     }
+    
+		# check consistency of src package
+		sub check_src {
+			my $self = shift;
+            print "> checking source package consistency for " . $self->name ."\n" if($self->verbose);
+
+            my $checked = 0;            
+            
+            $checked = 1 if( $self->md5() and $self->check_md5() );
+            $checked = 1 if( $self->sha1() and $self->check_sha1() );
+            
+            if($checked) {
+                print "> correct checksum for " . $self->name ."\n" if($self->verbose);
+            }
+            else {
+                die "> correct checksum for " . $self->name ."\n";
+            }
+		}
+
+        # default md5 
+        sub md5  { return undef; }
+
+        # default sha1 
+        sub sha1 { return undef; }
 
 		# check md5 on the package file
 		sub check_md5 {
-			my $self = shift;
-            print "> md5 check for " . $self->name ."\n" if($self->verbose);
-			if($self->md5)
-			{
+                my $self = shift;
+                print "> md5 check for " . $self->name ."\n" if($self->verbose);
                 my $file = $self->src_file;
-				my $md5 = $self->md5;
+				my $md5 = $self->md5();
 				open(FILE, $file) or die "Can't open '$file': $!";
                 binmode(FILE);
                 my $computed_md5 = Digest::MD5->new->addfile(*FILE)->hexdigest;
-				if ( $md5 eq $computed_md5 )
-				{
-				  if($self->debug) { print "> $file has correct md5 sum check [$md5]\n" };
+				if ( $md5 eq $computed_md5 ) {
+                    print "> $file has correct md5 sum check [$md5]\n" if($self->debug);
+                    return 1;
 				}
-				else { die "file '$file' has unexpected md5 sum check [$computed_md5]"}
-			}
+				else { 
+                    croak "file '$file' has unexpected md5 sum check: expected [$md5] got [$computed_md5]";
+                    return 0;
+                }
 		}
 
 		# check sha1 on the package file
 		sub check_sha1 {
-			my $self = shift;
-			print "> sha1 check for " . $self->name ."\n" if($self->verbose);
-			if($self->sha1)
-			{
+    			my $self = shift;
+        		print "> sha1 check for " . $self->name ."\n" if($self->verbose);
                 my $file = $self->src_file;
-				my $sha1 = $self->sha1;
+				my $sha1 = $self->sha1();
 				open(FILE, $file) or die "Can't open '$file': $!";
                 binmode(FILE);
                 my $computed_sha1 = Digest::SHA1->new->addfile(*FILE)->hexdigest;
-				if ( $sha1 eq $computed_sha1 )
-				{
-				  if($self->debug) { print "> $file has correct sha1 sum check [$sha1]\n" };
+                if ( $sha1 eq $computed_sha1 ) {
+                    print "> $file has correct sha1 sum check [$sha1]\n" if($self->debug);
+                    return 1;
 				}
-				else { die "file '$file' has unexpected sha1 sum check [$computed_sha1]"}
-			}
+				else { 
+                    croak "file '$file' has unexpected sha1 sum check: expected [$sha1] got [$computed_sha1]";
+                    return 0;
+                }
 		}
 
 		# unpack the source
@@ -438,8 +462,8 @@ our $AUTOLOAD;
 
 			$self->download_src();
 
-			$self->check_md5();
-
+			$self->check_src();
+            
 			$self->unpack_src();
 
 			$self->configure();

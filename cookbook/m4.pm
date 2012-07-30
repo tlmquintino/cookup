@@ -14,7 +14,6 @@ my %fields = (
     name     => "m4",
     version  => "1.4.16",
 	url      => "http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.gz",
-	md5      => "a5dfb4f2b7370e9d34293d23fd09b280",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub md5  { return "a5dfb4f2b7370e9d34293d23fd09b280"; }    
 
 1;
