@@ -15,12 +15,20 @@ use strict;
 #  * add variants
 #
 # MISSING RECIPES:
-#  * parmetis
 #  * hdf5
-#  * trilinos
-#  * cgns
-#  * cgal
-#  * superlu
+#  * netcdf - http://www.unidata.ucar.edu/software/netcdf
+#  * trilinos - http://trilinos.sandia.gov
+#  * cgns - http://cgns.sourceforge.net
+#  * cgal - http://www.cgal.org
+#  * gmsh - http://geuz.org/gmsh
+#  * superlu - http://www.cs.berkeley.edu/~demmel/SuperLU.html
+#  * cppclean - http://code.google.com/p/cppclean
+#  * googlemock - http://code.google.com/p/googlemock
+#  * memcached - http://code.google.com/p/memcached
+#  * valgrind - http://valgrind.org
+#  * clang+llvm - http://clang.llvm.org
+#  * MMG3D - http://www.math.u-bordeaux1.fr/~cdobrzyn/logiciels/mmg3d.php
+#  * Exodus II - http://sourceforge.net/projects/exodusii
 
 #==============================================================================
 # Modules
@@ -121,15 +129,17 @@ ZZZ
 
 sub prepare()
 {
-        # prepend paths with installation prefix
-        # but avoid warnings of uninitialized variables
-        my $path = $ENV{PATH}; $path = "" unless ($path);
-        my $ldpath = $ENV{LD_LIBRARY_PATH}; $ldpath = "" unless ($ldpath);
-        my $dypath = $ENV{DYLD_LIBRARY_PATH}; $dypath = "" unless ($dypath);
-
-	  $ENV{PATH} = $options{prefix}."/bin:".$path;
-	  $ENV{LD_LIBRARY_PATH}   = $options{prefix}."/lib:".$ldpath;
-	  $ENV{DYLD_LIBRARY_PATH} = $options{prefix}."/lib:".$dypath;
+    # prepend paths with installation prefix
+    # but avoid warnings of uninitialized variables
+    my $path    = $ENV{PATH}; $path = "" unless ($path);
+    my $libpath = $ENV{LIBPATH}; $libpath = "" unless ($libpath);
+    my $ldpath  = $ENV{LD_LIBRARY_PATH}; $ldpath = "" unless ($ldpath);
+    my $dypath  = $ENV{DYLD_LIBRARY_PATH}; $dypath = "" unless ($dypath);
+    
+    $ENV{PATH}              = $options{prefix}."/bin:".$path;
+    $ENV{LIBPATH}           = $options{prefix}."/lib:".$libpath;
+    $ENV{LD_LIBRARY_PATH}   = $options{prefix}."/lib:".$ldpath;
+    $ENV{DYLD_LIBRARY_PATH} = $options{prefix}."/lib:".$dypath;
 }
 
 #==============================================================================
