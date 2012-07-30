@@ -31,6 +31,7 @@ add_custom_target( scripts ALL
       cookbook/openjpeg.pm
       cookbook/openmpi.pm
       cookbook/openssl.pm
+      cookbook/parmetis.pm
       cookbook/protobuf.pm
       cookbook/readline.pm
       cookbook/rapidjson.pm
@@ -38,6 +39,7 @@ add_custom_target( scripts ALL
 #      cookbook/trilinos.pm
       cookbook/wget.pm
       cookbook/zlib.pm
+      cookbook/zoltan.pm
       cookup.pl
       Recipe.pm
       README
