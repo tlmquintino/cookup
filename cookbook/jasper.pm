@@ -14,7 +14,6 @@ my %fields = (
     name     => "jasper",
     version  => "1.900.1",
 	url      => "http://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip",
-	md5      => "a342b2b4495b3e1394e161eb5d85d754",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub md5  { return "a342b2b4495b3e1394e161eb5d85d754"; }    
 
 1;

@@ -14,7 +14,6 @@ my %fields = (
     name     => "ccache",
     version  => "3.1.7",
 	url      => "http://samba.org/ftp/ccache/ccache-3.1.7.tar.gz",
-	md5      => "bf49574730fabd666fc7ec3f8b203f41",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub md5  { return "bf49574730fabd666fc7ec3f8b203f41"; }    
 
 1;

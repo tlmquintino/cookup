@@ -12,9 +12,8 @@ use Recipe;
 
 my %fields = (
     name     => "curl",
-    version  => "7.23.1",
-		url      => "http://curl.haxx.se/download/curl-7.23.1.tar.gz",
-		md5      => "8e23151f569fb54afef093ac0695077d",
+    version  => "7.27.0",
+	url      => "http://curl.haxx.se/download/curl-7.27.0.tar.gz",
 );
 
 our @ISA = ("Recipe");
@@ -36,6 +35,9 @@ our @ISA = ("Recipe");
 			my $self = shift;
 			return "./configure --without-ssl --without-libidn --without-gnutls --disable-ipv6 --prefix=" . $self->prefix;
 		}
+
+        sub md5   { return "f0e48fdb635b5939e02a9291b89e5336"; }    
+        sub sha1  { return "93ec1e206350632f550cc2ba3327e2a588bf0617"; }    
 
 
 1;

@@ -14,7 +14,6 @@ my %fields = (
     name     => "mpc",
     version  => "0.9",
     url      => "http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz",
-	md5      => "0d6acab8d214bd7d1fbbc593e83dd00d",
 );
 
 our @ISA = ("Recipe");
@@ -32,5 +31,7 @@ our @ISA = ("Recipe");
     }
 
 	sub depends { return qw( mpfr ); }
+
+    sub md5  { return "0d6acab8d214bd7d1fbbc593e83dd00d"; }    
 
 1;

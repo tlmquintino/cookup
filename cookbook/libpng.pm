@@ -14,7 +14,6 @@ my %fields = (
     name     => "libpng",
     version  => "1.5.6",
 	url      => "http://download.sourceforge.net/libpng/libpng-1.5.6.tar.gz",
-	md5      => "8b0c05ed12637ee1f060ddfbbf526ea3",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub md5  { return "8b0c05ed12637ee1f060ddfbbf526ea3"; }    
 
 1;

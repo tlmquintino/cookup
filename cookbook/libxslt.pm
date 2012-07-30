@@ -14,7 +14,6 @@ my %fields = (
     name     => "libxslt",
     version  => "1.1.26",
 	url      => "http://xmlsoft.org/sources/libxslt-1.1.26.tar.gz",
-	md5      => "e61d0364a30146aaa3001296f853b2b9",
 );
 
 our @ISA = ("Recipe");
@@ -36,5 +35,7 @@ our @ISA = ("Recipe");
 	}
     
 	sub depends { return qw( libxml2 ); }
+
+    sub md5  { return "e61d0364a30146aaa3001296f853b2b9"; }    
 
 1;

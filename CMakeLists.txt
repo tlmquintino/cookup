@@ -25,6 +25,7 @@ add_custom_target( scripts ALL
       cookbook/libxml2.pm
       cookbook/libxslt.pm
       cookbook/m4.pm
+      cookbook/make.pm
       cookbook/mpc.pm
       cookbook/mpfr.pm
       cookbook/openjpeg.pm
@@ -43,7 +44,7 @@ add_custom_target( scripts ALL
       LICENSE
 )
 
-set(CPACK_PACKAGE_VERSION   "0.2.0")
+set(CPACK_PACKAGE_VERSION   "0.2.2")
 set(CPACK_SOURCE_IGNORE_FILES 
         /build/
         /\\\\.git/

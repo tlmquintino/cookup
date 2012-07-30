@@ -12,9 +12,8 @@ use Recipe;
 
 my %fields = (
     name     => "git",
-    version  => "1.7.8.2",
-	url      => "http://git-core.googlecode.com/files/git-1.7.8.2.tar.gz",
-	md5      => "f9def92c4afb708f69006da841502b80",
+    version  => "1.7.11.3",
+	url      => "http://git-core.googlecode.com/files/git-1.7.11.3.tar.gz",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,8 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+    
+    sub md5  { return "23caacd9f3f421b6c05b40796df3505d"; }
+    sub sha1 { return "a10c420e4d9152d6059f41825904cfac3062b135"; }
 
 1;

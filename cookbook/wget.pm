@@ -14,7 +14,6 @@ my %fields = (
     name     => "wget",
     version  => "1.13.4",
 	url      => "http://ftp.gnu.org/gnu/wget/wget-1.13.4.tar.gz",
-	md5      => "1df489976a118b9cbe1b03502adbfc27",
 );
 
 our @ISA = ("Recipe");
@@ -31,11 +30,12 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-		# string for the configure command
-		sub configure_command {
-			my $self = shift;
-			return "./configure --without-ssl --prefix=" . $self->prefix;
-		}
+    # string for the configure command
+	sub configure_command {
+		my $self = shift;
+		return "./configure --without-ssl --prefix=" . $self->prefix;
+	}
 
+    sub md5  { return "1df489976a118b9cbe1b03502adbfc27"; }    
 
 1;

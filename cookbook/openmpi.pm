@@ -14,7 +14,6 @@ my %fields = (
     name     => "openmpi",
     version  => "1.6",
 	url      => "http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.tar.gz",
-	md5      => "3ed0c892a0c921270cb9c7af2fdfd2d2",
 );
 
 our @ISA = ("Recipe");
@@ -31,10 +30,12 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-		# string for the configure command
-		sub configure_command {
-			my $self = shift;
-			return "./configure --disable-visibility --without-cs-fs --with-threads=posix --prefix=" . $self->prefix;
-		}
+    # string for the configure command
+	sub configure_command {
+		my $self = shift;
+		return "./configure --disable-visibility --without-cs-fs --with-threads=posix --prefix=" . $self->prefix;
+	}
+    
+    sub md5  { return "3ed0c892a0c921270cb9c7af2fdfd2d2"; }    
         
 1;

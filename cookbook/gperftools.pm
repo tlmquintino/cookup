@@ -14,7 +14,6 @@ my %fields = (
     name     => "gperftools",
     version  => "2.0",
 	url      => "http://gperftools.googlecode.com/files/gperftools-2.0.tar.gz",
-	md5      => "13f6e8961bc6a26749783137995786b6",
 );
 
 our @ISA = ("Recipe");
@@ -30,5 +29,7 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub md5  { return "13f6e8961bc6a26749783137995786b6"; }    
 
 1;

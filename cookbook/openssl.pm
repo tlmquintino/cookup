@@ -14,7 +14,6 @@ my %fields = (
     name     => "openssl",
     version  => "1.0.0e",
 	url      => "http://www.openssl.org/source/openssl-1.0.0e.tar.gz",
-	md5      => "7040b89c4c58c7a1016c0dfa6e821c86",
 );
 
 our @ISA = ("Recipe");
@@ -31,9 +30,11 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-		sub configure_command {
-			my $self = shift;
-			return "./config --prefix=" . $self->prefix;
-		}
+	sub configure_command {
+		my $self = shift;
+		return "./config --prefix=" . $self->prefix;
+	}
+
+    sub md5  { return "7040b89c4c58c7a1016c0dfa6e821c86"; }    
 
 1;

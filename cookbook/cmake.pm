@@ -14,7 +14,6 @@ my %fields = (
     name     => "cmake",
     version  => "2.8.8",
 	url      => "http://www.cmake.org/files/v2.8/cmake-2.8.8.tar.gz",
-	md5      => "ba74b22c788a0c8547976b880cd02b17",
 );
 
 our @ISA = ("Recipe");
@@ -36,5 +35,7 @@ our @ISA = ("Recipe");
 			my $self = shift;
 			return "./bootstrap --prefix=" . $self->prefix;
 		}
+
+        sub md5  { return "ba74b22c788a0c8547976b880cd02b17"; }    
 
 1;
