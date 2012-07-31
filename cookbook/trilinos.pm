@@ -13,8 +13,7 @@ use Recipe;
 my %fields = (
     name     => "trilinos",
     version  => "10.10.2",
-		url      => "http://trilinos.sandia.gov/download/files/trilinos-10.10.2-Source.tar.gz",
-		md5      => "0bb1116a438ac3b7a070ded153ee229f",
+    url      => "http://trilinos.sandia.gov/download/files/trilinos-10.10.2-Source.tar.gz",
 );
 
 our @ISA = ("Recipe");
@@ -32,6 +31,8 @@ our @ISA = ("Recipe");
     }
     
 		sub package_dir { return "trilinos-10.10.2-Source"; }
+        
+        sub md5 { return "0bb1116a438ac3b7a070ded153ee229f"; }
         
         # gets the path to the build dir
         sub build_dir {
