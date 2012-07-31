@@ -37,7 +37,7 @@ add_custom_target( scripts ALL
       cookbook/readline.pm
       cookbook/rapidjson.pm
       cookbook/rsync.pm
-#      cookbook/trilinos.pm
+      cookbook/trilinos.pm
       cookbook/wget.pm
       cookbook/zlib.pm
       cookbook/zoltan.pm
