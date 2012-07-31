@@ -19,7 +19,6 @@ use strict;
 #  * atlas
 #  * netcdf - http://www.unidata.ucar.edu/software/netcdf
 #  * trilinos - http://trilinos.sandia.gov
-#  * cgns - http://cgns.sourceforge.net
 #  * cgal - http://www.cgal.org
 #  * gmsh - http://geuz.org/gmsh
 #  * superlu - http://www.cs.berkeley.edu/~demmel/SuperLU.html
