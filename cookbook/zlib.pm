@@ -12,14 +12,14 @@ use Recipe;
 
 my %fields = (
     name     => "zlib",
-    version  => "1.2.5",
-	url      => "http://zlib.net/zlib-1.2.5.tar.gz",
+    version  => "1.2.7",
+    url      => "http://zlib.net/zlib-1.2.7.tar.gz",
 );
 
 our @ISA = ("Recipe");
 
     sub new
-		{
+    {
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -30,6 +30,6 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-    sub md5  { return "c735eab2d659a96e5a594c9e8541ad63"; }    
+    sub md5  { return "60df6a37c56e7c1366cca812414f7b85"; }
 
 1;
