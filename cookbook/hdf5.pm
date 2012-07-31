@@ -13,7 +13,7 @@ use Recipe;
 my %fields = (
     name     => "hdf5",
     version  => "1.8.9",
-	url      => "http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz",
+    url      => "http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz",
 );
 
 our @ISA = ("Recipe");
@@ -29,11 +29,11 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
-    
+
     sub md5  { return "d1266bb7416ef089400a15cc7c963218"; }
     sub sha1 { return "4ba3ede947b1571e9586fdeb8351d6585a56133c"; }
-    
-	sub depends { return qw( openmpi zlib ); }
+
+    sub depends { return qw( openmpi zlib ); }
 
     sub pre_build {
         my $self = shift;
