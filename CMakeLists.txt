@@ -7,6 +7,7 @@ add_custom_target( scripts ALL
       cookbook/bison.pm
       cookbook/boost.pm
       cookbook/ccache.pm
+      cookbook/cgns.pm
       cookbook/cmake.pm
       cookbook/curl.pm
       cookbook/distcc.pm
