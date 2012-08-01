@@ -31,6 +31,8 @@ use strict;
 #  * qt
 #  * paraview
 #  * petsc
+#  * golang
+#  * codesearch https://code.google.com/p/codesearch/
 
 #==============================================================================
 # Modules
