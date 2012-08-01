@@ -53,10 +53,10 @@ our @ISA = ("Recipe");
         ." -DTrilinos_ENABLE_EXAMPLES:BOOL=OFF"
         ." -DTrilinos_ENABLE_ALL_PACKAGES:BOOL=OFF"
         ." -DTrilinos_ENABLE_Zoltan:BOOL=ON"
+        ." -DTPL_ENABLE_MPI:BOOL=ON"
         ." -DZoltan_ENABLE_ULLONG_IDS:Bool=ON"
         ." -DZoltan_ENABLE_EXAMPLES:BOOL=OFF"
         ." -DZoltan_ENABLE_TESTS:BOOL=OFF"
-        ." -DTPL_ENABLE_MPI:BOOL=ON"
         ." -DZoltan_ENABLE_ParMETIS:BOOL=ON"
         ." ../";
     }
