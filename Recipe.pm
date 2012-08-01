@@ -7,8 +7,6 @@ use Carp;
 use Cwd;
 use File::Basename;
 use File::Path;
-use Digest::MD5;
-use Digest::SHA1  qw(sha1);
 
 our $AUTOLOAD;
 
@@ -265,9 +263,17 @@ our $AUTOLOAD;
 
             my $checked = 0;            
             
-            $checked = 1 if( $self->md5() and $self->check_md5() );
-            $checked = 1 if( $self->sha1() and $self->check_sha1() );
-            
+            if( $self->md5() ) {
+                 $checked = 1 if( $self->check_md5() );
+            } else {
+                 print "> no md5 checksum defined for " . $self->name ."\n" if($self->verbose);
+            }
+            if( $self->sha1() ) {
+                 $checked = 1 if( $self->check_sha1() );
+            } else {
+                 print "> no sha1 checksum defined for " . $self->name ."\n" if($self->verbose);
+            }
+
             if($checked) {
                 print "> correct checksum for " . $self->name ."\n" if($self->verbose);
             }
@@ -285,6 +291,10 @@ our $AUTOLOAD;
 		# check md5 on the package file
 		sub check_md5 {
                 my $self = shift;
+                # check we can load md5 module
+                eval { require Digest::MD5; Digest::MD5->import(); };
+                unless($@)
+                {
                 print "> md5 check for " . $self->name ."\n" if($self->verbose);
                 my $file = $self->src_file;
 				my $md5 = $self->md5();
@@ -299,26 +309,36 @@ our $AUTOLOAD;
                     croak "file '$file' has unexpected md5 sum check: expected [$md5] got [$computed_md5]";
                     return 0;
                 }
-		}
+                }
+                print "> WARNING: cannot compute md5 becasue Digest::MD5 is unavailable\n";
+                return 0;
+        }
 
 		# check sha1 on the package file
 		sub check_sha1 {
     			my $self = shift;
-        		print "> sha1 check for " . $self->name ."\n" if($self->verbose);
-                my $file = $self->src_file;
-				my $sha1 = $self->sha1();
-				open(FILE, $file) or die "Can't open '$file': $!";
-                binmode(FILE);
-                my $computed_sha1 = Digest::SHA1->new->addfile(*FILE)->hexdigest;
-                if ( $sha1 eq $computed_sha1 ) {
-                    print "> $file has correct sha1 sum check [$sha1]\n" if($self->debug);
-                    return 1;
-				}
-				else { 
-                    croak "file '$file' has unexpected sha1 sum check: expected [$sha1] got [$computed_sha1]";
-                    return 0;
+                # check we can load sha1 module
+                eval { require Digest::SHA1; Digest::SHA1->import(); };
+                unless($@)
+                {
+                    print "> sha1 check for " . $self->name ."\n" if($self->verbose);
+                    my $file = $self->src_file;
+                    my $sha1 = $self->sha1();
+                    open(FILE, $file) or die "Can't open '$file': $!";
+                    binmode(FILE);
+                    my $computed_sha1 = Digest::SHA1->new->addfile(*FILE)->hexdigest;
+                    if ( $sha1 eq $computed_sha1 ) {
+                        print "> $file has correct sha1 sum check [$sha1]\n" if($self->debug);
+                        return 1;
+                    }
+                    else {
+                        croak "file '$file' has unexpected sha1 sum check: expected [$sha1] got [$computed_sha1]";
+                        return 0;
+                    }
                 }
-		}
+                print "> WARNING: cannot compute sha1 becasue Digest::SHA1 is unavailable\n";
+                return 0;
+        }
 
 		# unpack the source
 		sub unpack_src {

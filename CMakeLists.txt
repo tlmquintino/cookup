@@ -8,6 +8,7 @@ add_custom_target( scripts ALL
       cookbook/boost.pm
       cookbook/ccache.pm
       cookbook/cgns.pm
+      cookbook/clang.pm
       cookbook/cmake.pm
       cookbook/curl.pm
       cookbook/distcc.pm
@@ -23,6 +24,7 @@ add_custom_target( scripts ALL
       cookbook/libpng.pm
       cookbook/libtool.pm
       cookbook/libunwind.pm
+      cookbook/llvm.pm
       cookbook/libxml2.pm
       cookbook/libxslt.pm
       cookbook/m4.pm
@@ -47,7 +49,7 @@ add_custom_target( scripts ALL
       LICENSE
 )
 
-set(CPACK_PACKAGE_VERSION   "0.2.3")
+set(CPACK_PACKAGE_VERSION   "0.2.4")
 set(CPACK_SOURCE_IGNORE_FILES 
         /build/
         /\\\\.git/
