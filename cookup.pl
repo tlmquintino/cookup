@@ -18,7 +18,6 @@ use strict;
 #  * blas / lapack 
 #  * atlas
 #  * netcdf - http://www.unidata.ucar.edu/software/netcdf
-#  * trilinos - http://trilinos.sandia.gov
 #  * cgal - http://www.cgal.org
 #  * gmsh - http://geuz.org/gmsh
 #  * superlu - http://www.cs.berkeley.edu/~demmel/SuperLU.html
@@ -26,7 +25,6 @@ use strict;
 #  * googlemock - http://code.google.com/p/googlemock
 #  * memcached - http://code.google.com/p/memcached
 #  * valgrind - http://valgrind.org
-#  * clang+llvm - http://clang.llvm.org
 #  * MMG3D - http://www.math.u-bordeaux1.fr/~cdobrzyn/logiciels/mmg3d.php
 #  * Exodus II - http://sourceforge.net/projects/exodusii
 #  * mpich2 - http://www.mcs.anl.gov/research/projects/mpich2
