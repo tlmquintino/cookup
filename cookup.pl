@@ -33,6 +33,7 @@ use strict;
 #  * petsc
 #  * golang
 #  * codesearch https://code.google.com/p/codesearch/
+#  * re2 - http://code.google.com/p/re2
 
 #==============================================================================
 # Modules
