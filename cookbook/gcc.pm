@@ -12,8 +12,8 @@ use Recipe;
 
 my %fields = (
     name     => "gcc",
-    version  => "4.6.2",
-    url      => "http://ftp.gnu.org/gnu/gcc/gcc-4.6.2/gcc-4.6.2.tar.gz",
+    version  => "4.7.1",
+    url      => "http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz",
 );
 
 our @ISA = ("Recipe");
@@ -41,6 +41,7 @@ our @ISA = ("Recipe");
         
 	sub depends { return qw( mpc ); }
 
-    sub md5  { return "56c5b2a0ca0d4f27a827548ce5cf4203"; }    
+    sub md5   { return "3d06e24570635c91eed6b114687513a6"; }    
+    sub sha1  { return "d13d669fcc8e44a2c35bbb0e68bbb00642af427f"; }    
 
 1;
