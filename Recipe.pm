@@ -464,6 +464,9 @@ our $AUTOLOAD;
 			if ( exists $ENV{CXX} )	{
                 print ">>> detected environment variable for C++ compiler -- CXX = '".$ENV{CXX}."'\n" if($self->verbose);
             }
+            if ( exists $ENV{FC} ) {
+                print ">>> detected environment variable for Fortan compiler -- FC = '".$ENV{FC}."'\n" if($self->verbose);
+            }
         }
 
 		# list of packages of which it depends
