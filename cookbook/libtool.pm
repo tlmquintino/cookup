@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "libtool",
-    version  => "2.4.2",
-	url      => "http://ftpmirror.gnu.org/libtool/libtool-2.4.2.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "libtool"; }
+    sub version    { return "2.4.2"; }
+    sub url        { return "http://ftpmirror.gnu.org/libtool/libtool-2.4.2.tar.gz"; }
 
     sub md5  { return "d2f3b7d4627e69e13514a40e72a24d50"; }    
 

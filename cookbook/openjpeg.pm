@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "openjpeg",
-    version  => "1.4.0",
-	url      => "http://openjpeg.googlecode.com/files/openjpeg_v1_4_sources_r697.tgz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,15 +26,18 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+	sub depends { return qw( cmake ); }
+
+    sub name       { return "openjpeg"; }
+    sub version    { return "1.5.0"; }
+    sub url        { return "http://openjpeg.googlecode.com/files/openjpeg-1.5.0.tar.gz"; }
+
+    sub md5   { return "e5d66193ddfa59a87da1eb08ea86293b"; }    
+    sub sha1  { return "dce705ae45f137e4698a8cf39d1fbf22bc434fa8"; }    
+
     sub configure_command {
         my $self = shift;
         return "cmake -DCMAKE_INSTALL_PREFIX=" . $self->prefix;
     }
-
-    sub package_dir { return "openjpeg_v1_4_sources_r697"; }
-
-	sub depends { return qw( cmake ); }
-
-    sub md5  { return "7870bb84e810dec63fcf3b712ebb93db"; }    
 
 1;

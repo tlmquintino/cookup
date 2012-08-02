@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "libxslt",
-    version  => "1.1.26",
-	url      => "http://xmlsoft.org/sources/libxslt-1.1.26.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -28,6 +24,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+    
+    sub name       { return "libxslt"; }
+    sub version    { return "1.1.26"; }
+    sub url        { return "http://xmlsoft.org/sources/libxslt-1.1.26.tar.gz"; }
     
     sub configure_command {
         my $self = shift;

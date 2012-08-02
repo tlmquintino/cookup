@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "jemalloc",
-    version  => "3.0.0",
-	url      => "http://www.canonware.com/download/jemalloc/jemalloc-3.0.0.tar.bz2",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "jemalloc"; }
+    sub version    { return "3.0.0"; }
+    sub url        { return "http://www.canonware.com/download/jemalloc/jemalloc-3.0.0.tar.bz2"; }
 
     sub md5  { return "f487fdf847c9834b22c2b7832cadc56f"; }    
 

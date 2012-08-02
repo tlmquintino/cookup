@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "libunwind",
-    version  => "1.0.1",
-	url      => "http://download.savannah.gnu.org/releases/libunwind/libunwind-1.0.1.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,6 +26,10 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub name       { return "libunwind"; }
+    sub version    { return "1.0.1"; }
+    sub url        { return "http://download.savannah.gnu.org/releases/libunwind/libunwind-1.0.1.tar.gz"; }
+    
     sub md5  { return "993e47cca7315e22239c3e0d987e94e0"; }    
 
 1;

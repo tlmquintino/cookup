@@ -11,9 +11,9 @@ use warnings;
 use Recipe;
 
 my %fields = (
-    name     => "zoltan",
-    version  => "3.6",
-    url      => "http://trilinos.sandia.gov/download/files/trilinos-10.12.1-Source.tar.gz",
+    name     => "",
+    version  => "",
+    url      => "",
 );
 
 our @ISA = ("Recipe");
@@ -30,6 +30,12 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub depends { return qw( cmake parmetis ); }
+
+    sub name       { return "zoltan"; }
+    sub version    { return "3.6"; }
+    sub url        { return "http://trilinos.sandia.gov/download/files/trilinos-10.12.1-Source.tar.gz"; }
+
     sub md5  { return "9bacdb888efc21986344b3f61ac845a8"; }
 
     sub source_dir {
@@ -42,7 +48,6 @@ our @ISA = ("Recipe");
         return sprintf "%s/%s", $self->source_dir,"zoltan_build";
     }
 
-    # string for the configure command
     sub configure_command {
       my $self = shift;
       return "cmake"
@@ -60,8 +65,5 @@ our @ISA = ("Recipe");
         ." -DZoltan_ENABLE_ParMETIS:BOOL=ON"
         ." ../";
     }
-    
-    # Dependencies
-    sub depends { return qw( cmake parmetis ); }
-        
+            
 1;

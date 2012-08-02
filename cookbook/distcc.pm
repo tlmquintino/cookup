@@ -10,16 +10,12 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "distcc",
-    version  => "3.1",
-	url      => "http://distcc.googlecode.com/files/distcc-3.1.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
     sub new
-		{
+	{
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -29,7 +25,11 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+    
+    sub name       { return "distcc"; }
+    sub version    { return "3.1"; }
+    sub url        { return "http://distcc.googlecode.com/files/distcc-3.1.tar.gz"; }
 
-        sub md5  { return "2f6be779869648f2d211ebf09f694715"; }    
+    sub md5  { return "2f6be779869648f2d211ebf09f694715"; }
 
 1;

@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "make",
-    version  => "3.82",
-	url      => "http://ftp.gnu.org/gnu/make/make-3.82.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,6 +26,10 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub name       { return "make"; }
+    sub version    { return "3.82"; }
+    sub url        { return "http://ftp.gnu.org/gnu/make/make-3.82.tar.gz"; }
+    
     sub md5   { return "7f7c000e3b30c6840f2e9cf86b254fac"; }    
     sub sha1  { return "92d1b87a30d1c9482e52fb4a68e8a355e7946331"; }    
 

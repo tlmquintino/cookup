@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "llvm",
-    version  => "3.1",
-    url      => "http://llvm.org/releases/3.1/llvm-3.1.src.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,12 +26,15 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub name       { return "llvm"; }
+    sub version    { return "3.1"; }
+    sub url        { return "http://llvm.org/releases/3.1/llvm-3.1.src.tar.gz"; }
+    
     sub md5   { return "16eaa7679f84113f65b12760fdfe4ee1"; }
     sub sha1  { return "234c96e73ef81aec9a54da92fc2a9024d653b059"; }
 
     sub package_dir { return "llvm-3.1.src"; }
 
-    # returns the path to the build dir
     sub build_dir {
         my $self = shift;
         my $pname = $self->package_name;

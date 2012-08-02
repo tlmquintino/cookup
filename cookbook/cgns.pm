@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "cgns",
-    version  => "3.1.3",
-    url      => "http://downloads.sourceforge.net/project/cgns/cgnslib_3.1/cgnslib_3.1.3-4.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,6 +26,10 @@ our @ISA = ("Recipe");
         return $self;
     }
     
+    sub name       { return "cgns"; }
+    sub version    { return "3.1.3"; }
+    sub url        { return "http://downloads.sourceforge.net/project/cgns/cgnslib_3.1/cgnslib_3.1.3-4.tar.gz"; }
+
     sub md5  { return "442bba32b576f3429cbd086af43fd4ae"; }
     
     sub depends { return qw( hdf5 cmake ); }

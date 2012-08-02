@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "boost",
-    version  => "1.49.0",
-	url      => "http://download.sourceforge.net/boost/boost_1_49_0.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+    
+    sub name       { return "boost"; }
+    sub version    { return "1.49.0"; }
+    sub url        { return "http://download.sourceforge.net/boost/boost_1_49_0.tar.gz"; }
 
 		sub package_dir { return "boost_1_49_0"; }
 

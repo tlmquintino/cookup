@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "trilinos",
-    version  => "10.12.1",
-    url      => "http://trilinos.sandia.gov/download/files/trilinos-10.12.1-Source.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,10 +26,51 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-    sub md5 { return "9bacdb888efc21986344b3f61ac845a8"; }
-
     sub depends { return qw( cmake openmpi parmetis hdf5 zlib ) };
 
+    sub name       { return "trilinos"; }
+    sub version    { return "10.12.1"; }
+    sub url        { return "http://trilinos.sandia.gov/download/files/trilinos-10.12.1-Source.tar.gz"; }
+
+    sub md5 { return "9bacdb888efc21986344b3f61ac845a8"; }
+
+    sub package_dir { return "trilinos-10.12.1-Source"; }
+    
+    sub build_dir {
+      my $self = shift;
+      return sprintf "%s/%s/build", $self->sandbox_dir, $self->package_dir;
+    }
+
+    sub configure_command {
+      my $self = shift;
+
+      my $opts = "-DCMAKE_BUILD_TYPE:STRING=RELEASE \\
+            -DCMAKE_VERBOSE_MAKEFILE=FALSE \\
+            -DBUILD_SHARED_LIBS=ON \\
+            -DTPL_ENABLE_MPI:BOOL=ON \\
+            -DTPL_ENABLE_BLAS=ON \\
+            -DTPL_ENABLE_LAPACK=ON \\
+            -DTPL_ENABLE_ParMETIS:BOOL=ON \\
+            -DTPL_ENABLE_HDF5:BOOL=ON \\
+            -DTPL_ENABLE_Zlib:BOOL=ON \\
+            -DTrilinos_VERBOSE_CONFIGURE=FALSE \\
+            -DTrilinos_ENABLE_Fortran=OFF \\
+            -DTrilinos_ENABLE_ALL_PACKAGES=ON \\
+            -DTrilinos_ENABLE_ALL_OPTIONAL_PACKAGES=ON \\
+            -DTrilinos_ENABLE_TESTS=OFF \\
+            -DZoltan_ENABLE_ULLONG_IDS:BOOL=ON \\
+            " ;
+
+       # Some things don't compile or link. Here are the fixes.
+       my $patches = "\\
+         -DCMAKE_SHARED_LINKER_FLAGS=-lhdf5 \\
+         -DML_ENABLE_ParMETIS:BOOL=OFF \\
+         ";
+
+     $opts = $opts . "-DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpic++";
+     return "cmake .. $opts $patches -DCMAKE_INSTALL_PREFIX:PATH=" . $self->prefix;
+   }
+   
 # possible third-party dependencies :
 # -----------------------------------
 # TPL_ENABLE_ADIC                    
@@ -102,44 +139,5 @@ our @ISA = ("Recipe");
 # TPL_ENABLE_gtest                   
 # TPL_ENABLE_y12m                    
 # TPL_ENABLE_yaml-cpp                
-
-    sub package_dir { return "trilinos-10.12.1-Source"; }
-    
-    # gets the path to the build dir
-    sub build_dir {
-      my $self = shift;
-      return sprintf "%s/%s/build", $self->sandbox_dir, $self->package_dir;
-    }
-
-    # string for the configure command
-    sub configure_command {
-      my $self = shift;
-
-      my $opts = "-DCMAKE_BUILD_TYPE:STRING=RELEASE \\
-            -DCMAKE_VERBOSE_MAKEFILE=FALSE \\
-            -DBUILD_SHARED_LIBS=ON \\
-            -DTPL_ENABLE_MPI:BOOL=ON \\
-            -DTPL_ENABLE_BLAS=ON \\
-            -DTPL_ENABLE_LAPACK=ON \\
-            -DTPL_ENABLE_ParMETIS:BOOL=ON \\
-            -DTPL_ENABLE_HDF5:BOOL=ON \\
-            -DTPL_ENABLE_Zlib:BOOL=ON \\
-            -DTrilinos_VERBOSE_CONFIGURE=FALSE \\
-            -DTrilinos_ENABLE_Fortran=OFF \\
-            -DTrilinos_ENABLE_ALL_PACKAGES=ON \\
-            -DTrilinos_ENABLE_ALL_OPTIONAL_PACKAGES=ON \\
-            -DTrilinos_ENABLE_TESTS=OFF \\
-            -DZoltan_ENABLE_ULLONG_IDS:BOOL=ON \\
-            " ;
-
-       # Some things don't compile or link. Here are the fixes.
-       my $patches = "\\
-         -DCMAKE_SHARED_LINKER_FLAGS=-lhdf5 \\
-         -DML_ENABLE_ParMETIS:BOOL=OFF \\
-         ";
-
-     $opts = $opts . "-DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpic++";
-     return "cmake .. $opts $patches -DCMAKE_INSTALL_PREFIX:PATH=" . $self->prefix;
-   }
 
 1;

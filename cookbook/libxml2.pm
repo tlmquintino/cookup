@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "libxml2",
-    version  => "2.8.0",
-    url      => "http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "libxml2"; }
+    sub version    { return "2.8.0"; }
+    sub url        { return "http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz"; }
 
     sub md5  { return "c62106f02ee00b6437f0fb9d370c1093"; }    
 

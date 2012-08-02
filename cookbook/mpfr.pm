@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "mpfr",
-    version  => "3.1.0",
-    url      => "http://www.mpfr.org/mpfr-current/mpfr-3.1.0.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -31,6 +27,10 @@ our @ISA = ("Recipe");
     }
     
 	sub depends { return qw( gmp ); }
+
+    sub name       { return "mpfr"; }
+    sub version    { return "3.1.0"; }
+    sub url        { return "http://www.mpfr.org/mpfr-current/mpfr-3.1.0.tar.gz"; }
 
     sub md5  { return "10968131acc26d79311ac4f8982ff078"; }    
 

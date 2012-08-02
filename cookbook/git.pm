@@ -10,16 +10,12 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "git",
-    version  => "1.7.11.3",
-	url      => "http://git-core.googlecode.com/files/git-1.7.11.3.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
     sub new
-		{
+	{
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -29,7 +25,11 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
-    
+
+    sub name       { return "git"; }
+    sub version    { return "1.7.11.3"; }
+    sub url        { return "http://git-core.googlecode.com/files/git-1.7.11.3.tar.gz"; }
+        
     sub md5  { return "23caacd9f3f421b6c05b40796df3505d"; }
     sub sha1 { return "a10c420e4d9152d6059f41825904cfac3062b135"; }
 

@@ -14,7 +14,7 @@ but it aims to be simpler and not as complete.
 
 It is a tool with minimal requirements to build and install software on super computers 
 and clusters that often do not have Ruby or Python. Somewhat old versions of Perl seem
-to be always available on such HPC systems.
+to be always available on such HPC systems, so 
 
 The initial code for cookup was based on the install-deps.pl script from the
 http://github.com/coolfluid/coolfluid3 project, but improved with object oriented perl features.

@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "jasper",
-    version  => "1.900.1",
-	url      => "http://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "jasper"; }
+    sub version    { return "1.900.1"; }
+    sub url        { return "http://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip"; }
 
     sub md5  { return "a342b2b4495b3e1394e161eb5d85d754"; }    
 

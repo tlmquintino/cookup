@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "ccache",
-    version  => "3.1.7",
-	url      => "http://samba.org/ftp/ccache/ccache-3.1.7.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "ccache"; }
+    sub version    { return "3.1.7"; }
+    sub url        { return "http://samba.org/ftp/ccache/ccache-3.1.7.tar.gz"; }
 
     sub md5  { return "bf49574730fabd666fc7ec3f8b203f41"; }    
 

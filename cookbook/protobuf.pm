@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "protobuf",
-    version  => "2.4.1",
-	url      => "http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "protobuf"; }
+    sub version    { return "2.4.1"; }
+    sub url        { return "http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz"; }
 
     sub md5  { return "dc84e9912ea768baa1976cb7bbcea7b5"; }    
 

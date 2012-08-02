@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "libpng",
-    version  => "1.5.6",
-	url      => "http://download.sourceforge.net/libpng/libpng-1.5.6.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "libpng"; }
+    sub version    { return "1.5.6"; }
+    sub url        { return "http://download.sourceforge.net/libpng/libpng-1.5.6.tar.gz"; }
 
     sub md5  { return "8b0c05ed12637ee1f060ddfbbf526ea3"; }    
 

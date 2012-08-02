@@ -10,16 +10,12 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "readline",
-    version  => "6.2",
-	url      => "http://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
     sub new
-		{
+	{
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "readline"; }
+    sub version    { return "6.2"; }
+    sub url        { return "http://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz"; }
 
     sub md5  { return "67948acb2ca081f23359d0256e9a271c"; }    
 

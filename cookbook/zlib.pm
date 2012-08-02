@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "zlib",
-    version  => "1.2.7",
-    url      => "http://zlib.net/zlib-1.2.7.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "zlib"; }
+    sub version    { return "1.2.7"; }
+    sub url        { return "http://zlib.net/zlib-1.2.7.tar.gz"; }
 
     sub md5  { return "60df6a37c56e7c1366cca812414f7b85"; }
 

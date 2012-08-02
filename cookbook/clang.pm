@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "clang",
-    version  => "3.1",
-    url      => "http://llvm.org/releases/3.1/clang-3.1.src.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,12 +26,17 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub depends { return qw( llvm ); }
+
+    sub name       { return "clang"; }
+    sub version    { return "3.1"; }
+    sub url        { return "http://llvm.org/releases/3.1/clang-3.1.src.tar.gz"; }
+
     sub md5   { return "59bf2d3120a3805f27cafda3823caaf8"; }
     sub sha1  { return "19f33b187a50d22fda2a6f9ed989699a9a9efd62"; }
 
     sub package_dir { return "clang-3.1.src"; }
 
-    # returns the path to the build dir
     sub build_dir {
         my $self = shift;
         my $pname = $self->package_name;
@@ -46,7 +47,5 @@ our @ISA = ("Recipe");
         my $self = shift;
         return "cmake .. -DCMAKE_BUILD_TYPE=Release -DCLANG_PATH_TO_LLVM_BUILD=".$self->prefix." -DCMAKE_INSTALL_PREFIX:PATH=".$self->prefix;
     }
-
-    sub depends { return qw( llvm ); }
 
 1;

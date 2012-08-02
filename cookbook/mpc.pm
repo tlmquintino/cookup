@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "mpc",
-    version  => "0.9",
-    url      => "http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,6 +26,10 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub name       { return "mpc"; }
+    sub version    { return "0.9"; }
+    sub url        { return "http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"; }
+    
 	sub depends { return qw( mpfr ); }
 
     sub md5  { return "0d6acab8d214bd7d1fbbc593e83dd00d"; }    

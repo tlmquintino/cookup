@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "gtest",
-    version  => "1.6.0",
-	url      => "http://googletest.googlecode.com/files/gtest-1.6.0.zip",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,11 +26,15 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub name       { return "gtest"; }
+    sub version    { return "1.6.0"; }
+    sub url        { return "http://googletest.googlecode.com/files/gtest-1.6.0.zip"; }
+
+    sub md5  { return "4577b49f2973c90bf9ba69aa8166b786"; }    
+
     sub configure_command {
         my $self = shift;
         return "cmake"; # gtest does not install
     }
-
-    sub md5  { return "4577b49f2973c90bf9ba69aa8166b786"; }    
-
+    
 1;

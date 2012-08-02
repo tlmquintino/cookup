@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "openssl",
-    version  => "1.0.0e",
-	url      => "http://www.openssl.org/source/openssl-1.0.0e.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,11 +26,15 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub name       { return "openssl"; }
+    sub version    { return "1.0.0e"; }
+    sub url        { return "http://www.openssl.org/source/openssl-1.0.0e.tar.gz"; }
+
+    sub md5  { return "7040b89c4c58c7a1016c0dfa6e821c86"; }    
+
 	sub configure_command {
 		my $self = shift;
 		return "./config --prefix=" . $self->prefix;
 	}
-
-    sub md5  { return "7040b89c4c58c7a1016c0dfa6e821c86"; }    
 
 1;

@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "rapidjson",
-    version  => "0.1",
-    url      => "http://rapidjson.googlecode.com/files/rapidjson-0.1.zip",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,12 +26,18 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub name       { return "rapidjson"; }
+    sub version    { return "0.1"; }
+    sub url        { return "http://rapidjson.googlecode.com/files/rapidjson-0.1.zip"; }
+
     sub md5  { return "652c9829cb901425c8383b5eeaa2af9a"; }    
     
     sub package_dir { return "rapidjson"; }
             
     # header only so we copy the headers and that is it !
+
     sub configure {}
+
     sub build {}
     
     sub install {

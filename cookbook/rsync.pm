@@ -10,16 +10,12 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "rsync",
-    version  => "3.0.9",
-	url      => "http://rsync.samba.org/ftp/rsync/src/rsync-3.0.9.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
     sub new
-		{
+	{
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "rsync"; }
+    sub version    { return "3.0.9"; }
+    sub url        { return "http://rsync.samba.org/ftp/rsync/src/rsync-3.0.9.tar.gz"; }
 
     sub md5  { return "5ee72266fe2c1822333c407e1761b92b"; }    
 

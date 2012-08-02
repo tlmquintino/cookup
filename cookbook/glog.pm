@@ -10,16 +10,12 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "glog",
-    version  => "0.3.2",
-	url      => "http://google-glog.googlecode.com/files/glog-0.3.2.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
     sub new
-		{
+	{
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -29,6 +25,10 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub name       { return "glog"; }
+    sub version    { return "0.3.2"; }
+    sub url        { return "http://google-glog.googlecode.com/files/glog-0.3.2.tar.gz"; }
 
     sub md5  { return "897fbff90d91ea2b6d6e78c8cea641cc"; }    
 

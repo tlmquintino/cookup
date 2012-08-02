@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "gperftools",
-    version  => "2.0",
-	url      => "http://gperftools.googlecode.com/files/gperftools-2.0.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,6 +26,10 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub name       { return "gperftools"; }
+    sub version    { return "2.0"; }
+    sub url        { return "http://gperftools.googlecode.com/files/gperftools-2.0.tar.gz"; }
+    
     sub md5  { return "13f6e8961bc6a26749783137995786b6"; }    
 
 1;

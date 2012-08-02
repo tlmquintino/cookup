@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "gcc",
-    version  => "4.7.1",
-    url      => "http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,18 +26,22 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-		sub configure_command {
-			my $self = shift;
-			return "./configure --enable-languages=c,c++,fortran".
+	sub depends { return qw( mpc ); }
+
+    sub name       { return "gcc"; }
+    sub version    { return "4.7.1"; }
+    sub url        { return "http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz"; }
+    
+    sub md5   { return "3d06e24570635c91eed6b114687513a6"; }    
+    sub sha1  { return "d13d669fcc8e44a2c35bbb0e68bbb00642af427f"; }    
+
+    sub configure_command {
+		my $self = shift;
+		return "./configure --enable-languages=c,c++,fortran".
                    " --with-gmp=".$self->prefix.
                    " --with-mpfr=".$self->prefix.
                    " --with-mpc=".$self->prefix.
                    " --prefix=" . $self->prefix;
-		}
+	}
         
-	sub depends { return qw( mpc ); }
-
-    sub md5   { return "3d06e24570635c91eed6b114687513a6"; }    
-    sub sha1  { return "d13d669fcc8e44a2c35bbb0e68bbb00642af427f"; }    
-
 1;

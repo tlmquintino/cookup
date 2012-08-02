@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "flex",
-    version  => "2.5.35",
-	url      => "http://download.sourceforge.net/flex/flex-2.5.35.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,6 +26,10 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-        sub md5  { return "201d3f38758d95436cbc64903386de0b"; }    
+    sub name       { return "flex"; }
+    sub version    { return "2.5.35"; }
+    sub url        { return "http://download.sourceforge.net/flex/flex-2.5.35.tar.gz"; }
+    
+    sub md5  { return "201d3f38758d95436cbc64903386de0b"; }    
 
 1;

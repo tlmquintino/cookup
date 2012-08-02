@@ -20,10 +20,8 @@ our $AUTOLOAD;
 
     my %fields =
 		(
-            name         => undef,
             url          => undef,
             version      => undef,
-            package_name => undef,
             sandbox      => undef,
             prefix       => undef,
             verbose      => 0,
@@ -48,15 +46,15 @@ our $AUTOLOAD;
     sub AUTOLOAD {
         my $self = shift;
         my $type = ref($self) or croak "$self is not an object";
-        my $name = $AUTOLOAD;
-        $name =~ s/.*://;   # strip fully-qualified portion
-        unless (exists $self->{_permitted}->{$name} ) {
-            croak "Can't access `$name' field in class $type";
+        my $vname = $AUTOLOAD;
+        $vname =~ s/.*://;   # strip fully-qualified portion
+        unless (exists $self->{_permitted}->{$vname} ) {
+            croak "Can't access `$vname' field in class $type";
         }
         if (@_) {
-            return $self->{$name} = shift; # works as mutator
+            return $self->{$vname} = shift; # works as mutator
         } else {
-            return $self->{$name};         # works as accessor
+            return $self->{$vname};         # works as accessor
         }
     }
 
@@ -130,41 +128,35 @@ our $AUTOLOAD;
 ## public methods
 
 
-		# returns the package name or $name-$version is undef
-    sub package_name {
+    # returns the package name
+    sub package_name { 
         my $self = shift;
-        if (@_) { return $self->{package_name} = shift }
-				else {
-					if($self->{package_name})
-					{ return $self->{package_name}; }
-					else
-					{ return sprintf "%s-%s", $self->name, $self->version; }
-				}
+        return sprintf "%s-%s", $self->name, $self->version; 
     }
 
-		# by default package_dir is same as $package_name
+	# by default package_dir is same as $package_name
     sub package_dir {
         my $self = shift;
-				return $self->package_name;
+		return $self->package_name;
     }
 
-		# returns sandbox dir and ensures it exists
+	# returns sandbox dir and ensures it exists
     sub sandbox_dir {
         my $self = shift;
-				my $sandbox = $self->sandbox;
-				if($sandbox) {
-					mkpath $sandbox unless( -e $sandbox );
-				} else { die "no sandbox defined for " . $self->package_name; }
-				return $sandbox;
+		my $sandbox = $self->sandbox;
+		if($sandbox) {
+			mkpath $sandbox unless( -e $sandbox );
+		} else { die "no sandbox defined for " . $self->package_name; }
+		return $sandbox;
     }
 
-		# gets the path to the build dir - usually the same as source dir
+	# gets the path to the build dir - usually the same as source dir
     sub build_dir {
         my $self = shift;
         return $self->source_dir;
     }
     
-		# gets the path to the source dir
+	# gets the path to the source dir
     sub source_dir {
         my $self = shift;
 				my $pname = $self->package_name;
