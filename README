@@ -1,6 +1,7 @@
-cookup 0.1
+cookup
 
-DESCRIPTION
+Description
+===========
 
 Easy build from source and install tool for UNIX platforms (using perl)
 
