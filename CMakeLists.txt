@@ -81,7 +81,7 @@ add_custom_target( scripts ALL
       cookbook/zoltan.pm
       cookup.pl
       Recipe.pm
-      README
+      README.md
       LICENSE
 )
 

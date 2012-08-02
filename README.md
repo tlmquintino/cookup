@@ -1,11 +1,13 @@
-cookup
+CookUp
+======
 
 Description
-===========
+-----------
 
 Easy build from source and install tool for UNIX platforms (using perl)
 
-RATIONALE
+Rationale
+---------
 
 Cookup was inspired on homebrew (https://github.com/mxcl/homebrew) for MacOSX
 but it aims to be simpler and not as complete.
@@ -19,14 +21,16 @@ http://github.com/coolfluid/coolfluid3 project, but improved with object oriente
 
 In cookup each package is cooked (built & installed) following a recipe which is a simple Perl class (homebrew brews formulas, cookup cooks recipes).
 
-REQUIEREMENTS
+Requierements
+-------------
 
 * C/C++ compiler
 * Perl 5
 
 * Fortan compiler [optional]
 
-AVAILABLE RECIPES
+Available Recipes
+-----------------
 
 https://github.com/tlmquintino/cookup/tree/master/cookbook
 
