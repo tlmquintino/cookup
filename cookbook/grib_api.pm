@@ -10,13 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "grib_api",
-    version  => "1.9.9",
-		url      => "http://www.ecmwf.int/products/data/software/download/software_files/grib_api-1.9.9.tar.gz",
-		md5      => "fe6c684e4a41477f3a6e97ab8892f35d",
-#   requires => "jasper,libpng"
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -32,10 +26,18 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-		sub configure_command {
-			my $self = shift;
-			# TODO: should check here for variants of the build
-			return "./configure --disable-jpeg --disable-fortran CFLAGS='-fPIC' --prefix=" . $self->prefix;
-		}
+	# sub depends { return qw( jasper libpng ); }
+
+    sub name       { return "grib_api"; }
+    sub version    { return "1.9.9"; }
+    sub url        { return "http://www.ecmwf.int/products/data/software/download/software_files/grib_api-1.9.9.tar.gz"; }
+    
+    sub md5 { return "fe6c684e4a41477f3a6e97ab8892f35d"; }
+
+    sub configure_command {
+        my $self = shift;
+		#TODO: should check here for variants of the build
+		return "./configure --disable-jpeg --disable-fortran CFLAGS='-fPIC' --prefix=" . $self->prefix;
+	}
 
 1;

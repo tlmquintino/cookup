@@ -25,6 +25,8 @@ our @ISA = ("Recipe");
         return $self;
     }
     
+	sub depends { return qw( libxml2 ); }
+
     sub name       { return "libxslt"; }
     sub version    { return "1.1.26"; }
     sub url        { return "http://xmlsoft.org/sources/libxslt-1.1.26.tar.gz"; }
@@ -33,8 +35,6 @@ our @ISA = ("Recipe");
         my $self = shift;
 		return "./configure --with-libxml-prefix=" . $self->prefix . " --prefix=" . $self->prefix;
 	}
-    
-	sub depends { return qw( libxml2 ); }
 
     sub md5  { return "e61d0364a30146aaa3001296f853b2b9"; }    
 

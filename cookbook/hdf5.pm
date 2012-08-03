@@ -10,11 +10,7 @@ use warnings;
 
 use Recipe;
 
-my %fields = (
-    name     => "hdf5",
-    version  => "1.8.9",
-    url      => "http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz",
-);
+my %fields = ();
 
 our @ISA = ("Recipe");
 
@@ -30,10 +26,14 @@ our @ISA = ("Recipe");
         return $self;
     }
 
+    sub depends { return qw( openmpi zlib ); }
+
+    sub name       { return "hdf5"; }
+    sub version    { return "1.8.9"; }
+    sub url        { return "http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz"; }
+
     sub md5  { return "d1266bb7416ef089400a15cc7c963218"; }
     sub sha1 { return "4ba3ede947b1571e9586fdeb8351d6585a56133c"; }
-
-    sub depends { return qw( openmpi zlib ); }
 
     sub pre_build {
         my $self = shift;
