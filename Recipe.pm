@@ -19,7 +19,7 @@ our $AUTOLOAD;
 ## member fields
 
     my %fields =
-		(
+    (
             url          => undef,
             version      => undef,
             sandbox      => undef,
@@ -450,14 +450,21 @@ our $AUTOLOAD;
 		# hook for prebuild
 		sub setup_variables {
             my $self = shift;
-            if ( exists $ENV{CC} ) {
+            
+            $ENV{'F77'}  = $ENV{'FC'}  if( exists $ENV{'FC'}  and ! exists $ENV{'F77'} );
+            $ENV{'FC'}   = $ENV{'F77'} if( exists $ENV{'F77'} and ! exists $ENV{'FC'}  );
+
+            if ( exists $ENV{'CC'} ) {
                 print ">>> detected environment variable for C compiler -- CC = '".$ENV{CC}."'\n" if($self->verbose);
             }
-			if ( exists $ENV{CXX} )	{
-                print ">>> detected environment variable for C++ compiler -- CXX = '".$ENV{CXX}."'\n" if($self->verbose);
+			if ( exists $ENV{'CXX'} )	{
+                print ">>> detected environment variable for C++ compiler -- CXX = '".$ENV{'CXX'}."'\n" if($self->verbose);
             }
-            if ( exists $ENV{FC} ) {
-                print ">>> detected environment variable for Fortan compiler -- FC = '".$ENV{FC}."'\n" if($self->verbose);
+            if ( exists $ENV{'FC'} ) {
+                print ">>> detected environment variable for Fortan compiler -- FC = '".$ENV{'FC'}."'\n" if($self->verbose);
+            }
+            if ( exists $ENV{'F77'} ) {
+                print ">>> detected environment variable for Fortan compiler -- F77 = '".$ENV{'F77'}."'\n" if($self->verbose);
             }
         }
 

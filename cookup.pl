@@ -42,20 +42,19 @@ my @package_list = ();
 sub parse_commandline() # Parse command line
 {
     GetOptions ( \%options,
-      'prefix=s',
-      'sandbox=s',
-      'cookbook=s',
-      'prefix=s',
-      'help',
-      'dry-run',
-      'verbose',
-      'debug',
-      'nodeps',
-      'list',
-      'download',
-      'unpack',
-      'cook',
-      'packages=s@',
+        'download',
+        'unpack',
+        'cook',
+        'help',
+        'verbose',
+        'debug',
+        'nodeps',
+        'list',
+        'dry-run',
+        'prefix=s',
+        'cookbook=s',
+        'sandbox=s',
+        'packages=s@',
     );
 
     # show help if required
@@ -78,7 +77,7 @@ options:
         --nodeps            don't check dependencies
         --list              list all the recipes in the cookbook
         --dry-run           don't actually do it, just list the packages that would be cooked
-        --prefix            install dir prefix (same as --install-dir) [$default_prefix]
+        --prefix            install dir prefix [$default_prefix]
         --cookbook          use directory as cookbook [$default_cookbook]
         --sandbox           use directory as sandbox for building [$default_sandbox]
         --packages=list     comma separated list of packages to apply actions on
@@ -180,8 +179,12 @@ sub process_one_package
         $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
         $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
     
+        print " ***** options{prefix} = ".$options{prefix}."\n";
+
         $recipe->prefix ( $options{prefix } );
         $recipe->sandbox( $options{sandbox} );
+
+        print " ***** recipe->{prefix} = ".$recipe->prefix()."\n";
     
         $recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
         $recipe->unpack_src()   unless ( !exists $options{unpack} );
@@ -257,9 +260,15 @@ sub process_packages_list
 # Main execution
 #==============================================================================
 
+        print " ***** options{prefix} = ".$options{'prefix'}."\n";
+
 parse_commandline();
 
+        print " ***** options{prefix} = ".$options{'prefix'}."\n";
+
 prepare();
+
+        print " ***** options{prefix} = ".$options{prefix}."\n";
 
 push @INC, Cwd::abs_path(dirname(__FILE__)); # Recipe class is in same dir as the script
 push @INC, $options{cookbook};

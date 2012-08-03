@@ -36,8 +36,11 @@ our @ISA = ("Recipe");
 
     sub configure_command {
         my $self = shift;
-		#TODO: should check here for variants of the build
-		return "./configure --disable-jpeg --disable-fortran CFLAGS='-fPIC' --prefix=" . $self->prefix;
+        my $fopts = "--disable-fortran";
+        if ( exists $ENV{'FC'} or exists $ENV{'F77'} ) {
+            $fopts = "--enable-fortran"
+        }
+		return "./configure --disable-jpeg $fopts CFLAGS='-fPIC' --prefix=" . $self->prefix;
 	}
 
 1;
