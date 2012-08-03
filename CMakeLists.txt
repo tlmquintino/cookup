@@ -55,6 +55,7 @@ add_custom_target( scripts ALL
         cookbook/gmp.pm
         cookbook/gperftools.pm
         cookbook/grib_api.pm
+        cookbook/grib_api_1_9_9.pm
         cookbook/gtest.pm
         cookbook/hdf5.pm
         cookbook/jasper.pm

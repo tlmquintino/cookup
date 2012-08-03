@@ -29,16 +29,17 @@ our @ISA = ("Recipe");
 	# sub depends { return qw( jasper libpng ); }
 
     sub name       { return "grib_api"; }
-    sub version    { return "1.9.9"; }
-    sub url        { return "http://www.ecmwf.int/products/data/software/download/software_files/grib_api-1.9.9.tar.gz"; }
+    sub version    { return "1.9.16"; }
+    sub url        { return "http://www.ecmwf.int/products/data/software/download/software_files/grib_api-1.9.16.tar.gz"; }
     
-    sub md5 { return "fe6c684e4a41477f3a6e97ab8892f35d"; }
+    sub md5  { return "f1288627031c97fa1631fd5a63e3bbb3"; }         
+    sub sha1 { return "fd85e8b939231d4d8f9dc3131fa0aab73fbbcf78"; } 
 
     sub configure_command {
         my $self = shift;
         my $fopts = "--disable-fortran";
         if ( exists $ENV{'FC'} or exists $ENV{'F77'} ) {
-            $fopts = "--enable-fortran"
+            $fopts = "" ; # don't say anything as it is the default
         }
 		return "./configure --disable-jpeg $fopts CFLAGS='-fPIC' --prefix=" . $self->prefix;
 	}

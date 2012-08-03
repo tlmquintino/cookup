@@ -16,6 +16,7 @@ use Cwd;
 use Getopt::Long;
 use File::Find;
 use File::Basename;
+use File::Path;
 use Data::Dumper;
 
 no warnings 'File::Find'; # dont issue warnings for 'weird' files
@@ -60,7 +61,7 @@ sub parse_commandline() # Parse command line
     # show help if required
     if( exists $options{help} )
     {
-      print <<ZZZ;
+        print <<ZZZ;
 cookup.pl : easy build and install for UNIX platforms
 
 usage: cookup.pl <action> [options]
@@ -85,7 +86,7 @@ options:
 EXAMPLE:
   cookup.pl --cook --packages=wget
 ZZZ
-    exit(0);
+        exit(0);
     }
 
       if( exists $options{packages} ) # process comma separated list
@@ -94,14 +95,21 @@ ZZZ
           # print "@packages\n";
           $options{packages} = \@packages;
       }
+      
+      my $prefix   = $options{'prefix'};
+      my $sandbox  = $options{'sandbox'};
+      my $cookbook = $options{'cookbook'};
 
-  # resolve relative paths to absolute paths
-       die "bad path '".$options{prefix}."'\n" unless ( defined (Cwd::abs_path( $options{prefix} ) ) );
-       $options{prefix}   = Cwd::abs_path( $options{prefix}  );
-       die "bad path '".$options{sandbox}."'\n" unless ( defined (Cwd::abs_path( $options{sandbox} ) ) );
-       $options{sandbox}  = Cwd::abs_path( $options{sandbox} );
-       die "bad path '".$options{cookbook}."'\n" unless ( defined (Cwd::abs_path( $options{cookbook} ) ) );
-       $options{cookbook} = Cwd::abs_path( $options{cookbook});
+      # create prefix dir if does not exist
+      mkpath $prefix unless ( -w $prefix );
+
+      # resolve relative paths to absolute paths
+      die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix and -d $prefix );
+      $prefix   = Cwd::abs_path( $prefix  );
+      die "cannot write to directory '".$sandbox."'\n" unless ( -w $sandbox and -d $sandbox );
+      $sandbox  = Cwd::abs_path( $sandbox );
+      die "cannot read from directory '".$cookbook."'\n" unless ( -d $cookbook and -r $cookbook );
+      $cookbook = Cwd::abs_path( $cookbook);
 }
 
 #==============================================================================
@@ -116,25 +124,34 @@ sub prepare()
     my $ldpath  = $ENV{LD_LIBRARY_PATH}; $ldpath = "" unless ($ldpath);
     my $dypath  = $ENV{DYLD_LIBRARY_PATH}; $dypath = "" unless ($dypath);
     
-    $ENV{PATH}              = $options{prefix}."/bin:".$path;
-    $ENV{LIBPATH}           = $options{prefix}."/lib:".$libpath;
-    $ENV{LD_LIBRARY_PATH}   = $options{prefix}."/lib:".$ldpath;
-    $ENV{DYLD_LIBRARY_PATH} = $options{prefix}."/lib:".$dypath;
+    my $prefix   = $options{'prefix'};
+
+    $ENV{PATH}              = $prefix."/bin:".$path;
+    $ENV{LIBPATH}           = $prefix."/lib:".$libpath;
+    $ENV{LD_LIBRARY_PATH}   = $prefix."/lib:".$ldpath;
+    $ENV{DYLD_LIBRARY_PATH} = $prefix."/lib:".$dypath;
 }
 
 #==============================================================================
 
 sub found_recipe
 {
-    my ($name,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
-    #print "path [$path] name [$name] suffix [$suffix]\n";
+    my ($fname,$path,$suffix) = fileparse($_, qr/\.[^.]*/);
+    #print "path [$path] name [$fname] suffix [$suffix]\n";
     if( $suffix eq ".pm")
     {
-        require "$name$suffix";
-        my $recipe  = $name->new();
+        require "$fname$suffix";
+
+        my $recipe  = $fname->new();
+        my $name    = $recipe->name();
         my $version = $recipe->version();
-        $recipes{$name} = $recipe;
-        if( $options{debug} ) { print "> found recipe for " . $recipe->name . "-" . $version . "\n" }
+        my $namevrs = "$name-$version";
+
+        $recipes{$name} = $recipe if( $fname eq $name ); # add if is the master version
+        
+        $recipes{$namevrs} = $recipe;
+        
+        print "> found recipe for " . $recipe->name . "-" . $version . "\n" if( $options{debug} );
     }
 }
 
@@ -179,12 +196,8 @@ sub process_one_package
         $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
         $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
     
-        print " ***** options{prefix} = ".$options{prefix}."\n";
-
         $recipe->prefix ( $options{prefix } );
         $recipe->sandbox( $options{sandbox} );
-
-        print " ***** recipe->{prefix} = ".$recipe->prefix()."\n";
     
         $recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
         $recipe->unpack_src()   unless ( !exists $options{unpack} );
@@ -260,15 +273,9 @@ sub process_packages_list
 # Main execution
 #==============================================================================
 
-        print " ***** options{prefix} = ".$options{'prefix'}."\n";
-
 parse_commandline();
 
-        print " ***** options{prefix} = ".$options{'prefix'}."\n";
-
 prepare();
-
-        print " ***** options{prefix} = ".$options{prefix}."\n";
 
 push @INC, Cwd::abs_path(dirname(__FILE__)); # Recipe class is in same dir as the script
 push @INC, $options{cookbook};
