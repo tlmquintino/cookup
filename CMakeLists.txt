@@ -87,7 +87,7 @@ add_custom_target( scripts ALL
         LICENSE
 )
 
-set(CPACK_PACKAGE_VERSION   "0.2.5")
+set(CPACK_PACKAGE_VERSION   "0.2.6")
 set(CPACK_SOURCE_IGNORE_FILES 
         /build/
         /\\\\.git/
