@@ -451,19 +451,19 @@ our $AUTOLOAD;
 		sub setup_variables {
             my $self = shift;
             
-            $ENV{'F77'}  = $ENV{'FC'}  if( exists $ENV{'FC'}  and ! exists $ENV{'F77'} );
-            $ENV{'FC'}   = $ENV{'F77'} if( exists $ENV{'F77'} and ! exists $ENV{'FC'}  );
+            $ENV{'F77'} = $ENV{'FC'}  if( (defined($ENV{'FC'})  and $ENV{'FC'}  ne "") and ( !defined($ENV{'F77'}) or $ENV{'F77'} eq "") );
+            $ENV{'FC'}  = $ENV{'F77'} if( (defined($ENV{'F77'}) and $ENV{'F77'} ne "") and ( !defined($ENV{'FC'})  or $ENV{'FC'}  eq "") );
 
-            if ( exists $ENV{'CC'} ) {
-                print ">>> detected environment variable for C compiler -- CC = '".$ENV{CC}."'\n" if($self->verbose);
+            if ( defined($ENV{'CC'}) and $ENV{'CC'} ne "" ) {
+                print ">>> detected environment variable for C compiler -- CC = '".$ENV{'CC'}."'\n" if($self->verbose);
             }
-			if ( exists $ENV{'CXX'} )	{
+            if ( defined($ENV{'CXX'}) and $ENV{'CXX'} ne "" ) {
                 print ">>> detected environment variable for C++ compiler -- CXX = '".$ENV{'CXX'}."'\n" if($self->verbose);
             }
-            if ( exists $ENV{'FC'} ) {
+            if ( defined($ENV{'FC'}) and $ENV{'FC'} ne "" ) {
                 print ">>> detected environment variable for Fortan compiler -- FC = '".$ENV{'FC'}."'\n" if($self->verbose);
             }
-            if ( exists $ENV{'F77'} ) {
+            if ( defined($ENV{'F77'}) and $ENV{'F77'} ne "" ) {
                 print ">>> detected environment variable for Fortan compiler -- F77 = '".$ENV{'F77'}."'\n" if($self->verbose);
             }
         }
