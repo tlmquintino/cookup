@@ -3,7 +3,7 @@
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 
-package cmake;
+package git_1_7_11_3;
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ my %fields = ();
 our @ISA = ("Recipe");
 
     sub new
-		{
+	{
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -26,16 +26,10 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-    sub name       { return "cmake"; }
-    sub version    { return "2.8.9"; }
-    sub url        { return "http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz"; }
-    
-    sub md5   { return "801f4c87f8b604f727df5bf1f05a59e7"; }    
-    sub sha1  { return "b96663c0757a5edfbddc410aabf7126a92131e2b"; }    
-
-	sub configure_command {
-		my $self = shift;
-		return "./bootstrap --prefix=" . $self->prefix;
-	}
+    sub version    { return "1.7.11.3"; }
+    sub url        { return "http://git-core.googlecode.com/files/git-1.7.11.3.tar.gz"; }
+        
+    sub md5  { return "23caacd9f3f421b6c05b40796df3505d"; }
+    sub sha1 { return "a10c420e4d9152d6059f41825904cfac3062b135"; }
 
 1;

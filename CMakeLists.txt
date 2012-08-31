@@ -38,6 +38,8 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( cookup )
 
+set(CPACK_PACKAGE_VERSION   "0.2.11")
+
 add_custom_target( scripts ALL
   SOURCES
         cookbook/bison.pm
@@ -46,11 +48,13 @@ add_custom_target( scripts ALL
         cookbook/cgns.pm
         cookbook/clang.pm
         cookbook/cmake.pm
+        cookbook/cmake_2_8_8.pm
         cookbook/curl.pm
         cookbook/distcc.pm
         cookbook/flex.pm
         cookbook/gcc.pm
         cookbook/git.pm
+        cookbook/git_1_7_11_3.pm
         cookbook/glog.pm
         cookbook/gmp.pm
         cookbook/gperftools.pm
@@ -68,6 +72,7 @@ add_custom_target( scripts ALL
         cookbook/llvm.pm
         cookbook/m4.pm
         cookbook/make.pm
+        cookbook/metis.pm
         cookbook/mpc.pm
         cookbook/mpfr.pm
         cookbook/openjpeg.pm
@@ -88,7 +93,6 @@ add_custom_target( scripts ALL
         LICENSE
 )
 
-set(CPACK_PACKAGE_VERSION   "0.2.9")
 set(CPACK_SOURCE_IGNORE_FILES 
         /build/
         /\\\\.git/

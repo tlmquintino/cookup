@@ -3,7 +3,7 @@
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 
-package cmake;
+package metis;
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ my %fields = ();
 our @ISA = ("Recipe");
 
     sub new
-		{
+    {
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -26,16 +26,18 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-    sub name       { return "cmake"; }
-    sub version    { return "2.8.9"; }
-    sub url        { return "http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz"; }
-    
-    sub md5   { return "801f4c87f8b604f727df5bf1f05a59e7"; }    
-    sub sha1  { return "b96663c0757a5edfbddc410aabf7126a92131e2b"; }    
+    sub depends { return qw( cmake ); }
 
-	sub configure_command {
-		my $self = shift;
-		return "./bootstrap --prefix=" . $self->prefix;
-	}
+    sub name       { return "metis"; }
+    sub version    { return "5.0.2"; }
+    sub url        { return "http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.0.2.tar.gz"; }
+
+    sub md5  { return "acb521a4e8c2e6dd559a7f9abd0468c5"; }    
+    sub sha1 { return "b5a278fa06c581e068a8296d158576a4b750f983"; }    
+
+    sub configure_command {
+      my $self = shift;
+      return "make config shared=1 prefix=" . $self->prefix;
+    }
 
 1;
