@@ -175,7 +175,7 @@ sub list_available_recipes
       my $recipe = $recipes{$package};
       my $package_name = $recipe->package_name;
       print "$package_name";
-      print " ( $recipe->url )" if( exists $options{verbose} );
+      print " ( ".$recipe->url()." )" if( exists $options{verbose} );
       print "\n";
   }
 }
