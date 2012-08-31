@@ -14,7 +14,6 @@
 #  * blas / lapack
 #  * atlas
 #  * netcdf - http://www.unidata.ucar.edu/software/netcdf
-#  * cgal - http://www.cgal.org
 #  * gmsh - http://geuz.org/gmsh
 #  * superlu - http://www.cs.berkeley.edu/~demmel/SuperLU.html
 #  * cppclean - http://code.google.com/p/cppclean
@@ -38,13 +37,14 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( cookup )
 
-set(CPACK_PACKAGE_VERSION   "0.2.11")
+set(CPACK_PACKAGE_VERSION   "0.2.12")
 
 add_custom_target( scripts ALL
   SOURCES
         cookbook/bison.pm
         cookbook/boost.pm
         cookbook/ccache.pm
+        cookbook/cgal.pm
         cookbook/cgns.pm
         cookbook/clang.pm
         cookbook/cmake.pm

@@ -3,7 +3,7 @@
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 
-package cgns;
+package cgal;
 
 use strict;
 use warnings;
@@ -26,18 +26,18 @@ our @ISA = ("Recipe");
         return $self;
     }
     
-    sub name       { return "cgns"; }
-    sub version    { return "3.1.3"; }
-    sub url        { return "http://downloads.sourceforge.net/project/cgns/cgnslib_3.1/cgnslib_3.1.3-4.tar.gz"; }
+    sub name       { return "cgal"; }
+    sub version    { return "4.0.2"; }
+    sub url        { return "https://gforge.inria.fr/frs/download.php/31175/CGAL-4.0.2.tar.gz"; }
 
-    sub md5  { return "442bba32b576f3429cbd086af43fd4ae"; }
-    sub sha1 { return "148396af2b9f6b6b273561cf4e474e667adc7508"; }
+    sub md5  { return "d0d1577f72fc8ab49fed3d966dae19da"; }
+    sub sha1 { return "e80af4b1da25690df63ce83dd083710cc3db9697"; }
     
-    sub depends { return qw( hdf5 cmake ); }
+    sub depends { return qw( boost ); }
 
     sub source_dir {
         my $self = shift;
-        return sprintf "%s/%s", $self->sandbox_dir,"cgnslib_3.1.3";
+        return sprintf "%s/%s", $self->sandbox_dir,"CGAL-".$self->version();
     }
 
     sub build_dir {
@@ -47,15 +47,9 @@ our @ISA = ("Recipe");
 
     sub configure_command {
       my $self = shift;
-      return "cmake "
-        ." -DENABLE_FORTRAN=NO"
-        ." -DENABLE_HDF5=YES"
-        ." -DHDF5_NEED_ZLIB=YES"
-        ." -DHDF5_NEED_MPI=YES"
+      return "cmake .. "
         ." -DCMAKE_PREFIX_PATH=".$self->prefix
-        ." -DCMAKE_INSTALL_PREFIX=".$self->prefix
-        ." -BUILD_CGNSTOOLS:BOOL=YES"
-        ." ../";
+        ." -DCMAKE_INSTALL_PREFIX=".$self->prefix;
     }
 
 1;

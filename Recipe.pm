@@ -159,15 +159,15 @@ our $AUTOLOAD;
 	# gets the path to the source dir
     sub source_dir {
         my $self = shift;
-				my $pname = $self->package_name;
-				return sprintf "%s/%s", $self->sandbox_dir, $self->package_dir;
+		my $pname = $self->package_name;
+		return sprintf "%s/%s", $self->sandbox_dir, $self->package_dir;
     }
 
-		# get the source file name from the url
-		sub src_file {
+	# get the source file name from the url
+	sub src_file {
         my $self = shift;
-				return  sprintf "%s/%s", $self->sandbox_dir, basename($self->url);
-		}
+		return  sprintf "%s/%s", $self->sandbox_dir, basename($self->url);
+	}
 
     sub download_with_lwp() {
       my $self = shift;
