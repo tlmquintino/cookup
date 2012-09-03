@@ -12,7 +12,7 @@ use Recipe;
 
 my %fields = ();
 
-our @ISA = ("Recipe");
+our @ISA = ("git");
 
     sub new
 	{
