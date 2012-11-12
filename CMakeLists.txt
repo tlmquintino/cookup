@@ -48,18 +48,15 @@ add_custom_target( scripts ALL
         cookbook/cgns.pm
         cookbook/clang.pm
         cookbook/cmake.pm
-        cookbook/cmake_2_8_8.pm
         cookbook/curl.pm
         cookbook/distcc.pm
         cookbook/flex.pm
         cookbook/gcc.pm
         cookbook/git.pm
-        cookbook/git_1_7_11_3.pm
         cookbook/glog.pm
         cookbook/gmp.pm
         cookbook/gperftools.pm
         cookbook/grib_api.pm
-        cookbook/grib_api_1_9_9.pm
         cookbook/gtest.pm
         cookbook/hdf5.pm
         cookbook/jasper.pm
