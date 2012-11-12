@@ -50,8 +50,6 @@ our @ISA = ("Recipe");
             -DTPL_ENABLE_MPI:BOOL=ON \\
             -DTPL_ENABLE_BLAS=ON \\
             -DTPL_ENABLE_LAPACK=ON \\
-            -DTPL_ENABLE_ParMETIS:BOOL=ON \\
-            -DTPL_ENABLE_HDF5:BOOL=ON \\
             -DTPL_ENABLE_Zlib:BOOL=ON \\
             -DTrilinos_VERBOSE_CONFIGURE=FALSE \\
             -DTrilinos_ENABLE_Fortran=OFF \\
@@ -60,6 +58,9 @@ our @ISA = ("Recipe");
             -DTrilinos_ENABLE_TESTS=OFF \\
             -DZoltan_ENABLE_ULLONG_IDS:BOOL=ON \\
             " ;
+
+#            -DTPL_ENABLE_HDF5:BOOL=ON \\
+#            -DTPL_ENABLE_ParMETIS:BOOL=ON \\
 
        # Some things don't compile or link. Here are the fixes.
        my $patches = "\\
