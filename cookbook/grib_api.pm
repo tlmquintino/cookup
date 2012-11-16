@@ -30,10 +30,10 @@ our @ISA = ("Recipe");
 
     sub name       { return "grib_api"; }
     sub version    { return "1.9.16"; }
-    sub url        { return "http://www.ecmwf.int/products/data/software/download/software_files/grib_api-1.9.16.tar.gz"; }
+    sub url        { return "https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.9.16.tar.gz"; }
     
-    sub md5  { return "f1288627031c97fa1631fd5a63e3bbb3"; }         
-    sub sha1 { return "fd85e8b939231d4d8f9dc3131fa0aab73fbbcf78"; } 
+    sub md5  { return "490cda08585e263d9f13daed4e7b688c"; }         
+    sub sha1 { return "baff7ad8de71d5e81a90595a0b4650c77f8bd6cf"; } 
 
     sub configure_command {
         my $self = shift;
