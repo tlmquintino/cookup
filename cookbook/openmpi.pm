@@ -27,10 +27,11 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "openmpi"; }
-    sub version    { return "1.6"; }
-    sub url        { return "http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.tar.gz"; }
+    sub version    { return "1.6.3"; }
+    sub url        { return "http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.3.tar.gz"; }
 
-    sub md5  { return "3ed0c892a0c921270cb9c7af2fdfd2d2"; }    
+    sub md5   { return "c8865d7ce14594e168851787223182f4"; }    
+    sub sha1  { return "80e859dee8f2fa13f5eb511c9062e9a2fc14c488"; }    
 
 	sub configure_command {
 		my $self = shift;

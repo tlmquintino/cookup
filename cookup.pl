@@ -148,8 +148,9 @@ sub found_recipe
         my $namevrs = "$name-$version";
 
         $recipes{$name} = $recipe if( $fname eq $name ); # add if is the master version
-        
-        $recipes{$namevrs} = $recipe;
+ 
+#     FTM: turned off version       
+#     $recipes{$namevrs} = $recipe;
         
         print "> found recipe for " . $recipe->name . "-" . $version . "\n" if( $options{debug} );
     }
@@ -170,13 +171,18 @@ sub find_recipes
 
 sub list_available_recipes
 {
-  foreach my $package ( keys %recipes )
+  foreach my $package ( sort keys %recipes )
   {
       my $recipe = $recipes{$package};
       my $package_name = $recipe->package_name;
-      print "$package_name";
-      print " ( ".$recipe->url()." )" if( exists $options{verbose} );
-      print "\n";
+      if( exists $options{verbose} ) 
+	  {
+		print "$package_name\n";
+	  }
+      else
+	  {	
+		print "$package_name ( ".$recipe->url()." )\n";
+      } 
   }
 }
 

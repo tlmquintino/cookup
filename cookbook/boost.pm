@@ -27,13 +27,14 @@ our @ISA = ("Recipe");
     }
     
     sub name       { return "boost"; }
-    sub version    { return "1.49.0"; }
-    sub url        { return "http://download.sourceforge.net/boost/boost_1_49_0.tar.gz"; }
+    sub version    { return "1.52.0"; }
+    sub url        { return "http://download.sourceforge.net/boost/boost_1_52_0.tar.gz"; }
 
-		sub package_dir { return "boost_1_49_0"; }
+		sub package_dir { return "boost_1_52_0"; }
 
-        sub md5  { return "e0defc8c818e4f1c5bbb29d0292b76ca"; }    
-
+        sub md5  { return "f62451fa646ca392b0fbc08beb23ad12"; }    
+		sub sha1 { return "1120430030315b0a94b6d63fc04662960db2444c"; }
+		
 		# string for the configure command
 		sub configure_command {
 			my $self = shift;
