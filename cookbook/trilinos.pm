@@ -29,12 +29,12 @@ our @ISA = ("Recipe");
     sub depends { return qw( cmake openmpi parmetis hdf5 zlib ) };
 
     sub name       { return "trilinos"; }
-    sub version    { return "10.12.1"; }
-    sub url        { return "http://trilinos.sandia.gov/download/files/trilinos-10.12.1-Source.tar.gz"; }
+    sub version    { return "11.0.3"; }
+    sub url        { return "http://trilinos.sandia.gov/download/files/trilinos-11.0.3-Source.tar.gz"; }
 
-    sub md5 { return "9bacdb888efc21986344b3f61ac845a8"; }
+    sub sha1 { return "375319eec8ae06845da126e3def72f13b59bf635"; }
 
-    sub package_dir { return "trilinos-10.12.1-Source"; }
+    sub package_dir { return "trilinos-11.0.3-Source"; }
     
     sub build_dir {
       my $self = shift;
@@ -57,6 +57,8 @@ our @ISA = ("Recipe");
             -DTrilinos_ENABLE_ALL_OPTIONAL_PACKAGES=ON \\
             -DTrilinos_ENABLE_TESTS=OFF \\
             -DZoltan_ENABLE_ULLONG_IDS:BOOL=ON \\
+            -DTrilinos_ENABLE_Teko:BOOL=ON \\
+            -DTrilinos_ENABLE_ShyLU:BOOL=ON \\
             " ;
 
 #            -DTPL_ENABLE_HDF5:BOOL=ON \\

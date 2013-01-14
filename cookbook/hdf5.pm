@@ -30,7 +30,7 @@ our @ISA = ("Recipe");
 
     sub name       { return "hdf5"; }
     sub version    { return "1.8.9"; }
-    sub url        { return "http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz"; }
+    sub url        { return "http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.9/src/hdf5-1.8.9.tar.gz"; }
 
     sub md5  { return "d1266bb7416ef089400a15cc7c963218"; }
     sub sha1 { return "4ba3ede947b1571e9586fdeb8351d6585a56133c"; }
