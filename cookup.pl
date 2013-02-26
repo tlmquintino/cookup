@@ -103,6 +103,9 @@ ZZZ
       # create prefix dir if does not exist
       mkpath $prefix unless ( -w $prefix );
 
+      # create sandbox dir if does not exist
+      mkpath $sandbox unless ( -w $sandbox );
+
       # resolve relative paths to absolute paths
       die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix and -d $prefix );
       $prefix   = Cwd::abs_path( $prefix  );
