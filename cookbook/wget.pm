@@ -15,7 +15,7 @@ my %fields = ();
 our @ISA = ("Recipe");
 
     sub new
-		{
+    {
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -30,11 +30,12 @@ our @ISA = ("Recipe");
     sub version    { return "1.13.4"; }
     sub url        { return "http://ftp.gnu.org/gnu/wget/wget-1.13.4.tar.gz"; }
 
-    sub md5  { return "1df489976a118b9cbe1b03502adbfc27"; }    
+    sub md5  { return "1df489976a118b9cbe1b03502adbfc27"; }
+    sub sha1 { return "e25e1b487026ddd9026ca7d26af21f044c884d28"; }
 
-	sub configure_command {
-		my $self = shift;
-		return "./configure --without-ssl --prefix=" . $self->prefix;
-	}
+    sub configure_command {
+        my $self = shift;
+        return "./configure --without-ssl --prefix=" . $self->prefix;
+    }
 
 1;

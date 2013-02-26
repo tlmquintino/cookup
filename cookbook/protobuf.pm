@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "2.4.1"; }
     sub url        { return "http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz"; }
 
-    sub md5  { return "dc84e9912ea768baa1976cb7bbcea7b5"; }    
+    sub md5  { return "dc84e9912ea768baa1976cb7bbcea7b5"; }
+    sub sha1 { return "efc84249525007b1e3105084ea27e3273f7cbfb0"; }
 
 1;

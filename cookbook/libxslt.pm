@@ -36,6 +36,7 @@ our @ISA = ("Recipe");
 		return "./configure --with-libxml-prefix=" . $self->prefix . " --prefix=" . $self->prefix;
 	}
 
-    sub md5  { return "e61d0364a30146aaa3001296f853b2b9"; }    
+    sub md5  { return "e61d0364a30146aaa3001296f853b2b9"; }
+    sub sha1 { return "69f74df8228b504a87e2b257c2d5238281c65154"; }
 
 1;

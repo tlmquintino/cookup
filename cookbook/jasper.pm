@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "1.900.1"; }
     sub url        { return "http://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip"; }
 
-    sub md5  { return "a342b2b4495b3e1394e161eb5d85d754"; }    
+    sub md5  { return "a342b2b4495b3e1394e161eb5d85d754"; }
+    sub sha1 { return "9c5735f773922e580bf98c7c7dfda9bbed4c5191"; }
 
 1;

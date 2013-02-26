@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "1.5.6"; }
     sub url        { return "http://download.sourceforge.net/libpng/libpng-1.5.6.tar.gz"; }
 
-    sub md5  { return "8b0c05ed12637ee1f060ddfbbf526ea3"; }    
+    sub md5  { return "8b0c05ed12637ee1f060ddfbbf526ea3"; }
+    sub sha1 { return "068d308a82003cbb24602ffdfc738cc848cf4eaf"; }
 
 1;

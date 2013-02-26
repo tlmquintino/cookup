@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "3.0.0"; }
     sub url        { return "http://www.canonware.com/download/jemalloc/jemalloc-3.0.0.tar.bz2"; }
 
-    sub md5  { return "f487fdf847c9834b22c2b7832cadc56f"; }    
+    sub md5  { return "f487fdf847c9834b22c2b7832cadc56f"; }
+    sub sha1 { return "65a66bd1b54ffdd56f5024b45df19d40d6e6f9dd"; }
 
 1;

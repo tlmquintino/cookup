@@ -31,5 +31,6 @@ our @ISA = ("Recipe");
     sub url        { return "http://zlib.net/zlib-1.2.7.tar.gz"; }
 
     sub md5  { return "60df6a37c56e7c1366cca812414f7b85"; }
+    sub sha1 { return "4aa358a95d1e5774603e6fa149c926a80df43559"; }
 
 1;

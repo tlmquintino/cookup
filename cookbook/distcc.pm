@@ -31,5 +31,6 @@ our @ISA = ("Recipe");
     sub url        { return "http://distcc.googlecode.com/files/distcc-3.1.tar.gz"; }
 
     sub md5  { return "2f6be779869648f2d211ebf09f694715"; }
+    sub sha1 { return "487ae2a73b0b1a0e6b240874319ca3ddda7287e8"; }
 
 1;

@@ -30,7 +30,8 @@ our @ISA = ("Recipe");
     sub version    { return "1.6.0"; }
     sub url        { return "http://googletest.googlecode.com/files/gtest-1.6.0.zip"; }
 
-    sub md5  { return "4577b49f2973c90bf9ba69aa8166b786"; }    
+    sub md5  { return "4577b49f2973c90bf9ba69aa8166b786"; }
+    sub sha1 { return "00d6be170eb9fc3b2198ffdcb1f1d6ba7fc6e621"; }
 
     sub configure_command {
         my $self = shift;

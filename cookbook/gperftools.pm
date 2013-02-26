@@ -30,6 +30,8 @@ our @ISA = ("Recipe");
     sub version    { return "2.0"; }
     sub url        { return "http://gperftools.googlecode.com/files/gperftools-2.0.tar.gz"; }
     
-    sub md5  { return "13f6e8961bc6a26749783137995786b6"; }    
+    sub md5  { return "13f6e8961bc6a26749783137995786b6"; }
+    sub sha1 { return "da7181a7ba9b5ee7302daf6c16e886c179fe8d1b"; }
+
 
 1;

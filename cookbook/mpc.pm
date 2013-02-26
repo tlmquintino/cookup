@@ -15,7 +15,7 @@ my %fields = ();
 our @ISA = ("Recipe");
 
     sub new
-	{
+    {
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -26,12 +26,13 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-	sub depends { return qw( mpfr ); }
+    sub depends { return qw( mpfr ); }
 
     sub name       { return "mpc"; }
     sub version    { return "0.9"; }
     sub url        { return "http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"; }
     
-    sub md5  { return "0d6acab8d214bd7d1fbbc593e83dd00d"; }    
+    sub md5  { return "0d6acab8d214bd7d1fbbc593e83dd00d"; }
+    sub sha1 { return "229722d553030734d49731844abfef7617b64f1a"; }
 
 1;
