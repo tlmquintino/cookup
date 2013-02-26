@@ -174,19 +174,19 @@ sub find_recipes
 
 sub list_available_recipes
 {
-  foreach my $package ( sort keys %recipes )
-  {
-      my $recipe = $recipes{$package};
-      my $package_name = $recipe->package_name;
-      if( exists $options{verbose} ) 
-	  {
-		print "$package_name\n";
-	  }
-      else
-	  {	
-		print "$package_name ( ".$recipe->url()." )\n";
-      } 
-  }
+    foreach my $package ( sort keys %recipes )
+    {
+        my $recipe = $recipes{$package};
+        my $package_name = $recipe->package_name;
+        if( exists $options{verbose} )
+        {
+            print "$package_name\n";
+        }
+        else
+        {
+            print "$package_name ( ".$recipe->url()." )\n";
+        }
+    }
 }
 
 #==============================================================================
@@ -254,28 +254,28 @@ sub process_packages_list
     my $cookbook = $options{cookbook};
     
     # verify all packages exist
-  foreach my $package ( @{$options{packages}} )
-  {
-    if( ! exists($recipes{$package}) )
+    foreach my $package ( @{$options{packages}} )
     {
-      die "no recipe for '$package' in our cookbook [$cookbook]" ;
+        if( ! exists($recipes{$package}) )
+        {
+            die "no recipe for '$package' in our cookbook [$cookbook]" ;
+        }
+     }
+
+    if( ! exists($options{nodeps}) )
+    {
+        transverse_dependency_tree( @{$options{packages}} );
     }
-  }    
+    else # just copy whatever was passed to the package_list
+    {
+        @package_list = @{$options{packages}};
+    }
 
-  if( ! exists($options{nodeps}) )
-  {
-    transverse_dependency_tree( @{$options{packages}} );
-  }
-  else # just copy whatever was passed to the package_list
-  {
-    @package_list = @{$options{packages}};
-  }
-
-  # verify all packages exist
-  foreach my $package ( @package_list )
-  {
-    process_one_package( $package );
-  }
+    # verify all packages exist
+    foreach my $package ( @package_list )
+    {
+        process_one_package( $package );
+    }
 }
 
 #==============================================================================
