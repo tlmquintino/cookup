@@ -15,17 +15,18 @@ our $AUTOLOAD;
 
     my $debugging_ = 0;
 
-###############################################################################
+##############################################################################
 ## member fields
 
     my %fields =
     (
-            url          => undef,
-            version      => undef,
-            sandbox      => undef,
-            prefix       => undef,
-            verbose      => 0,
-            debug        => 0,
+            url           => undef,
+            version       => undef,
+            sandbox       => undef,
+            prefix        => undef,
+            verbose       => 0,
+            debug         => 0,
+            skip_checksum => 0
     );
 
 ###############################################################################
@@ -252,21 +253,20 @@ our $AUTOLOAD;
         my $checked = 0;
 
         if( $self->md5() ) {
-             $checked = 1 if( $self->check_md5() );
+            $checked = 1 if( $self->check_md5() );
         } else {
             print "> no md5 checksum defined for " . $self->name ."\n" if($self->verbose);
         }
         if( $self->sha1() ) {
-             $checked = 1 if( $self->check_sha1() );
+            $checked = 1 if( $self->check_sha1() );
         } else {
-             print "> no sha1 checksum defined for " . $self->name ."\n" if($self->verbose);
+            print "> no sha1 checksum defined for " . $self->name ."\n" if($self->verbose);
         }
-
         if($checked) {
             print "> correct checksum for " . $self->name ."\n" if($self->verbose);
         }
         else {
-            die "> correct checksum for " . $self->name ."\n";
+            croak "> could not verify checksum for " . $self->name ."\n> if you want to proceed anyway, rerun with option \"--skip-checksum\".\n";
         }
     }
 
@@ -294,7 +294,7 @@ our $AUTOLOAD;
                 return 1;
             }
             else {
-                croak "file '$file' has unexpected md5 sum check: expected [$md5] got [$computed_md5]";
+                print "> file '$file' has unexpected md5 sum check: expected [$md5] got [$computed_md5]\n";
                 return 0;
             }
         }
@@ -320,7 +320,7 @@ our $AUTOLOAD;
                 return 1;
             }
             else {
-                croak "file '$file' has unexpected sha1 sum check: expected [$sha1] got [$computed_sha1]";
+                print "> file '$file' has unexpected sha1 sum check: expected [$sha1] got [$computed_sha1]\n";
                 return 0;
             }
         }
@@ -483,7 +483,7 @@ our $AUTOLOAD;
 
         $self->download_src();
 
-        $self->check_src();
+        $self->check_src() if (! $self->skip_checksum);
             
         $self->unpack_src();
 

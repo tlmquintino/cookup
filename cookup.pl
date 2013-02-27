@@ -50,6 +50,7 @@ sub parse_commandline() # Parse command line
         'verbose',
         'debug',
         'nodeps',
+        'skip-checksum',
         'list',
         'dry-run',
         'prefix=s',
@@ -82,6 +83,7 @@ options:
         --cookbook          use directory as cookbook [$default_cookbook]
         --sandbox           use directory as sandbox for building [$default_sandbox]
         --packages=list     comma separated list of packages to apply actions on
+        --skip-checksum     don't check if checksum matches after download
 
 EXAMPLE:
   cookup.pl --cook --packages=wget
@@ -89,30 +91,30 @@ ZZZ
         exit(0);
     }
 
-      if( exists $options{packages} ) # process comma separated list
-      {
-          my @packages = split(',',join(",",@{$options{packages}}));
-          # print "@packages\n";
-          $options{packages} = \@packages;
-      }
+    if( exists $options{packages} ) # process comma separated list
+    {
+        my @packages = split(',',join(",",@{$options{packages}}));
+        # print "@packages\n";
+        $options{packages} = \@packages;
+    }
       
-      my $prefix   = $options{'prefix'};
-      my $sandbox  = $options{'sandbox'};
-      my $cookbook = $options{'cookbook'};
+    my $prefix   = $options{'prefix'};
+    my $sandbox  = $options{'sandbox'};
+    my $cookbook = $options{'cookbook'};
 
-      # create prefix dir if does not exist
-      mkpath $prefix unless ( -w $prefix );
+    # create prefix dir if does not exist
+    mkpath $prefix unless ( -w $prefix );
 
-      # create sandbox dir if does not exist
-      mkpath $sandbox unless ( -w $sandbox );
+    # create sandbox dir if does not exist
+    mkpath $sandbox unless ( -w $sandbox );
 
-      # resolve relative paths to absolute paths
-      die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix and -d $prefix );
-      $prefix   = Cwd::abs_path( $prefix  );
-      die "cannot write to directory '".$sandbox."'\n" unless ( -w $sandbox and -d $sandbox );
-      $sandbox  = Cwd::abs_path( $sandbox );
-      die "cannot read from directory '".$cookbook."'\n" unless ( -d $cookbook and -r $cookbook );
-      $cookbook = Cwd::abs_path( $cookbook);
+    # resolve relative paths to absolute paths
+    die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix and -d $prefix );
+    $prefix   = Cwd::abs_path( $prefix  );
+    die "cannot write to directory '".$sandbox."'\n" unless ( -w $sandbox and -d $sandbox );
+    $sandbox  = Cwd::abs_path( $sandbox );
+    die "cannot read from directory '".$cookbook."'\n" unless ( -d $cookbook and -r $cookbook );
+    $cookbook = Cwd::abs_path( $cookbook);
 }
 
 #==============================================================================
@@ -204,13 +206,14 @@ sub process_one_package
     {
         $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
         $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
-    
         $recipe->prefix ( $options{prefix } );
         $recipe->sandbox( $options{sandbox} );
-    
+        $recipe->skip_checksum( $options{'skip-checksum'} );
+
         $recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
-        $recipe->unpack_src()   unless ( !exists $options{unpack} );
-    
+        $recipe->check_src() if ( (exists $options{download} || exists $options{unpack}) && !exists $options{'skip-checksum'} );
+        $recipe->unpack_src() unless ( !exists $options{unpack} );
+
         $recipe->cook() unless ( !exists $options{cook} );
     }
 }
