@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "2.5.35"; }
     sub url        { return "http://download.sourceforge.net/flex/flex-2.5.35.tar.gz"; }
     
-    sub md5  { return "201d3f38758d95436cbc64903386de0b"; }    
+    sub md5  { return "201d3f38758d95436cbc64903386de0b"; }
+    sub sha1 { return "333c876a8e24ae5a17d9573459fc501b7721930b"; }
 
 1;

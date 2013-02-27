@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "2.8.0"; }
     sub url        { return "http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz"; }
 
-    sub md5  { return "c62106f02ee00b6437f0fb9d370c1093"; }    
+    sub md5  { return "c62106f02ee00b6437f0fb9d370c1093"; }
+    sub sha1 { return "a0c553bd51ba79ab6fff26dc700004c6a41f5250"; }
 
 1;

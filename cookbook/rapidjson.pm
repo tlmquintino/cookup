@@ -31,7 +31,8 @@ our @ISA = ("Recipe");
     sub url        { return "http://rapidjson.googlecode.com/files/rapidjson-0.1.zip"; }
 
     sub md5  { return "652c9829cb901425c8383b5eeaa2af9a"; }    
-    
+    sub sha1 { return "cc28768eb0a058accd053cea372db295a9df5559"; }
+
     sub package_dir { return "rapidjson"; }
             
     # header only so we copy the headers and that is it !

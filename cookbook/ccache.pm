@@ -30,6 +30,6 @@ our @ISA = ("Recipe");
     sub version    { return "3.1.7"; }
     sub url        { return "http://samba.org/ftp/ccache/ccache-3.1.7.tar.gz"; }
 
-    sub md5  { return "bf49574730fabd666fc7ec3f8b203f41"; }    
-
+    sub md5  { return "bf49574730fabd666fc7ec3f8b203f41"; }
+    sub sha1 { return "93872fb20c066859842e4bc989895359ae218ad6"; }
 1;

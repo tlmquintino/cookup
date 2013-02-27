@@ -37,6 +37,7 @@ our @ISA = ("Recipe");
     sub url        { return "http://trilinos.sandia.gov/download/files/trilinos-10.12.1-Source.tar.gz"; }
 
     sub md5  { return "9bacdb888efc21986344b3f61ac845a8"; }
+    sub sha1 { return "d032de499a5cb87abb739c8ec9ed1369bb97d297"; }
 
     sub source_dir {
         my $self = shift;
@@ -65,5 +66,5 @@ our @ISA = ("Recipe");
         ." -DZoltan_ENABLE_ParMETIS:BOOL=ON"
         ." ../";
     }
-            
+
 1;

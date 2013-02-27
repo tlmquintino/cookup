@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "1.0.1"; }
     sub url        { return "http://download.savannah.gnu.org/releases/libunwind/libunwind-1.0.1.tar.gz"; }
     
-    sub md5  { return "993e47cca7315e22239c3e0d987e94e0"; }    
+    sub md5  { return "993e47cca7315e22239c3e0d987e94e0"; }
+    sub sha1 { return "bd849c15bce57844d8bd086439bbd4bc736e7d97"; }
 
 1;
