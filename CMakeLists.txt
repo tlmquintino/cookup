@@ -37,7 +37,7 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( cookup )
 
-set(CPACK_PACKAGE_VERSION   "0.2.16")
+set(CPACK_PACKAGE_VERSION   "0.2.17")
 
 add_custom_target( scripts ALL
   SOURCES
@@ -61,6 +61,7 @@ add_custom_target( scripts ALL
         cookbook/hdf5.pm
         cookbook/jasper.pm
         cookbook/jemalloc.pm
+        cookbook/libemos.pm
         cookbook/libpng.pm
         cookbook/libtool.pm
         cookbook/libunwind.pm
