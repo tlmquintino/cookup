@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "2.4.2"; }
     sub url        { return "http://ftpmirror.gnu.org/libtool/libtool-2.4.2.tar.gz"; }
 
-    sub md5  { return "d2f3b7d4627e69e13514a40e72a24d50"; }    
+    sub md5  { return "d2f3b7d4627e69e13514a40e72a24d50"; }
+    sub sha1 { return "22b71a8b5ce3ad86e1094e7285981cae10e6ff88"; }
 
 1;

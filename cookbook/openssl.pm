@@ -30,7 +30,8 @@ our @ISA = ("Recipe");
     sub version    { return "1.0.0e"; }
     sub url        { return "http://www.openssl.org/source/openssl-1.0.0e.tar.gz"; }
 
-    sub md5  { return "7040b89c4c58c7a1016c0dfa6e821c86"; }    
+    sub md5  { return "7040b89c4c58c7a1016c0dfa6e821c86"; }
+    sub sha1 { return "235eb68e5a31b0f7a23bc05f52d7a39c596e2e69"; }
 
 	sub configure_command {
 		my $self = shift;

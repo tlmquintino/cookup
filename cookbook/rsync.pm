@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "3.0.9"; }
     sub url        { return "http://rsync.samba.org/ftp/rsync/src/rsync-3.0.9.tar.gz"; }
 
-    sub md5  { return "5ee72266fe2c1822333c407e1761b92b"; }    
+    sub md5  { return "5ee72266fe2c1822333c407e1761b92b"; }
+    sub sha1 { return "c64c8341984aea647506eb504496999fd968ddfc"; }
 
 1;

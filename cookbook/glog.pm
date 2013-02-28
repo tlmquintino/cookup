@@ -30,6 +30,7 @@ our @ISA = ("Recipe");
     sub version    { return "0.3.2"; }
     sub url        { return "http://google-glog.googlecode.com/files/glog-0.3.2.tar.gz"; }
 
-    sub md5  { return "897fbff90d91ea2b6d6e78c8cea641cc"; }    
+    sub md5  { return "897fbff90d91ea2b6d6e78c8cea641cc"; }
+    sub sha1 { return "94e641e50afd03c574af6a55084e94a347c911d7"; }
 
 1;

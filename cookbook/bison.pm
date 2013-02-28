@@ -15,7 +15,7 @@ my %fields = ();
 our @ISA = ("Recipe");
 
     sub new
-		{
+    {
         my $class = shift;
         my $self  = $class->SUPER::new();
         my($element);
@@ -30,8 +30,9 @@ our @ISA = ("Recipe");
     sub version    { return "2.5"; }
     sub url        { return "http://ftp.gnu.org/gnu/bison/bison-2.5.tar.gz"; }
     
-    sub md5  { return "687e1dcd29452789d34eaeea4c25abe4"; }    
+    sub md5  { return "687e1dcd29452789d34eaeea4c25abe4"; }
+    sub sha1 { return "645ebfc884e5b98d5dd2060af16353959537e895"; }
 
-	sub depends { return qw( m4 ); }
+    sub depends { return qw( m4 ); }
     
 1;

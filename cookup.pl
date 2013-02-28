@@ -50,6 +50,7 @@ sub parse_commandline() # Parse command line
         'verbose',
         'debug',
         'nodeps',
+        'skip-checksum',
         'list',
         'dry-run',
         'prefix=s',
@@ -82,6 +83,7 @@ options:
         --cookbook          use directory as cookbook [$default_cookbook]
         --sandbox           use directory as sandbox for building [$default_sandbox]
         --packages=list     comma separated list of packages to apply actions on
+        --skip-checksum     don't check if checksum matches after download
 
 EXAMPLE:
   cookup.pl --cook --packages=wget
@@ -89,27 +91,30 @@ ZZZ
         exit(0);
     }
 
-      if( exists $options{packages} ) # process comma separated list
-      {
-          my @packages = split(',',join(",",@{$options{packages}}));
-          # print "@packages\n";
-          $options{packages} = \@packages;
-      }
+    if( exists $options{packages} ) # process comma separated list
+    {
+        my @packages = split(',',join(",",@{$options{packages}}));
+        # print "@packages\n";
+        $options{packages} = \@packages;
+    }
       
-      my $prefix   = $options{'prefix'};
-      my $sandbox  = $options{'sandbox'};
-      my $cookbook = $options{'cookbook'};
+    my $prefix   = $options{'prefix'};
+    my $sandbox  = $options{'sandbox'};
+    my $cookbook = $options{'cookbook'};
 
-      # create prefix dir if does not exist
-      mkpath $prefix unless ( -w $prefix );
+    # create prefix dir if does not exist
+    mkpath $prefix unless ( -w $prefix );
 
-      # resolve relative paths to absolute paths
-      die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix and -d $prefix );
-      $prefix   = Cwd::abs_path( $prefix  );
-      die "cannot write to directory '".$sandbox."'\n" unless ( -w $sandbox and -d $sandbox );
-      $sandbox  = Cwd::abs_path( $sandbox );
-      die "cannot read from directory '".$cookbook."'\n" unless ( -d $cookbook and -r $cookbook );
-      $cookbook = Cwd::abs_path( $cookbook);
+    # create sandbox dir if does not exist
+    mkpath $sandbox unless ( -w $sandbox );
+
+    # resolve relative paths to absolute paths
+    die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix and -d $prefix );
+    $prefix   = Cwd::abs_path( $prefix  );
+    die "cannot write to directory '".$sandbox."'\n" unless ( -w $sandbox and -d $sandbox );
+    $sandbox  = Cwd::abs_path( $sandbox );
+    die "cannot read from directory '".$cookbook."'\n" unless ( -d $cookbook and -r $cookbook );
+    $cookbook = Cwd::abs_path( $cookbook);
 }
 
 #==============================================================================
@@ -171,19 +176,19 @@ sub find_recipes
 
 sub list_available_recipes
 {
-  foreach my $package ( sort keys %recipes )
-  {
-      my $recipe = $recipes{$package};
-      my $package_name = $recipe->package_name;
-      if( exists $options{verbose} ) 
-	  {
-		print "$package_name\n";
-	  }
-      else
-	  {	
-		print "$package_name ( ".$recipe->url()." )\n";
-      } 
-  }
+    foreach my $package ( sort keys %recipes )
+    {
+        my $recipe = $recipes{$package};
+        my $package_name = $recipe->package_name;
+        if( exists $options{verbose} )
+        {
+            print "$package_name\n";
+        }
+        else
+        {
+            print "$package_name ( ".$recipe->url()." )\n";
+        }
+    }
 }
 
 #==============================================================================
@@ -201,13 +206,14 @@ sub process_one_package
     {
         $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
         $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
-    
         $recipe->prefix ( $options{prefix } );
         $recipe->sandbox( $options{sandbox} );
-    
+        $recipe->skip_checksum( $options{'skip-checksum'} );
+
         $recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
-        $recipe->unpack_src()   unless ( !exists $options{unpack} );
-    
+        $recipe->check_src() if ( (exists $options{download} || exists $options{unpack}) && !exists $options{'skip-checksum'} );
+        $recipe->unpack_src() unless ( !exists $options{unpack} );
+
         $recipe->cook() unless ( !exists $options{cook} );
     }
 }
@@ -251,28 +257,28 @@ sub process_packages_list
     my $cookbook = $options{cookbook};
     
     # verify all packages exist
-  foreach my $package ( @{$options{packages}} )
-  {
-    if( ! exists($recipes{$package}) )
+    foreach my $package ( @{$options{packages}} )
     {
-      die "no recipe for '$package' in our cookbook [$cookbook]" ;
+        if( ! exists($recipes{$package}) )
+        {
+            die "no recipe for '$package' in our cookbook [$cookbook]" ;
+        }
+     }
+
+    if( ! exists($options{nodeps}) )
+    {
+        transverse_dependency_tree( @{$options{packages}} );
     }
-  }    
+    else # just copy whatever was passed to the package_list
+    {
+        @package_list = @{$options{packages}};
+    }
 
-  if( ! exists($options{nodeps}) )
-  {
-    transverse_dependency_tree( @{$options{packages}} );
-  }
-  else # just copy whatever was passed to the package_list
-  {
-    @package_list = @{$options{packages}};
-  }
-
-  # verify all packages exist
-  foreach my $package ( @package_list )
-  {
-    process_one_package( $package );
-  }
+    # verify all packages exist
+    foreach my $package ( @package_list )
+    {
+        process_one_package( $package );
+    }
 }
 
 #==============================================================================
