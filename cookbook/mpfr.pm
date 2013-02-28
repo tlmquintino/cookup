@@ -29,9 +29,10 @@ our @ISA = ("Recipe");
 	sub depends { return qw( gmp ); }
 
     sub name       { return "mpfr"; }
-    sub version    { return "3.1.0"; }
-    sub url        { return "http://www.mpfr.org/mpfr-current/mpfr-3.1.0.tar.gz"; }
+    sub version    { return "3.1.1"; }
+    sub url        { return "http://www.mpfr.org/mpfr-current/mpfr-3.1.1.tar.gz"; }
 
-    sub md5  { return "10968131acc26d79311ac4f8982ff078"; }    
+    sub md5   { return "769411e241a3f063ae1319eb5fac2462"; }    
+    sub sha1  { return "8b7e35d244ee4d4144cb8d4d17b0c5ba7288dff4"; }    
 
 1;
