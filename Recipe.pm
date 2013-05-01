@@ -111,10 +111,18 @@ our $AUTOLOAD;
         my $self = shift;
         my $command = shift;
         my $dir = cwd();
+        my $output = "";
         print "> executing [$command] in [$dir]\n" if($self->debug);
-        my $result = `$command 2>&1`;
-        if( $? == -1 ) { die "command [$command] failed: $!\n"; }
-        return $result;
+        open my $pipe, "$command 2>&1 | " or die "error running command $! \n";
+        while(<$pipe>) {
+            my $line = "$_";
+            $output = $output.$line;
+            print($line) if($self->debug > 1);
+        }
+        close $pipe;
+        my $exit_value=$? >> 8;
+        if( $exit_value != 0 ) { die "command [$command] failed: $!\n"; }
+        return $output;
     }
 
     sub check_command() {

@@ -48,7 +48,7 @@ sub parse_commandline() # Parse command line
         'cook',
         'help',
         'verbose',
-        'debug',
+        'debug=s',
         'nodeps',
         'skip-checksum',
         'list',
@@ -75,7 +75,7 @@ actions:
 options:
         --help              shows this help
         --verbose           print every comand before executing
-        --debug level       sets the debug level
+        --debug=level       sets the debug level (debug=2 shows command outputs)
         --nodeps            don't check dependencies
         --list              list all the recipes in the cookbook
         --dry-run           don't actually do it, just list the packages that would be cooked
