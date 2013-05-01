@@ -32,8 +32,8 @@ our @ISA = ("Recipe");
     sub version    { return "11.2.3"; }
     sub url        { return "http://trilinos.sandia.gov/download/files/trilinos-11.2.3-Source.tar.gz"; }
 
-    sub md5        { return "d41d8cd98f00b204e9800998ecf8427e"; }
-    sub sha1       { return "da39a3ee5e6b4b0d3255bfef95601890afd80709"; }
+    sub md5        { return "ebb073ddbc18a2ee18300b0aad89ddf8"; }
+    sub sha1       { return "91ed5de34d9cf80cb03afe761e8e1bf07398221a"; }
 
     sub package_dir { return "trilinos-11.2.3-Source"; }
     
