@@ -29,11 +29,11 @@ our @ISA = ("Recipe");
     sub depends { return qw( cmake openmpi metis ); }
 
     sub name       { return "parmetis"; }
-    sub version    { return "4.0.2"; }
-    sub url        { return "http://glaros.dtc.umn.edu/gkhome/fetch/sw/parmetis/parmetis-4.0.2.tar.gz"; }
+    sub version    { return "4.0.3"; }
+    sub url        { return "http://glaros.dtc.umn.edu/gkhome/fetch/sw/parmetis/parmetis-4.0.3.tar.gz"; }
 
-    sub md5  { return "0912a953da5bb9b5e5e10542298ffdce"; }    
-    sub sha1 { return "1699453f0bd2ffed34e5a755dec92048d797476d"; }    
+    sub md5  { return "f69c479586bf6bb7aff6a9bc0c739628"; }    
+    sub sha1 { return "e0df69b037dd43569d4e40076401498ee5aba264"; }    
 
     sub configure_command {
       my $self = shift;

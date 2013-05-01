@@ -27,10 +27,10 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "zlib"; }
-    sub version    { return "1.2.7"; }
-    sub url        { return "http://zlib.net/zlib-1.2.7.tar.gz"; }
+    sub version    { return "1.2.8"; }
+    sub url        { return "http://zlib.net/zlib-1.2.8.tar.gz"; }
 
-    sub md5  { return "60df6a37c56e7c1366cca812414f7b85"; }
-    sub sha1 { return "4aa358a95d1e5774603e6fa149c926a80df43559"; }
+    sub md5  { return "44d667c142d7cda120332623eab69f40"; }
+    sub sha1 { return "a4d316c404ff54ca545ea71a27af7dbc29817088"; }
 
 1;
