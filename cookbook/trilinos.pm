@@ -29,13 +29,13 @@ our @ISA = ("Recipe");
     sub depends { return qw( cmake openmpi parmetis hdf5 zlib ) };
 
     sub name       { return "trilinos"; }
-    sub version    { return "11.0.3"; }
-    sub url        { return "http://trilinos.sandia.gov/download/files/trilinos-11.0.3-Source.tar.gz"; }
+    sub version    { return "11.2.3"; }
+    sub url        { return "http://trilinos.sandia.gov/download/files/trilinos-11.2.3-Source.tar.gz"; }
 
-    sub md5        { return "41368eb4c589e07a7f8e7de635ca234a"; }
-    sub sha1       { return "375319eec8ae06845da126e3def72f13b59bf635"; }
+    sub md5        { return "d41d8cd98f00b204e9800998ecf8427e"; }
+    sub sha1       { return "da39a3ee5e6b4b0d3255bfef95601890afd80709"; }
 
-    sub package_dir { return "trilinos-11.0.3-Source"; }
+    sub package_dir { return "trilinos-11.2.3-Source"; }
     
     sub build_dir {
       my $self = shift;

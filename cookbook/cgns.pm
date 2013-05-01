@@ -25,19 +25,19 @@ our @ISA = ("Recipe");
         @{$self}{keys %fields} = values %fields;
         return $self;
     }
+
+    sub depends { return qw( hdf5 cmake ); }
     
     sub name       { return "cgns"; }
-    sub version    { return "3.1.3"; }
-    sub url        { return "http://downloads.sourceforge.net/project/cgns/cgnslib_3.1/cgnslib_3.1.3-4.tar.gz"; }
+    sub version    { return "3.1.4"; }
+    sub url        { return "http://downloads.sourceforge.net/project/cgns/cgnslib_3.1/cgnslib_3.1.4.tar.gz"; }
 
-    sub md5  { return "442bba32b576f3429cbd086af43fd4ae"; }
-    sub sha1 { return "148396af2b9f6b6b273561cf4e474e667adc7508"; }
-    
-    sub depends { return qw( hdf5 cmake ); }
+    sub md5  { return "6937c7fae34381fd51986bd3d42832cd"; }
+    sub sha1 { return "db629371d0166f2f65d6f852fb9cef4ed310ea6b"; }
 
     sub source_dir {
         my $self = shift;
-        return sprintf "%s/%s", $self->sandbox_dir,"cgnslib_3.1.3";
+        return sprintf "%s/%s", $self->sandbox_dir,"cgnslib_3.1.4";
     }
 
     sub build_dir {

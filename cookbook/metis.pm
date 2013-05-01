@@ -29,11 +29,11 @@ our @ISA = ("Recipe");
     sub depends { return qw( cmake ); }
 
     sub name       { return "metis"; }
-    sub version    { return "5.0.2"; }
-    sub url        { return "http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.0.2.tar.gz"; }
+    sub version    { return "5.1.0"; }
+    sub url        { return "http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz"; }
 
-    sub md5  { return "acb521a4e8c2e6dd559a7f9abd0468c5"; }    
-    sub sha1 { return "b5a278fa06c581e068a8296d158576a4b750f983"; }    
+    sub md5  { return "5465e67079419a69e0116de24fce58fe"; }    
+    sub sha1 { return "4722c647024271540f2adcf83456ebdeb1b7d6a6"; }    
 
     sub configure_command {
       my $self = shift;
