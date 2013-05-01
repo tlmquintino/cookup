@@ -29,11 +29,11 @@ our @ISA = ("Recipe");
     sub depends { return qw( openmpi zlib ); }
 
     sub name       { return "hdf5"; }
-    sub version    { return "1.8.9"; }
-    sub url        { return "http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.9/src/hdf5-1.8.9.tar.gz"; }
+    sub version    { return "1.8.10-patch1"; }
+    sub url        { return "http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.10-patch1/src/hdf5-1.8.10-patch1.tar.gz"; }
 
-    sub md5  { return "d1266bb7416ef089400a15cc7c963218"; }
-    sub sha1 { return "4ba3ede947b1571e9586fdeb8351d6585a56133c"; }
+    sub md5  { return "2147a289fb33c887464ad2b6c5a8ae4c"; }
+    sub sha1 { return "66916343f840a7a181ecd53c9ffa2945996c7dfc"; }
 
     sub pre_build {
         my $self = shift;

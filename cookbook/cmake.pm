@@ -27,11 +27,11 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "cmake"; }
-    sub version    { return "2.8.9"; }
-    sub url        { return "http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz"; }
+    sub version    { return "2.8.10.2"; }
+    sub url        { return "http://www.cmake.org/files/v2.8/cmake-2.8.10.2.tar.gz"; }
     
-    sub md5   { return "801f4c87f8b604f727df5bf1f05a59e7"; }    
-    sub sha1  { return "b96663c0757a5edfbddc410aabf7126a92131e2b"; }    
+    sub md5   { return "097278785da7182ec0aea8769d06860c"; }    
+    sub sha1  { return "2d868ccc3f9f2aa7c2844bd0a4609d5313edaaec"; }    
 
 	sub configure_command {
 		my $self = shift;
