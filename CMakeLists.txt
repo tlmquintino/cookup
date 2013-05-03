@@ -4,10 +4,13 @@
 #
 # TODO:
 #
+#  * add manifests
+#
+# TO CONSIDER:
+#
+#  * add support to multiple versions under prefix (eg. /usr/local/apps/cmake/2.8.10)
+#  * add variants (eg. --use-mpi or --no-ssl)
 #  * add install dir prefix to the PATH and LD_LIBRARY_PATH
-#  * add support for dependencies checking - require another package
-#  * add manifests?
-#  * add variants
 #
 # MISSING RECIPES:
 #
