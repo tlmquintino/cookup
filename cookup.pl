@@ -78,8 +78,8 @@ options:
         --verbose           print every comand before executing
         --debug=level       sets the debug level (debug=2 shows command outputs)
         --nodeps            don't check dependencies
-        --repo              install in repo mode
-        --nolink            don't link in repo mode
+        --larder            install in larder mode
+        --nolink            don't link in larder mode
         --list              list all the recipes in the cookbook
         --dry-run           don't actually do it, just list the packages that would be cooked
         --prefix            install dir prefix [$default_prefix]
@@ -212,7 +212,7 @@ sub process_one_package
         $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
         $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
         
-        if( exists $options{repo} )
+        if( exists $options{larder} )
         {
             $recipe->prefix_base ( $options{prefix} );
             $recipe->prefix_extra( 'cookup/Larder/' . $recipe->name() . '/' . $recipe->version() );
@@ -237,7 +237,7 @@ sub process_one_package
         if( exists $options{cook} )
         {
             $recipe->cook();
-            $recipe->link_repo() unless ( exists $options{repo} and exists $options{nolink} );
+            $recipe->link_larder() unless ( exists $options{larder} and exists $options{nolink} );
         }
     }
 }

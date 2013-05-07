@@ -511,7 +511,7 @@ our $AUTOLOAD;
         $self->post_build();
     }
     
-    sub link_repo() {
+    sub link_larder() {
         my $self = shift;
         find( sub { 
                     my $orig  = $File::Find::name;
