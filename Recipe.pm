@@ -528,5 +528,22 @@ our $AUTOLOAD;
                Cwd::abs_path( $self->prefix() ) 
             );
     }
+    
+    sub unlink_larder() {
+        my $self = shift;
+        find( sub { 
+                    my $orig  = $File::Find::name;
+                    if( -f $orig ) {
+                        my $extra = $self->prefix_extra();
+                        $extra =~ s/\./\\\./g;
+                        $extra =~ s/\//\\\//g;
+                        my $link = $orig;
+                        $link =~ s#$extra##;
+                        if( -e $link ) { unlink $link or warn "Could not unlink $link: $!"; }
+                    }
+                  },
+               Cwd::abs_path( $self->prefix() ) 
+            );
+    }
 
 1;  # close package Recipe

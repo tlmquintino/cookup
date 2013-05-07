@@ -25,13 +25,15 @@ no warnings 'File::Find'; # dont issue warnings for 'weird' files
 # main variables
 #==============================================================================
 
-my $default_cookbook = Cwd::abs_path(dirname(__FILE__) . "/" . "cookbook") ;
-my $default_sandbox  = $ENV{HOME}."/"."tmp";
-my $default_prefix   = "/usr/local";
+my $default_cookbook    = Cwd::abs_path(dirname(__FILE__) . "/" . "cookbook") ;
+my $default_sandbox     = $ENV{HOME}."/tmp";
+my $default_prefix      = $ENV{HOME}."/local";
+my $default_larder_path = "cookup/Larder";
 
 my %options = ( prefix   => $default_prefix,
                 sandbox  => $default_sandbox,
-                cookbook => $default_cookbook, );
+                cookbook => $default_cookbook,
+                'larder-path' => $default_larder_path, );
 my %recipes = ();
 
 my @package_list = ();
@@ -46,11 +48,15 @@ sub parse_commandline() # Parse command line
         'download',
         'unpack',
         'cook',
+        'link',
+        'unlink',
         'help',
         'verbose',
         'debug=s',
         'nodeps',
-        'larder',
+        'nolink',
+        'nolarder',
+        'larder-path=s',
         'skip-checksum',
         'list',
         'dry-run',
@@ -72,13 +78,16 @@ actions:
         --download          download the package sources
         --unpack            downloads and unpacks the package sources
         --cook              cookup the packages following the recipe
+        --unlink            unlink the packages 
+        --link              link the packages 
 
 options:
         --help              shows this help
         --verbose           print every comand before executing
         --debug=level       sets the debug level (debug=2 shows command outputs)
         --nodeps            don't check dependencies
-        --larder            install in larder mode
+        --nolarder          don't install in larder mode
+        --larder-path       partial path to the larder [$default_larder_path]
         --nolink            don't link in larder mode
         --list              list all the recipes in the cookbook
         --dry-run           don't actually do it, just list the packages that would be cooked
@@ -105,18 +114,18 @@ ZZZ
     my $sandbox  = $options{'sandbox'};
     my $cookbook = $options{'cookbook'};
 
-    if( not exists $options{'dry-run'} )
+    if( not $options{'dry-run'} )
     {
         mkpath $prefix  unless ( -w $prefix );  # create prefix dir if does not exist
         mkpath $sandbox unless ( -w $sandbox ); # create sandbox dir if does not exist
     }
 
     # resolve relative paths to absolute paths
-    die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix and -d $prefix );
+    die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix && -d $prefix );
     $prefix   = Cwd::abs_path( $prefix  );
-    die "cannot write to directory '".$sandbox."'\n" unless ( -w $sandbox and -d $sandbox );
+    die "cannot write to directory '".$sandbox."'\n" unless ( -w $sandbox && -d $sandbox );
     $sandbox  = Cwd::abs_path( $sandbox );
-    die "cannot read from directory '".$cookbook."'\n" unless ( -d $cookbook and -r $cookbook );
+    die "cannot read from directory '".$cookbook."'\n" unless ( -d $cookbook && -r $cookbook );
     $cookbook = Cwd::abs_path( $cookbook);
 }
 
@@ -205,40 +214,61 @@ sub process_one_package
 
     print "package [$package_name]\n";
 
-    if( !exists $options{'dry-run'} ) 
+    # setup variables
+
+    $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
+    $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
+    $recipe->sandbox( $options{sandbox} );
+    $recipe->skip_checksum( $options{'skip-checksum'} );
+        
+    if( exists $options{nolarder} )
     {
-        # setup variables    
-
-        $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
-        $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
-        
-        if( exists $options{larder} )
-        {
-            $recipe->prefix_base ( $options{prefix} );
-            $recipe->prefix_extra( 'cookup/Larder/' . $recipe->name() . '/' . $recipe->version() );
-            $recipe->prefix ( $recipe->prefix_base() . '/' . $recipe->prefix_extra() );
-        }
-        else
-        {
             $recipe->prefix ( $options{prefix} );
-        }        
+    }
+    else
+    {
+            $recipe->prefix_base ( $options{prefix} );
+            $recipe->prefix_extra( $options{'larder-path'} . '/' . $recipe->name() . '/' . $recipe->version() );
+            $recipe->prefix ( $recipe->prefix_base() . '/' . $recipe->prefix_extra() );
+    }
+    
+    $recipe->unlink_larder() if( exists $options{unlink} && !exists $options{'dry-run'} );
+
+    print "> installing to [" . $recipe->prefix() . "]\n" if( $options{verbose} );
+
+    my $built = 0;
+    if( -d $recipe->prefix() && !exists $options{nolarder} )
+    {
+        print "> " . $recipe->name() . " already installed in [" . $recipe->prefix() . "]\n" if( $options{verbose} );           
+        $built = 1;
+    }
+
+    my $cook     = 0; $cook     |=  exists $options{'cook'} && !$built;
+    my $unpack   = 0; $unpack   |=  exists $options{'unpack'} || $cook;
+    my $download = 0; $download |=  exists $options{'download'} || $unpack;
+    my $check    = 0; $check    |= !exists $options{'skip-checksum'} && $download;
+    
+    my $link     = 0; $link |= exists $options{'link'} || ( $cook && !exists $options{nolarder} && !exists $options{nolink} );
+
+#    print "built " . $built . "\n";
+#    print "cook " . $cook . "\n";
+#    print "unpack " . $unpack . "\n";
+#    print "download " . $download . "\n";
+#    print "check " . $check . "\n";
+#    print "link " . $link . "\n";
+
+    if( not exists $options{'dry-run'} )
+    {
+
+        $recipe->download_src() if ( $download );
+    
+        $recipe->check_src()    if ( $check  );
+    
+        $recipe->unpack_src()   if ( $unpack );
+    
+        $recipe->cook()         if ( $cook );
         
-        print "> install prefix [" . $recipe->prefix() . "]\n" if( $options{verbose} );
-
-        $recipe->sandbox( $options{sandbox} );
-        $recipe->skip_checksum( $options{'skip-checksum'} );
-
-        # run the recipe
-
-        $recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
-        $recipe->check_src() if ( (exists $options{download} || exists $options{unpack}) && !exists $options{'skip-checksum'} );
-        $recipe->unpack_src() unless ( !exists $options{unpack} );
-
-        if( exists $options{cook} )
-        {
-            $recipe->cook();
-            $recipe->link_larder() unless ( exists $options{larder} and exists $options{nolink} );
-        }
+        $recipe->link_larder()  if ( $link );
     }
 }
 
