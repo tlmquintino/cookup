@@ -220,6 +220,7 @@ sub process_one_package
     $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
     $recipe->sandbox( $options{sandbox} );
     $recipe->skip_checksum( $options{'skip-checksum'} );
+    $recipe->larder( 0 ) if ( exists $options{'nolarder'} );
         
     if( exists $options{nolarder} )
     {

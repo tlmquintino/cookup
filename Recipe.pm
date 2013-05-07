@@ -29,6 +29,7 @@ our $AUTOLOAD;
             prefix        => undef,
             prefix_extra  => '',
             prefix_base   => '',
+            larder        => 1,
             verbose       => 0,
             debug         => 0,
             skip_checksum => 0
@@ -153,7 +154,14 @@ our $AUTOLOAD;
         my $self = shift;
         return $self->package_name;
     }
-
+    
+    # when using larder, the root_prefix is the prefix_base else is the full install prefix
+    sub root_prefix {
+        my $self = shift;
+        return $self->prefix_base() if( $self->larder() );
+        return $self->prefix();
+    }
+    
     # returns sandbox dir and ensures it exists
     sub sandbox_dir {
         my $self = shift;

@@ -48,8 +48,8 @@ our @ISA = ("Recipe");
     sub configure_command {
       my $self = shift;
       return "cmake .. "
-        ." -DCMAKE_PREFIX_PATH=".$self->prefix
-        ." -DCMAKE_INSTALL_PREFIX=".$self->prefix;
+        ." -DCMAKE_PREFIX_PATH=".$self->root_prefix()
+        ." -DCMAKE_INSTALL_PREFIX=".$self->prefix();
     }
 
 1;

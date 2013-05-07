@@ -52,8 +52,8 @@ our @ISA = ("Recipe");
         ." -DENABLE_HDF5=YES"
         ." -DHDF5_NEED_ZLIB=YES"
         ." -DHDF5_NEED_MPI=YES"
-        ." -DCMAKE_PREFIX_PATH=".$self->prefix
-        ." -DCMAKE_INSTALL_PREFIX=".$self->prefix
+        ." -DCMAKE_PREFIX_PATH=".$self->root_prefix()
+        ." -DCMAKE_INSTALL_PREFIX=".$self->prefix()
         ." -BUILD_CGNSTOOLS:BOOL=YES"
         ." ../";
     }

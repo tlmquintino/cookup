@@ -45,7 +45,10 @@ our @ISA = ("Recipe");
     sub configure_command {
       my $self = shift;
 
+      my $path = $self->root_prefix();
+
       my $opts = "-DCMAKE_BUILD_TYPE:STRING=RELEASE \\
+            -DCMAKE_PREFIX_PATH=$path \\
             -DCMAKE_VERBOSE_MAKEFILE=FALSE \\
             -DBUILD_SHARED_LIBS=ON \\
             -DTPL_ENABLE_MPI:BOOL=ON \\
@@ -60,20 +63,21 @@ our @ISA = ("Recipe");
             -DZoltan_ENABLE_ULLONG_IDS:BOOL=ON \\
             -DTrilinos_ENABLE_Teko:BOOL=ON \\
             -DTrilinos_ENABLE_ShyLU:BOOL=ON \\
+            -DTPL_ENABLE_HDF5:BOOL=ON \\
+            -DTPL_ENABLE_ParMETIS:BOOL=ON \\
             " ;
 
-#            -DTPL_ENABLE_HDF5:BOOL=ON \\
-#            -DTPL_ENABLE_ParMETIS:BOOL=ON \\
 
        # Some things don't compile or link. Here are the fixes.
        my $patches = "\\
-         -DCMAKE_SHARED_LINKER_FLAGS=-lhdf5 \\
          -DML_ENABLE_ParMETIS:BOOL=OFF \\
          ";
 
      $opts = $opts . "-DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpic++";
      return "cmake .. $opts $patches -DCMAKE_INSTALL_PREFIX:PATH=" . $self->prefix;
    }
+
+#         -DCMAKE_SHARED_LINKER_FLAGS=-lhdf5 \\
    
 # possible third-party dependencies :
 # -----------------------------------
