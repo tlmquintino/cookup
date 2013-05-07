@@ -2,16 +2,6 @@
 #
 # cookup project
 #
-# TODO:
-#
-#  * add manifests - should record:
-#      - what versions are installed(?) in the Larder
-#      - what version is currently linked
-#
-# TO CONSIDER:
-#
-#  * add variants (eg. --use-mpi or --no-ssl)
-#
 # MISSING RECIPES:
 #
 #  * blas / lapack
@@ -32,7 +22,7 @@
 #  * gccgo
 #  * codesearch https://code.google.com/p/codesearch/
 #  * re2 - http://code.google.com/p/re2
-
+#  * pcre - http://www.pcre.org
 
 ###############################################################################
 
