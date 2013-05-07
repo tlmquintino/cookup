@@ -50,7 +50,7 @@ sub parse_commandline() # Parse command line
         'verbose',
         'debug=s',
         'nodeps',
-        'repo',
+        'larder',
         'skip-checksum',
         'list',
         'dry-run',
