@@ -50,6 +50,7 @@ sub parse_commandline() # Parse command line
         'verbose',
         'debug=s',
         'nodeps',
+        'repo',
         'skip-checksum',
         'list',
         'dry-run',
@@ -77,6 +78,8 @@ options:
         --verbose           print every comand before executing
         --debug=level       sets the debug level (debug=2 shows command outputs)
         --nodeps            don't check dependencies
+        --repo              install in repo mode
+        --nolink            don't link in repo mode
         --list              list all the recipes in the cookbook
         --dry-run           don't actually do it, just list the packages that would be cooked
         --prefix            install dir prefix [$default_prefix]
@@ -102,11 +105,11 @@ ZZZ
     my $sandbox  = $options{'sandbox'};
     my $cookbook = $options{'cookbook'};
 
-    # create prefix dir if does not exist
-    mkpath $prefix unless ( -w $prefix );
-
-    # create sandbox dir if does not exist
-    mkpath $sandbox unless ( -w $sandbox );
+    if( not exists $options{'dry-run'} )
+    {
+        mkpath $prefix  unless ( -w $prefix );  # create prefix dir if does not exist
+        mkpath $sandbox unless ( -w $sandbox ); # create sandbox dir if does not exist
+    }
 
     # resolve relative paths to absolute paths
     die "cannot write to directory '".$prefix."'\n" unless ( -w $prefix and -d $prefix );
@@ -151,7 +154,7 @@ sub found_recipe
         my $name    = $recipe->name();
         my $version = $recipe->version();
         my $namevrs = "$name-$version";
-
+        
         $recipes{$name} = $recipe if( $fname eq $name ); # add if is the master version
  
 #     FTM: turned off version       
@@ -168,7 +171,7 @@ sub find_recipes
   my @cookbook;
   my $cookbook_path = Cwd::abs_path($options{cookbook});
   push (@cookbook, $cookbook_path);
-  if( $options{verbose} ) { print "searching for recipes in $cookbook_path\n" }
+  print "searching for recipes in $cookbook_path\n" if( $options{verbose} );
   find( \&found_recipe, @cookbook );
 }
 
@@ -204,17 +207,38 @@ sub process_one_package
 
     if( !exists $options{'dry-run'} ) 
     {
+        # setup variables    
+
         $recipe->verbose( $options{verbose} ) unless ( !exists $options{verbose} );
         $recipe->debug( $options{debug} ) unless ( !exists $options{debug} );
-        $recipe->prefix ( $options{prefix } );
+        
+        if( exists $options{repo} )
+        {
+            $recipe->prefix_base ( $options{prefix} );
+            $recipe->prefix_extra( 'cookup/Larder/' . $recipe->name() . '/' . $recipe->version() );
+            $recipe->prefix ( $recipe->prefix_base() . '/' . $recipe->prefix_extra() );
+        }
+        else
+        {
+            $recipe->prefix ( $options{prefix} );
+        }        
+        
+        print "> install prefix [" . $recipe->prefix() . "]\n" if( $options{verbose} );
+
         $recipe->sandbox( $options{sandbox} );
         $recipe->skip_checksum( $options{'skip-checksum'} );
+
+        # run the recipe
 
         $recipe->download_src() unless ( !exists $options{download} && !exists $options{unpack} );
         $recipe->check_src() if ( (exists $options{download} || exists $options{unpack}) && !exists $options{'skip-checksum'} );
         $recipe->unpack_src() unless ( !exists $options{unpack} );
 
-        $recipe->cook() unless ( !exists $options{cook} );
+        if( exists $options{cook} )
+        {
+            $recipe->cook();
+            $recipe->link_repo() unless ( exists $options{repo} and exists $options{nolink} );
+        }
     }
 }
 

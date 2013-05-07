@@ -7,6 +7,9 @@ use Carp;
 use Cwd;
 use File::Basename;
 use File::Path;
+use File::Find;
+
+no warnings 'File::Find'; # dont issue warnings for 'weird' files
 
 our $AUTOLOAD;
 
@@ -24,6 +27,8 @@ our $AUTOLOAD;
             version       => undef,
             sandbox       => undef,
             prefix        => undef,
+            prefix_extra  => '',
+            prefix_base   => '',
             verbose       => 0,
             debug         => 0,
             skip_checksum => 0
@@ -504,6 +509,24 @@ our $AUTOLOAD;
         $self->cleanup();
 
         $self->post_build();
+    }
+    
+    sub link_repo() {
+        my $self = shift;
+        find( sub { 
+                    my $orig  = $File::Find::name;
+                    if( -f $orig ) {
+                        my $extra = $self->prefix_extra();
+                        $extra =~ s/\./\\\./g;
+                        $extra =~ s/\//\\\//g;
+                        my $link = $orig;
+                        $link =~ s#$extra##;
+                        if( -e $link ) { print "WARNING: $link exists -- skipping link to $orig\n"; }
+                        else { mkpath dirname($link); print "$orig -> $link\n" if ( symlink $orig,$link ); }
+                    }
+                  },
+               Cwd::abs_path( $self->prefix() ) 
+            );
     }
 
 1;  # close package Recipe

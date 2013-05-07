@@ -4,13 +4,13 @@
 #
 # TODO:
 #
-#  * add manifests
+#  * add manifests - should record:
+#      - what versions are installed(?) in the Larder
+#      - what version is currently linked
 #
 # TO CONSIDER:
 #
-#  * add support to multiple versions under prefix (eg. /usr/local/apps/cmake/2.8.10)
 #  * add variants (eg. --use-mpi or --no-ssl)
-#  * add install dir prefix to the PATH and LD_LIBRARY_PATH
 #
 # MISSING RECIPES:
 #
@@ -40,7 +40,7 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( cookup )
 
-set(CPACK_PACKAGE_VERSION   "0.2.17")
+set(CPACK_PACKAGE_VERSION   "0.3.0")
 
 add_custom_target( scripts ALL
   SOURCES
