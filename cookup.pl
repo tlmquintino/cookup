@@ -144,9 +144,9 @@ sub prepare()
     my $prefix   = $options{'prefix'};
 
     $ENV{PATH}              = $prefix."/bin:".$path;
-    $ENV{LIBPATH}           = $prefix."/lib:".$libpath;
-    $ENV{LD_LIBRARY_PATH}   = $prefix."/lib:".$ldpath;
-    $ENV{DYLD_LIBRARY_PATH} = $prefix."/lib:".$dypath;
+    $ENV{LIBPATH}           = $prefix."/lib:".$prefix."/lib64:".$libpath;
+    $ENV{LD_LIBRARY_PATH}   = $prefix."/lib:".$prefix."/lib64:".$ldpath;
+    $ENV{DYLD_LIBRARY_PATH} = $prefix."/lib:".$prefix."/lib64:".$dypath;
 }
 
 #==============================================================================
