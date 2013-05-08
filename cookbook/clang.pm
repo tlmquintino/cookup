@@ -45,7 +45,7 @@ our @ISA = ("Recipe");
 
     sub configure_command {
         my $self = shift;
-        return "cmake .. -DCMAKE_BUILD_TYPE=Release -DCLANG_PATH_TO_LLVM_BUILD=".$self->prefix." -DCMAKE_INSTALL_PREFIX:PATH=".$self->prefix;
+        return "cmake .. -DCMAKE_BUILD_TYPE=Release -DCLANG_PATH_TO_LLVM_BUILD=".$self->root_prefix()." -DCMAKE_INSTALL_PREFIX:PATH=".$self->prefix;
     }
 
 1;
