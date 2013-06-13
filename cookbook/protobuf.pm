@@ -27,10 +27,10 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "protobuf"; }
-    sub version    { return "2.4.1"; }
-    sub url        { return "http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz"; }
+    sub version    { return "2.5.0"; }
+    sub url        { return "http://protobuf.googlecode.com/files/protobuf-2.5.0.tar.gz"; }
 
-    sub md5  { return "dc84e9912ea768baa1976cb7bbcea7b5"; }
-    sub sha1 { return "efc84249525007b1e3105084ea27e3273f7cbfb0"; }
+    sub md5  { return "b751f772bdeb2812a2a8e7202bf1dae8"; }
+    sub sha1 { return "7f6ea7bc1382202fb1ce8c6933f1ef8fea0c0148"; }
 
 1;

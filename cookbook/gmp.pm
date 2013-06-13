@@ -27,10 +27,10 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "gmp"; }
-    sub version    { return "5.0.3"; }
-    sub url        { return "http://ftp.gnu.org/gnu/gmp/gmp-5.0.3.tar.bz2"; }
+    sub version    { return "5.1.2"; }
+    sub url        { return "http://ftp.gnu.org/gnu/gmp/gmp-5.1.2.tar.bz2"; }
     
-    sub md5  { return "8061f765cc86b9765921a0c800615804"; }
-    sub sha1 { return "4835e4b3ad04f07431f594830724dbb621233228"; }
+    sub md5  { return "7e3516128487956cd825fef01aafe4bc"; }
+    sub sha1 { return "2cb498322b9be4713829d94dee944259c017d615"; }
 
 1;

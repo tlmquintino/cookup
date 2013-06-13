@@ -27,11 +27,11 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "wget"; }
-    sub version    { return "1.13.4"; }
-    sub url        { return "http://ftp.gnu.org/gnu/wget/wget-1.13.4.tar.gz"; }
+    sub version    { return "1.14"; }
+    sub url        { return "http://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz"; }
 
-    sub md5  { return "1df489976a118b9cbe1b03502adbfc27"; }
-    sub sha1 { return "e25e1b487026ddd9026ca7d26af21f044c884d28"; }
+    sub md5  { return "12edc291dba8127f2e9696e69f36299e"; }
+    sub sha1 { return "c487bce740b3a1847a35fb29b5c6700c46f639b8"; }
 
     sub configure_command {
         my $self = shift;

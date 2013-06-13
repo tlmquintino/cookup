@@ -27,11 +27,11 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "curl"; }
-    sub version    { return "7.27.0"; }
-    sub url        { return "http://curl.haxx.se/download/curl-7.27.0.tar.gz"; }
+    sub version    { return "7.30.0"; }
+    sub url        { return "http://curl.haxx.se/download/curl-7.30.0.tar.gz"; }
 
-    sub md5   { return "f0e48fdb635b5939e02a9291b89e5336"; }    
-    sub sha1  { return "93ec1e206350632f550cc2ba3327e2a588bf0617"; }    
+    sub md5   { return "60bb6ff558415b73ba2f00163fd307c5"; }
+    sub sha1  { return "792fcf6473c3bbeb344dea1d64c7ff65731c1be5"; }
 
 	sub configure_command {
 		my $self = shift;

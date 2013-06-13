@@ -29,11 +29,11 @@ our @ISA = ("Recipe");
 	# sub depends { return qw( jasper libpng ); }
 
     sub name       { return "grib_api"; }
-    sub version    { return "1.9.16"; }
-    sub url        { return "https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.9.16.tar.gz"; }
+    sub version    { return "1.10.4"; }
+    sub url        { return "https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.10.4.tar.gz"; }
     
-    sub md5  { return "490cda08585e263d9f13daed4e7b688c"; }         
-    sub sha1 { return "baff7ad8de71d5e81a90595a0b4650c77f8bd6cf"; } 
+    sub md5  { return "34ce631af96316441f9e3e8e54ecf719"; }
+    sub sha1 { return "2848edccd6f4db64c838f7391e14a5ad7b3d6c44"; }
 
     sub configure_command {
         my $self = shift;

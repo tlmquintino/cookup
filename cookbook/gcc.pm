@@ -29,11 +29,11 @@ our @ISA = ("Recipe");
 	sub depends { return qw( mpc ); }
 
     sub name       { return "gcc"; }
-    sub version    { return "4.7.1"; }
-    sub url        { return "http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz"; }
+    sub version    { return "4.8.1"; }
+    sub url        { return "http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.8.1.tar.gz"; }
     
-    sub md5   { return "3d06e24570635c91eed6b114687513a6"; }    
-    sub sha1  { return "d13d669fcc8e44a2c35bbb0e68bbb00642af427f"; }    
+    sub md5   { return "74cc12b7afe051ab7d0e00269e49fc9b"; }
+    sub sha1  { return "6a0e87e73f7dc07317744404fdc4fe92c99ff5ee"; }
 
     sub configure_command {
 		my $self = shift;

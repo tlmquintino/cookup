@@ -30,10 +30,10 @@ our @ISA = ("Recipe");
 
     sub name       { return "hdf5"; }
     sub version    { return "1.8.10-patch1"; }
-    sub url        { return "http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.10-patch1/src/hdf5-1.8.10-patch1.tar.gz"; }
+    sub url        { return "http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.11.tar.gz"; }
 
-    sub md5  { return "2147a289fb33c887464ad2b6c5a8ae4c"; }
-    sub sha1 { return "66916343f840a7a181ecd53c9ffa2945996c7dfc"; }
+    sub md5  { return "1a4cc04f7dbe34e072ddcf3325717504"; }
+    sub sha1 { return "6b545eb160b1f12b2ec3a5f2933c414a5702f7d8"; }
 
     sub pre_build {
         my $self = shift;

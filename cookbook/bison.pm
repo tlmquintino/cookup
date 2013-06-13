@@ -27,11 +27,11 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "bison"; }
-    sub version    { return "2.5"; }
-    sub url        { return "http://ftp.gnu.org/gnu/bison/bison-2.5.tar.gz"; }
+    sub version    { return "2.7"; }
+    sub url        { return "http://ftp.gnu.org/gnu/bison/bison-2.7.tar.gz"; }
     
-    sub md5  { return "687e1dcd29452789d34eaeea4c25abe4"; }
-    sub sha1 { return "645ebfc884e5b98d5dd2060af16353959537e895"; }
+    sub md5  { return "ded660799e76fb1667d594de1f7a0da9"; }
+    sub sha1 { return "aa4f5aa51ee448bac132041df0ce25a800a3661c"; }
 
     sub depends { return qw( m4 ); }
     
