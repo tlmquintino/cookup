@@ -27,13 +27,13 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "llvm"; }
-    sub version    { return "3.1"; }
-    sub url        { return "http://llvm.org/releases/3.1/llvm-3.1.src.tar.gz"; }
+    sub version    { return "3.3"; }
+    sub url        { return "http://llvm.org/releases/3.3/llvm-3.3.src.tar.gz"; }
     
-    sub md5   { return "16eaa7679f84113f65b12760fdfe4ee1"; }
-    sub sha1  { return "234c96e73ef81aec9a54da92fc2a9024d653b059"; }
+    sub md5   { return "40564e1dc390f9844f1711c08b08e391"; }
+    sub sha1  { return "c6c22d5593419e3cb47cbcf16d967640e5cce133"; }
 
-    sub package_dir { return "llvm-3.1.src"; }
+    sub package_dir { return "llvm-3.3.src"; }
 
     sub build_dir {
         my $self = shift;

@@ -27,10 +27,10 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "libxml2"; }
-    sub version    { return "2.8.0"; }
-    sub url        { return "http://xmlsoft.org/sources/libxml2-2.8.0.tar.gz"; }
+    sub version    { return "2.9.1"; }
+    sub url        { return "http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz"; }
 
-    sub md5  { return "c62106f02ee00b6437f0fb9d370c1093"; }
-    sub sha1 { return "a0c553bd51ba79ab6fff26dc700004c6a41f5250"; }
+    sub md5  { return "9c0cfef285d5c4a5c80d00904ddab380"; }
+    sub sha1 { return "eb3e2146c6d68aea5c2a4422ed76fe196f933c21"; }
 
 1;

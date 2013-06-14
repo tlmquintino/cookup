@@ -29,7 +29,7 @@ our @ISA = ("Recipe");
     sub depends { return qw( openmpi zlib ); }
 
     sub name       { return "hdf5"; }
-    sub version    { return "1.8.10-patch1"; }
+    sub version    { return "1.8.11"; }
     sub url        { return "http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.11.tar.gz"; }
 
     sub md5  { return "1a4cc04f7dbe34e072ddcf3325717504"; }

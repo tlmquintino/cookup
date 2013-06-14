@@ -29,10 +29,10 @@ our @ISA = ("Recipe");
     sub depends { return qw( mpfr ); }
 
     sub name       { return "mpc"; }
-    sub version    { return "0.9"; }
-    sub url        { return "http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"; }
+    sub version    { return "1.0.1"; }
+    sub url        { return "http://www.multiprecision.org/mpc/download/mpc-1.0.1.tar.gz"; }
     
-    sub md5  { return "0d6acab8d214bd7d1fbbc593e83dd00d"; }
-    sub sha1 { return "229722d553030734d49731844abfef7617b64f1a"; }
+    sub md5  { return "b32a2e1a3daa392372fbd586d1ed3679"; }
+    sub sha1 { return "8c7e19ad0dd9b3b5cc652273403423d6cf0c5edf"; }
 
 1;

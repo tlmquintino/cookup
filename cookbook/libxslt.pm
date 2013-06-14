@@ -28,15 +28,15 @@ our @ISA = ("Recipe");
 	sub depends { return qw( libxml2 ); }
 
     sub name       { return "libxslt"; }
-    sub version    { return "1.1.26"; }
-    sub url        { return "http://xmlsoft.org/sources/libxslt-1.1.26.tar.gz"; }
+    sub version    { return "1.1.28"; }
+    sub url        { return "http://xmlsoft.org/sources/libxslt-1.1.28.tar.gz"; }
     
     sub configure_command {
         my $self = shift;
 		return "./configure --with-libxml-prefix=" . $self->prefix . " --prefix=" . $self->prefix;
 	}
 
-    sub md5  { return "e61d0364a30146aaa3001296f853b2b9"; }
-    sub sha1 { return "69f74df8228b504a87e2b257c2d5238281c65154"; }
+    sub md5  { return "9667bf6f9310b957254fdcf6596600b7"; }
+    sub sha1 { return "4df177de629b2653db322bfb891afa3c0d1fa221"; }
 
 1;

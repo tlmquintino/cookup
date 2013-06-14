@@ -27,10 +27,10 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "jemalloc"; }
-    sub version    { return "3.0.0"; }
-    sub url        { return "http://www.canonware.com/download/jemalloc/jemalloc-3.0.0.tar.bz2"; }
+    sub version    { return "3.4.0"; }
+    sub url        { return "http://www.canonware.com/download/jemalloc/jemalloc-3.4.0.tar.bz2"; }
 
-    sub md5  { return "f487fdf847c9834b22c2b7832cadc56f"; }
-    sub sha1 { return "65a66bd1b54ffdd56f5024b45df19d40d6e6f9dd"; }
+    sub md5  { return "c4fa3da0096d5280924a5f7ebc8dbb1c"; }
+    sub sha1 { return "06f572f1cc6a4e4a68c7f9a354f12e17ba32f70b"; }
 
 1;
