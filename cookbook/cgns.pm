@@ -48,8 +48,9 @@ our @ISA = ("Recipe");
     sub configure_command {
       my $self = shift;
       return "cmake "
-        ." -DENABLE_FORTRAN=NO"
-        ." -DENABLE_HDF5=YES"
+		." -DENABLE_FORTRAN=NO"
+        ." -DHDF5_LIBRARY_DIR=".$self->root_prefix()."/lib" 
+        ." -DHDF5_INCLUDE_DIR=".$self->root_prefix()."/include"
         ." -DHDF5_NEED_ZLIB=YES"
         ." -DHDF5_NEED_MPI=YES"
         ." -DCMAKE_PREFIX_PATH=".$self->root_prefix()
