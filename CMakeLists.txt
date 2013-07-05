@@ -30,7 +30,7 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( cookup )
 
-set(CPACK_PACKAGE_VERSION   "0.3.1")
+set(CPACK_PACKAGE_VERSION   "0.3.2")
 
 add_custom_target( scripts ALL
   SOURCES
@@ -75,6 +75,7 @@ add_custom_target( scripts ALL
         cookbook/readline.pm
         cookbook/rsync.pm
         cookbook/trilinos.pm
+        cookbook/viennacl.pm
         cookbook/wget.pm
         cookbook/zlib.pm
         cookbook/zoltan.pm
