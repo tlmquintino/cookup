@@ -27,10 +27,10 @@ our @ISA = ("Recipe");
     }
 
     sub name       { return "git"; }
-    sub version    { return "1.8.3.1"; }
-    sub url        { return "http://git-core.googlecode.com/files/git-1.8.3.1.tar.gz"; }
+    sub version    { return "1.8.4"; }
+    sub url        { return "http://git-core.googlecode.com/files/git-1.8.4.tar.gz"; }
         
-    sub md5  { return "35401b410e7f248b13e35a1069aca2e2"; }
-    sub sha1 { return "32562a231fe4422bc033bf872fffa61f41ee2669"; }
+    sub md5  { return "355768a1c70d0cb4fedf4b598ac1375b"; }
+    sub sha1 { return "2a361a2d185b8bc604f7f2ce2f502d0dea9d3279"; }
 
 1;
