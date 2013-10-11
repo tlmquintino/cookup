@@ -33,12 +33,14 @@ our @ISA = ("Recipe");
     sub md5  { return "8ce3e73628be7b54abfffe4602ebb432"; }
     sub sha1 { return "814f8f6138147742a135a8cc81f33d15bd43f715"; }
 
-    sub configure_command {} # not needed
+    sub configure{ print "configure() not needed -- skipping\n"; } # not needed
 
-    sub build_command {} # not needed
+    sub build{ print "build() not needed -- skipping\n"; } # not needed
 
-    sub install {
+    sub build_dir { return "gitflow"; }
+
+    sub install_command {
         my $self = shift;
-        return "make prefix=".$self->prefix()." install";        
+        return "make prefix=".$self->prefix." install";        
     }
 1;
