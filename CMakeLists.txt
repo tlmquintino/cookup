@@ -30,7 +30,7 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( cookup )
 
-set(CPACK_PACKAGE_VERSION   "0.3.3")
+set(CPACK_PACKAGE_VERSION   "0.3.4")
 
 add_custom_target( scripts ALL
   SOURCES
@@ -42,8 +42,9 @@ add_custom_target( scripts ALL
         cookbook/clang.pm
         cookbook/cmake.pm
         cookbook/curl.pm
-        cookbook/distcc.pm
-        cookbook/flex.pm
+		cookbook/distcc.pm
+		cookbook/eigen.pm
+		cookbook/flex.pm
         cookbook/gcc.pm
         cookbook/git.pm
         cookbook/glog.pm

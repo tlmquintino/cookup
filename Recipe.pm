@@ -181,7 +181,6 @@ our $AUTOLOAD;
     # gets the path to the source dir
     sub source_dir {
         my $self = shift;
-        my $pname = $self->package_name;
         return sprintf "%s/%s", $self->sandbox_dir, $self->package_dir;
     }
 
