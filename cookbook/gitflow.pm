@@ -3,7 +3,7 @@
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 
-package git;
+package gitflow;
 
 use strict;
 use warnings;
@@ -26,11 +26,19 @@ our @ISA = ("Recipe");
         return $self;
     }
 
-    sub name       { return "git"; }
-    sub version    { return "1.8.4"; }
-    sub url        { return "http://git-core.googlecode.com/files/git-1.8.4.tar.gz"; }
+    sub name       { return "gitflow"; }
+    sub version    { return "15aab26"; }
+    sub url        { return "https://dl.dropboxusercontent.com/u/20038251/gitflow-15aab26.tar.gz"; }
         
-    sub md5  { return "355768a1c70d0cb4fedf4b598ac1375b"; }
-    sub sha1 { return "2a361a2d185b8bc604f7f2ce2f502d0dea9d3279"; }
+    sub md5  { return "8ce3e73628be7b54abfffe4602ebb432"; }
+    sub sha1 { return "814f8f6138147742a135a8cc81f33d15bd43f715"; }
 
+    sub configure_command {} # not needed
+
+    sub build_command {} # not needed
+
+    sub install {
+        my $self = shift;
+        return "make prefix=".$self->prefix()." install";        
+    }
 1;
