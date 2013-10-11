@@ -41,6 +41,8 @@ our @ISA = ("Recipe");
         return sprintf "%s/%s/build", $self->sandbox_dir, $self->package_dir;
     }
 
+    # -DLLVM_TARGETS_TO_BUILD=X86
+
     sub configure_command {
         my $self = shift;
         return "cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=".$self->prefix;
