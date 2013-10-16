@@ -84,6 +84,9 @@ our @ISA = ("Recipe");
      return "cmake .. $opts $patches -DCMAKE_INSTALL_PREFIX:PATH=" . $self->prefix;
    }
 
+# more generic
+# -DTrilinos_ENABLE_ALL_FORWARD_DEP_PACKAGES:BOOL=ON -DTrilinos_ENABLE_Tpetra=ON -DCMAKE_BUILD_TYPE:STRING=RELEASE
+
 #         -DCMAKE_SHARED_LINKER_FLAGS=-lhdf5 \\
    
 # possible third-party dependencies :
