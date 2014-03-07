@@ -27,11 +27,11 @@ our @ISA = ("Recipe");
     }
     
     sub name       { return "cgal"; }
-    sub version    { return "4.0.2"; }
-    sub url        { return "https://gforge.inria.fr/frs/download.php/31175/CGAL-4.0.2.tar.gz"; }
+    sub version    { return "4.3"; }
+    sub url        { return "https://gforge.inria.fr/frs/download.php/32994/CGAL-4.3.tar.gz"; }
 
-    sub md5  { return "d0d1577f72fc8ab49fed3d966dae19da"; }
-    sub sha1 { return "e80af4b1da25690df63ce83dd083710cc3db9697"; }
+    sub md5  { return "3fa2d43adbf5c05d76c5ec01f5033cc9"; }
+    sub sha1 { return "035d5fd7657e9eeccfc46ff0ebf84f137e63b03a"; }
     
     sub depends { return qw( boost ); }
 
