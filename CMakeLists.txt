@@ -30,7 +30,7 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( cookup )
 
-set(CPACK_PACKAGE_VERSION   "0.3.4")
+set(CPACK_PACKAGE_VERSION   "0.3.5")
 
 add_custom_target( scripts ALL
   SOURCES
